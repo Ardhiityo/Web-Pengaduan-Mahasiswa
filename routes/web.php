@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ResidentController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ReportStatusController;
 use App\Http\Controllers\Admin\ReportCategoryController;
 
 Route::get('/', function () {
@@ -31,4 +32,8 @@ Route::prefix('admin')
         Route::resource('report-category', ReportCategoryController::class);
 
         Route::resource('report', ReportController::class);
+
+        Route::get('/report-status/{reportId}/create', [ReportStatusController::class, 'create'])->name('report-status.create');
+
+        Route::resource('report-status', ReportStatusController::class)->except('create');
     });

@@ -4,13 +4,15 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Services\Repositories\AuthRepository;
+use App\Services\Repositories\ReportRepository;
 use App\Services\Repositories\ResidentRepository;
 use App\Services\Interfaces\AuthRepositoryInterface;
+use App\Services\Repositories\ReportStatusRepository;
+use App\Services\Interfaces\ReportRepositoryInterface;
 use App\Services\Repositories\ReportCategoryRepository;
 use App\Services\Interfaces\ResidentRepositoryInterface;
+use App\Services\Interfaces\ReportStatusRepositoryInterface;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
-use App\Services\Interfaces\ReportRepositoryInterface;
-use App\Services\Repositories\ReportRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,6 +40,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: ReportRepositoryInterface::class,
             concrete: ReportRepository::class
+        );
+        $this->app->bind(
+            abstract: ReportStatusRepositoryInterface::class,
+            concrete: ReportStatusRepository::class
         );
     }
 

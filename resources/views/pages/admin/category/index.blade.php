@@ -15,7 +15,7 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Nama </th>
+                            <th>Kategori </th>
                             <th>Ikon</th>
                             <th>Aksi</th>
                         </tr>

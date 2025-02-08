@@ -10,6 +10,10 @@ class ReportStatus extends Model
 {
     use SoftDeletes;
 
+    protected $fillable = [
+      'report_id', 'image', 'status', 'description'
+    ];
+
     public function Report(): BelongsTo
     {
         return $this->belongsTo(Report::class);

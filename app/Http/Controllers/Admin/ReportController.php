@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Report\StoreReportRequest;
-use App\Http\Requests\Report\UpdateReportCategory;
+use App\Http\Requests\ReportCategory\UpdateReportCategoryRequest;
 use App\Services\Interfaces\ReportRepositoryInterface;
 use App\Services\Interfaces\ResidentRepositoryInterface;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
@@ -18,18 +17,12 @@ class ReportController extends Controller
         private ReportCategoryRepositoryInterface $reportCategoryRepository
     ) {}
 
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $reports = $this->reportRepository->getAllReports();
         return view('pages.admin.report.index', compact('reports'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $residents = $this->residentRepository->getAllResidents();
@@ -37,9 +30,6 @@ class ReportController extends Controller
         return view('pages.admin.report.create', compact('residents', 'reportCategories'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreReportRequest $request)
     {
         $data = $request->validated();
@@ -48,18 +38,12 @@ class ReportController extends Controller
         return redirect()->route('admin.report.index');
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         $report = $this->reportRepository->getReportById($id);
         return view('pages.admin.report.show', compact('report'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         $report = $this->reportRepository->getReportById($id);
@@ -68,10 +52,7 @@ class ReportController extends Controller
         return view('pages.admin.report.edit', compact('report', 'residents', 'reportCategories'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateReportCategory $request, string $id)
+    public function update(UpdateReportCategoryRequest $request, string $id)
     {
         $data = $request->validated();
         $this->reportRepository->updateReport($data, $id);
@@ -79,9 +60,6 @@ class ReportController extends Controller
         return redirect()->route('admin.report.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         $this->reportRepository->deleteReport($id);
