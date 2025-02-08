@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Report\StoreReportRequest;
-use App\Http\Requests\ReportCategory\UpdateReportCategoryRequest;
+use App\Http\Requests\Report\UpdateReportRequest;
 use App\Services\Interfaces\ReportRepositoryInterface;
 use App\Services\Interfaces\ResidentRepositoryInterface;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
@@ -52,7 +52,7 @@ class ReportController extends Controller
         return view('pages.admin.report.edit', compact('report', 'residents', 'reportCategories'));
     }
 
-    public function update(UpdateReportCategoryRequest $request, string $id)
+    public function update(UpdateReportRequest $request, string $id)
     {
         $data = $request->validated();
         $this->reportRepository->updateReport($data, $id);

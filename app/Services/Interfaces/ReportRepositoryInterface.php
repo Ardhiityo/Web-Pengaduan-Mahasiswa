@@ -5,6 +5,7 @@ namespace App\Services\Interfaces;
 interface ReportRepositoryInterface
 {
     public function getAllReports();
+    public function latestReports();
     public function getReportById(int $id);
     public function createReport(array $data);
     public function updateReport(array $data, int $id);

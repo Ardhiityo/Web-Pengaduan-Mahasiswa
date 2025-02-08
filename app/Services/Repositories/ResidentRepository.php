@@ -49,7 +49,12 @@ class ResidentRepository implements ResidentRepositoryInterface
     public function deleteResident(int $id)
     {
         $resident = $this->getResidentById($id);
-        $resident->user()->delete();
-        return $resident->delete();
+        if ($resident->reports()->count() >= 1) {
+            return false;
+        } else {
+            $resident->user()->delete();
+            $resident->delete();
+            return true;
+        }
     }
 }

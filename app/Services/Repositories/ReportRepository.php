@@ -16,6 +16,11 @@ class ReportRepository implements ReportRepositoryInterface
         return Report::find($id);
     }
 
+    public function latestReports()
+    {
+        return Report::latest()->take(3)->get();
+    }
+
     public function createReport(array $data)
     {
         $data['code'] = "FIK-" . now()->format('U') . rand(0, 1000);
@@ -36,6 +41,7 @@ class ReportRepository implements ReportRepositoryInterface
     public function deleteReport(int $id)
     {
         $report = $this->getReportById($id);
-        return $report->delete();
+        $report->reportStatuses()->delete();
+        $report->delete();
     }
 }

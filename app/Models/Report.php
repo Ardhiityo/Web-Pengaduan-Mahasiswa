@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Report extends Model
 {
@@ -22,6 +23,12 @@ class Report extends Model
         'longitude',
         'address'
     ];
+
+    public function getCreatedAtAttribute($value)
+    {
+        $date = Carbon::parse($value);
+        return $date->translatedFormat('l, j F Y, H:i');
+    }
 
     public function resident(): BelongsTo
     {

@@ -52,7 +52,10 @@ class ReportCategoryController extends Controller
 
     public function destroy(string $id)
     {
-        $this->reportCategoryRepository->deleteReportCategory($id);
+        if (!$this->reportCategoryRepository->deleteReportCategory($id)) {
+            alert()->error('Gagal dihapus!', 'Pastikan data kategori yang hendak dihapus tidak terdapat pada data laporan');
+            return redirect()->route('admin.report-category.index');
+        }
         toast('Data kategori sukses dihapus', 'success')->timerProgressBar();
         return redirect()->route('admin.report-category.index');
     }

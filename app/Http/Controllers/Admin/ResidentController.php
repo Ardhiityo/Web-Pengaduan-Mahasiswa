@@ -52,7 +52,10 @@ class ResidentController extends Controller
 
     public function destroy(string $id)
     {
-        $this->residentRepository->deleteResident($id);
+        if (!$this->residentRepository->deleteResident($id)) {
+            alert()->error('Gagal dihapus!', 'Pastikan data masyarakat yang hendak dihapus tidak memiliki laporan');
+            return redirect()->route('admin.resident.index');
+        }
         toast('Data masyarakat sukses dihapus', 'success')->timerProgressBar();
         return redirect()->route('admin.resident.index');
     }
