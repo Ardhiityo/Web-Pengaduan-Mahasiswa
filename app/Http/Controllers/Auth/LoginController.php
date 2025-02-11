@@ -24,9 +24,8 @@ class LoginController extends Controller
                 return redirect()->route('admin.dashboard');
             }
             if (Auth::user()->hasRole('resident')) {
-                // return redirect()->route('admin.dashboard');
+                return redirect()->route('home');
             }
-            dd('Welcome');
         }
         return redirect()->route('login')->withErrors([
             'email' => 'Email atau password salah'

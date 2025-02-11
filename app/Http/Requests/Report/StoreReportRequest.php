@@ -7,12 +7,17 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreReportRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
     public function authorize(): bool
     {
         return Auth::user() != null;
+    }
+
+    public function prepareForValidation()
+    {
+        $user = Auth::user();
+        if ($user->hasRole('resident')) {
+            $this->merge(['resident_id' => $user->resident->id]);
+        }
     }
 
     /**

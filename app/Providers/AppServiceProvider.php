@@ -26,7 +26,9 @@ class AppServiceProvider extends ServiceProvider
             ->app
             ->bind(
                 abstract: AuthRepositoryInterface::class,
-                concrete: AuthRepository::class
+                concrete: function ($app) {
+                    return new AuthRepository($app->make(ResidentRepositoryInterface::class));
+                }
             );
         $this
             ->app

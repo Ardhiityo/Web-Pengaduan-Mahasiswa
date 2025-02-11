@@ -14,6 +14,7 @@ class ResidentRepository implements ResidentRepositoryInterface
     {
         return Resident::all();
     }
+
     public function getResidentById(int $id)
     {
         return Resident::find($id);
@@ -25,7 +26,7 @@ class ResidentRepository implements ResidentRepositoryInterface
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
-        ]);
+        ])->assignRole('resident');
         if (isset($data['avatar'])) {
             $data['avatar'] = $data['avatar']->store('assets/avatar', 'public');
         }
