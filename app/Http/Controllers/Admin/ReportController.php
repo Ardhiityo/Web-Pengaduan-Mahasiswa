@@ -8,13 +8,15 @@ use App\Http\Requests\Report\UpdateReportRequest;
 use App\Services\Interfaces\ReportRepositoryInterface;
 use App\Services\Interfaces\ResidentRepositoryInterface;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
+use App\Services\Interfaces\ReportStatusRepositoryInterface;
 
 class ReportController extends Controller
 {
     public function __construct(
         private ReportRepositoryInterface $reportRepository,
         private ResidentRepositoryInterface $residentRepository,
-        private ReportCategoryRepositoryInterface $reportCategoryRepository
+        private ReportCategoryRepositoryInterface $reportCategoryRepository,
+        private ReportStatusRepositoryInterface $reportStatusRepository
     ) {}
 
     public function index()
@@ -41,7 +43,7 @@ class ReportController extends Controller
     public function show(string $id)
     {
         $report = $this->reportRepository->getReportById($id);
-        return view('pages.admin.report.show', compact('report'));
+        return view('pages.admin.report.show', compact('report',));
     }
 
     public function edit(string $id)

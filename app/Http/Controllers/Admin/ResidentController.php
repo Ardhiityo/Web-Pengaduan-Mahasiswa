@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Resident\StoreResidentRequest;
 use App\Http\Requests\Resident\UpdateResidentRequest;
+use App\Models\Resident;
 use App\Services\Interfaces\ResidentRepositoryInterface;
 
 class ResidentController extends Controller

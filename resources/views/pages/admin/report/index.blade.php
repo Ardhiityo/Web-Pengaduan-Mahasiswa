@@ -7,7 +7,8 @@
 
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Data Laporan</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Data Laporan
+            </h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -49,6 +50,7 @@
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">Delete</button>
                                     </form>
+
                                 </td>
                             </tr>
                         @endforeach

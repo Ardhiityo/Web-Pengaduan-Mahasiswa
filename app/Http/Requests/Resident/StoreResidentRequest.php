@@ -26,7 +26,7 @@ class StoreResidentRequest extends FormRequest
             'name' => ['required'],
             'email' => ['required', 'email', 'unique:users'],
             'password' => ['required', 'min:8'],
-            'avatar' => ['mimes:jpg,png']
+            'avatar' => ['mimes:jpg,png', 'required']
         ];
     }
 
@@ -38,7 +38,8 @@ class StoreResidentRequest extends FormRequest
             'password.required' => 'Password wajib di isi',
             'password.min' => 'Password harus memiliki minimal 8 karakter',
             'name.required' => 'Nama masyarakat wajib di isi',
-            'avatar.mimes' => 'Foto profil harus berupa file dengan ekstensi jpg atau png'
+            'avatar.mimes' => 'Foto profil harus berupa file dengan ekstensi jpg atau png',
+            'avatar.required' => 'Foto profil wajib di isi'
         ];
     }
 }

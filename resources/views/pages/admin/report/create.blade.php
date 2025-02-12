@@ -14,15 +14,6 @@
         <div class="card-body">
             <form action="{{ route('admin.report.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="form-group">
-                    <label for="code">Kode</label>
-                    <input type="text" class="form-control
-                    @error('code') is-invalid @enderror"
-                        id="code" name="code" value="Auto" disabled>
-                    @error('code')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
                 <div class="mb-3 input-group">
                     <div class="input-group-prepend">
                         <label class="input-group-text" for="resident_id">Pelapor</label>

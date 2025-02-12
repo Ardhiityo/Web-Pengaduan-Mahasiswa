@@ -1,11 +1,15 @@
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
         <!-- Sidebar - Brand -->
-        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.dashboard') }}">
-            <div class="sidebar-brand-icon rotate-n-15">
-                <i class="fas fa-laugh-wink"></i>
+        <a class="my-4 sidebar-brand d-flex flex-column align-items-center justify-content-center"
+            href="{{ route('admin.dashboard') }}">
+            <div class="sidebar-brand-icon">
+                {{-- Logo --}}
+                <img src="{{ asset('assets/admin/img/LogoUnival.png') }}" alt="logo" style="width: 45%"
+                    style="padding: 50px">
+                {{-- Logo --}}
             </div>
-            <div class="mx-3 sidebar-brand-text">Simpel</div>
+            <span>SimPel MaFIK</span>
         </a>
 
         <!-- Divider -->
@@ -24,7 +28,7 @@
         {{ request()->is('admin/resident*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('admin.resident.index') }}">
                 <i class="fas fa-fw fa-table"></i>
-                <span>Data Masyarakat</span></a>
+                <span>Data Mahasiswa</span></a>
         </li>
 
         <!-- Nav Item - Tables -->

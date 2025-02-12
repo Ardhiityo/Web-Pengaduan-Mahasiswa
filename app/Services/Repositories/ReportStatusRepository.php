@@ -13,6 +13,7 @@ class ReportStatusRepository implements ReportStatusRepositoryInterface
     {
         return ReportStatus::all();
     }
+
     public function getReportStatusById(int $id)
     {
         return ReportStatus::find($id);
