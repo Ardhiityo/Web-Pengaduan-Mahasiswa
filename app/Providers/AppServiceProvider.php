@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
+use App\Services\Repositories\FaqRepository;
 use App\Services\Repositories\AuthRepository;
 use App\Services\Repositories\ReportRepository;
 use App\Services\Repositories\ResidentRepository;
+use App\Services\Interfaces\FaqRepositoryInterface;
 use App\Services\Interfaces\AuthRepositoryInterface;
 use App\Services\Repositories\ReportStatusRepository;
 use App\Services\Interfaces\ReportRepositoryInterface;
@@ -47,6 +49,10 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: ReportStatusRepositoryInterface::class,
             concrete: ReportStatusRepository::class
+        );
+        $this->app->bind(
+            abstract: FaqRepositoryInterface::class,
+            concrete: FaqRepository::class
         );
     }
 

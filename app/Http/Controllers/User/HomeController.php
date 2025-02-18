@@ -5,8 +5,6 @@ namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
 use App\Services\Interfaces\ReportRepositoryInterface;
-use App\Services\Repositories\ReportCategoryRepository;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {

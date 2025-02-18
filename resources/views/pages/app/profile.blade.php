@@ -30,34 +30,18 @@
 
     <div class="mt-4">
         <div class="list-group list-group-flush">
-            <a href="#"
+            <a href="{{ route('profile.edit') }}"
                 class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                 <div class="gap-3 d-flex align-items-center">
                     <i class="fa-solid fa-user"></i>
-                    <p class="fw-light">Pengaturan Akun</p>
-                </div>
-                <i class="fa-solid fa-chevron-right"></i>
-            </a>
-            <a href="#"
-                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                <div class="gap-3 d-flex align-items-center">
-                    <i class="fa-solid fa-lock"></i>
-                    <p class="fw-light"> Kata sandi</p>
-                </div>
-                <i class="fa-solid fa-chevron-right"></i>
-            </a>
-            <a href="#"
-                class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                <div class="gap-3 d-flex align-items-center">
-                    <i class="fa-solid fa-question-circle"></i>
-                    <p class="fw-light">Bantuan dan dukungan</p>
+                    <p class="fw-light">Setelan Akun</p>
                 </div>
                 <i class="fa-solid fa-chevron-right"></i>
             </a>
         </div>
 
         <div class="mt-4">
-            <button class="btn btn-outline-danger w-100 rounded-pill"
+            <button class="btn btn-outline-danger w-100 rounded-pill btn-primary"
                 onclick="event.preventDefault(); document.getElementById('logout').submit()">
                 Keluar
             </button>

@@ -4,21 +4,10 @@
 @section('content')
     <h3 class="mb-3">Laporkan segera masalahmu di sini!</h3>
 
-    <p class="text-description">Isi form dibawah ini dengan baik dan benar sehingga kami dapat memvalidasi dan
+    <p class="text-dark">Isi form dibawah ini dengan baik dan benar sehingga kami dapat memvalidasi dan
         menangani
-        laporan anda
+        laporan kamu
         secepatnya
-
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-    </p>
 
     <form action="{{ route('report.take.create-report.store') }}" method="POST" class="mt-4" enctype="multipart/form-data">
 

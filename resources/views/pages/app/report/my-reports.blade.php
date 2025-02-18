@@ -31,13 +31,12 @@
         <div class="tab-pane fade show active" id="terkirim-tab-pane" role="tabpanel" aria-labelledby="terkirim-tab"
             tabindex="0">
             <div class="gap-3 mt-3 d-flex flex-column">
-                @foreach ($reports as $report)
+                @forelse ($reports as $report)
                     <div class="border-0 shadow-none card card-report">
                         <a href="{{ route('report.code', $report->report->code) }}" class="text-decoration-none text-dark">
                             <div class="p-0 card-body">
                                 <div class="mb-2 card-report-image position-relative">
                                     <img src="{{ asset('storage/' . $report->report->image) }}" alt="image">
-
                                     @if (isset($report->status))
                                         <div
                                             class="{{ $report->status === 'completed' ? 'badge-status done' : 'badge-status on-process' }}">
@@ -59,19 +58,17 @@
                                             Belum diterima
                                         </div>
                                     @endif
-
                                 </div>
 
                                 <div class="mb-2 d-flex justify-content-between align-items-end">
                                     <div class="d-flex align-items-center ">
-                                        <img src="{{ asset('assets/app/images/icons/MapPin.png') }}" alt="map pin"
-                                            class="icon me-2">
-                                        <p class="text-primary city">
+                                        <i class="fa-solid fa-location-dot icon me-2"></i>
+                                        <p class="text-dark city">
                                             {{ \Illuminate\Support\Str::words($report->report->address, 3, '...') }}
                                         </p>
                                     </div>
 
-                                    <p class="text-secondary date">
+                                    <p class="text-dark date">
                                         Pada {{ \Illuminate\Support\Str::words($report->report->created_at, 3, '...') }}
                                     </p>
                                 </div>
@@ -82,7 +79,16 @@
                             </div>
                         </a>
                     </div>
-                @endforeach
+                @empty
+                    <div class="d-flex flex-column justify-content-center align-items-center" style="height: 75vh"
+                        id="no-reports">
+                        <div id="lottie"></div>
+                        <h5 class="mt-3">Belum ada laporan</h5>
+                        <a href="{{ route('report.take') }}" class="px-4 py-2 mt-3 btn btn-primary">
+                            Buat Laporan
+                        </a>
+                    </div>
+                @endforelse
             </div>
         </div>
 
@@ -123,7 +129,7 @@
                                     <div class="d-flex align-items-center ">
                                         <img src="{{ asset('assets/app/images/icons/MapPin.png') }}" alt="map pin"
                                             class="icon me-2">
-                                        <p class="text-primary city">
+                                        <p class="text-dark city">
                                             {{ \Illuminate\Support\Str::words($report->report->address, 3, '...') }}
                                         </p>
                                     </div>
@@ -180,7 +186,7 @@
                                     <div class="d-flex align-items-center ">
                                         <img src="{{ asset('assets/app/images/icons/MapPin.png') }}" alt="map pin"
                                             class="icon me-2">
-                                        <p class="text-primary city">
+                                        <p class="text-dark city">
                                             {{ \Illuminate\Support\Str::words($report->report->address, 2, '...') }}
                                         </p>
                                     </div>
@@ -238,7 +244,7 @@
                                     <div class="d-flex align-items-center ">
                                         <img src="{{ asset('assets/app/images/icons/MapPin.png') }}" alt="map pin"
                                             class="icon me-2">
-                                        <p class="text-primary city">
+                                        <p class="text-dark city">
                                             {{ \Illuminate\Support\Str::words($report->report->address, 3, '...') }}
                                         </p>
                                     </div>
@@ -271,6 +277,6 @@
             loop: true,
             autoplay: true,
             path: '{{ asset('assets/app/lottie/not-found.json') }}'
-        })
+        });
     </script>
 @endsection

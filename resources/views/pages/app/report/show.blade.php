@@ -19,7 +19,7 @@
               <div class="mb-4 card-title fw-bold">Detail Informasi</div>
 
               <div class="mb-3 row">
-                  <div class="col-4 text-secondary">Kode laporan</div>
+                  <div class="col-4 text-dark">Kode laporan</div>
                   <div class="col-8 d-flex">
                       <span class="me-2">
                           :
@@ -30,7 +30,7 @@
                   </div>
               </div>
               <div class="mb-3 row">
-                  <div class="col-4 text-secondary">Tanggal</div>
+                  <div class="col-4 text-dark">Tanggal</div>
                   <div class="col-8 d-flex">
                       <span class="me-2">
                           :
@@ -41,7 +41,7 @@
                   </div>
               </div>
               <div class="mb-3 row">
-                  <div class="col-4 text-secondary">Kategori</div>
+                  <div class="col-4 text-dark">Kategori</div>
                   <div class="col-8 d-flex">
                       <span class="me-2">
                           :
@@ -52,7 +52,7 @@
                   </div>
               </div>
               <div class="mb-3 row">
-                  <div class="col-4 text-secondary">Lokasi</div>
+                  <div class="col-4 text-dark">Lokasi</div>
                   <div class="col-8 d-flex">
                       <span class="me-2">
                           :
@@ -65,7 +65,7 @@
               @if ($report->reportStatuses->first())
                   @foreach ($report->reportStatuses as $status)
                       <div class="mb-3 row">
-                          <div class="col-4 text-secondary">Status</div>
+                          <div class="col-4 text-dark">Status</div>
                           <div class="col-8 d-flex">
                               <span class="me-2">
                                   :

@@ -17,9 +17,9 @@
         <div></div>
         <div></div>
         <div></div>
-        <a href="" class="">
-            <i class="fas fa-bell"></i>
-            Notifikasi
+        <a href="{{ route('faq.user') }}" class="{{ request()->is('faq') ? 'active' : '' }}">
+            <i class="fas fa-comments"></i>
+            FAQ
         </a>
         <a href="{{ route('profile') }}" class="{{ request()->is('profile') ? 'active' : '' }}">
             <i class="fas fa-user"></i>

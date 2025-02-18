@@ -6,13 +6,16 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\ResidentController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\ReportStatusController;
 use App\Http\Controllers\Admin\ReportCategoryController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\User\ReportController as UserReportController;
+use App\Http\Controllers\User\FaqController as UserFaqController;
 
-Route::middleware(['auth', 'role:resident|admin'])->group(function () {
+//Resident
+Route::middleware(['auth', 'role:resident'])->group(function () {
     Route::get('/reports/take', [UserReportController::class, 'take'])->name('report.take');
     Route::get('/reports/take/preview', [UserReportController::class, 'preview'])->name('report.take.preview');
     Route::get('/reports/take/create-report', [UserReportController::class, 'create'])->name('report.take.create-report');
@@ -20,9 +23,9 @@ Route::middleware(['auth', 'role:resident|admin'])->group(function () {
     Route::get('/reports-success', [UserReportController::class, 'success'])->name('report.success');
     Route::get('/myreports', [UserReportController::class, 'myReport'])->name('myreport');
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-
-    Route::post('/logout', [LoginController::class, 'logout'])
-        ->name('logout');
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/faq', [UserFaqController::class, 'index'])->name('faq.user');
 });
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -39,6 +42,8 @@ Route::get('/register', [RegisterController::class, 'index'])
 Route::post('/register', [RegisterController::class, 'store'])
     ->name('register.store');
 
+Route::post('/logout', [LoginController::class, 'logout'])
+    ->name('logout')->middleware(['auth', 'role:admin|resident']);
 
 //Dashboard Admin
 Route::prefix('admin')
@@ -57,4 +62,18 @@ Route::prefix('admin')
         Route::get('/report-status/{reportId}/create', [ReportStatusController::class, 'create'])->name('report-status.create');
 
         Route::resource('report-status', ReportStatusController::class)->except('create');
+
+        Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+
+        Route::get('/faq/create', [FaqController::class, 'create'])->name('faq.create');
+
+        Route::post('/faq', [FaqController::class, 'store'])->name('faq.store');
+
+        Route::get('/faq/{faqId}/edit', [FaqController::class, 'edit'])->name('faq.edit');
+
+        Route::get('/faq/{faqId}', [FaqController::class, 'show'])->name('faq.show');
+
+        Route::put('/faq/{faqId}', [FaqController::class, 'update'])->name('faq.update');
+
+        Route::delete('/faq/{faqId}', [FaqController::class, 'destroy'])->name('faq.destroy');
     });

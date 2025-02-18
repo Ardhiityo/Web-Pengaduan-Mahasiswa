@@ -18,7 +18,7 @@ class ReportCategoryRepository implements ReportCategoryRepositoryInterface
 
     public function createReportCategory(array $data)
     {
-        $data['image'] = $data['image']->store('assets/report-category/image', 'public');
+        $data['image'] = $data['image']->store('assets/report-category', 'public');
         return ReportCategory::create($data);
     }
 

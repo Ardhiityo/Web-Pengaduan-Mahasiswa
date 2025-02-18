@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Resident;
+namespace App\Http\Requests\Faq;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateResidentRequest extends FormRequest
+class UpdateFaqRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,19 +23,16 @@ class UpdateResidentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required'],
-            'password' => ['nullable', 'min:8', 'confirmed'],
-            'avatar' => ['mimes:jpg,png']
+            'title' => ['required'],
+            'description' => ['required']
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'Nama lengkap wajib di isi',
-            'password.min' => 'Password harus memiliki minimal 8 karakter',
-            'password.confirmed' => 'Konfirmasi kata sandi tidak sesuai.',
-            'avatar.mimes' => 'Foto profil harus berekstensi jpg atau png',
+            'title.required' => 'Judul FAQ wajib diisi.',
+            'description.required' => 'Deskripsi FAQ wajib diisi.'
         ];
     }
 }

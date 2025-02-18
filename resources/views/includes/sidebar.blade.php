@@ -1,4 +1,4 @@
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #6439ff">
 
         <!-- Sidebar - Brand -->
         <a class="my-4 sidebar-brand d-flex flex-column align-items-center justify-content-center"
@@ -9,7 +9,7 @@
                     style="padding: 50px">
                 {{-- Logo --}}
             </div>
-            <span>SimPel MaFIK</span>
+            <span style="font-family: 'Saira', serif;">SIMPEL MAFIK</span>
         </a>
 
         <!-- Divider -->
@@ -48,5 +48,11 @@
                 <span>Data Laporan</span></a>
         </li>
 
-
+        <!-- Nav Item - Tables -->
+        <li class="nav-item
+        {{ request()->is('admin/faq') || request()->is('admin/faq/*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('admin.faq.index') }}">
+                <i class="fas fa-fw fa-table"></i>
+                <span>Data FAQ</span></a>
+        </li>
     </ul>
