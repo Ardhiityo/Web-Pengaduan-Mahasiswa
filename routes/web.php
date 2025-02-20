@@ -1,18 +1,20 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\ResidentController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\Admin\ReportStatusController;
 use App\Http\Controllers\Admin\ReportCategoryController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\User\ProfileController;
-use App\Http\Controllers\User\ReportController as UserReportController;
 use App\Http\Controllers\User\FaqController as UserFaqController;
+use App\Http\Controllers\User\ReportController as UserReportController;
+use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 
 //Resident
 Route::middleware(['auth', 'role:resident'])->group(function () {
@@ -25,9 +27,9 @@ Route::middleware(['auth', 'role:resident'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::get('/faq', [UserFaqController::class, 'index'])->name('faq.user');
 });
 
+Route::get('/faq', [UserFaqController::class, 'index'])->name('faq.user');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/reports', [UserReportController::class, 'index'])->name('report.index');
 Route::get('/reports/{code}', [UserReportController::class, 'show'])->name('report.code');
@@ -53,6 +55,9 @@ Route::prefix('admin')
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+        Route::get('/profile/edit', [AdminProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile/edit', [AdminProfileController::class, 'update'])->name('profile.update');
+
         Route::resource('resident', ResidentController::class);
 
         Route::resource('report-category', ReportCategoryController::class);
@@ -77,3 +82,12 @@ Route::prefix('admin')
 
         Route::delete('/faq/{faqId}', [FaqController::class, 'destroy'])->name('faq.destroy');
     });
+
+Route::fallback(function () {
+    if (!Auth::check() || Auth::user()->hasRole('resident')) {
+        return response()->view('pages.app.404', status: 404);
+    }
+    if (Auth::check() && Auth::user()->hasRole('admin')) {
+        return response()->view('pages.admin.404', status: 404);
+    }
+});

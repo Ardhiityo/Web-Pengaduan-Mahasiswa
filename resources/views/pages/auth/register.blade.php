@@ -28,14 +28,6 @@
         </div>
 
         <div class="mb-3">
-            <label for="avatar" class="form-label">Foto Profil</label>
-            <input type="file" class="form-control @error('avatar') is-invalid @enderror" id="avatar" name="avatar">
-            @error('avatar')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
                 name="password">
@@ -50,7 +42,7 @@
         </div>
 
         <button class="mt-2 btn btn-primary w-100" type="submit" color="primary" id="btn-login">
-            Masuk
+            Daftar
         </button>
 
         <div class="mt-3 d-flex justify-content-between">

@@ -27,7 +27,7 @@ class ReportStatusRepository implements ReportStatusRepositoryInterface
                 $query->where('resident_id', $residentId);
             })
             ->select('report_statuses.*')
-            ->join(DB::raw('(SELECT report_id, MAX(created_at) as latest_created_at FROM report_statuses WHERE deleted_at IS NULL GROUP BY report_id) as latest_statuses'), function ($join) {
+            ->join(DB::raw('(SELECT report_id, MAX(created_at) as latest_created_at FROM report_statuses GROUP BY report_id) as latest_statuses'), function ($join) {
                 $join->on('report_statuses.report_id', '=', 'latest_statuses.report_id')
                     ->on('report_statuses.created_at', '=', 'latest_statuses.latest_created_at');
             })

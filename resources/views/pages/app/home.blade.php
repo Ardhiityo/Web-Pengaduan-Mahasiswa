@@ -85,7 +85,7 @@
                     </a>
                 </div>
             @empty
-                <div class="d-flex flex-column justify-content-center align-items-center" style="height: 75vh"
+                <div class="d-flex flex-column justify-content-center align-items-center" style="height: 50vh"
                     id="no-reports">
                     <div id="lottie"></div>
                     <h5>Belum ada laporan</h5>

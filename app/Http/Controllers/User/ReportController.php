@@ -2,17 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Models\Report;
-use App\Models\Resident;
-use App\Models\ReportStatus;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Report\StoreReportRequest;
 use App\Services\Interfaces\ReportRepositoryInterface;
-use App\Services\Interfaces\ReportCategoryRepositoryInterface;
 use App\Services\Interfaces\ReportStatusRepositoryInterface;
+use App\Services\Interfaces\ReportCategoryRepositoryInterface;
 
 class ReportController extends Controller
 {
@@ -64,7 +59,8 @@ class ReportController extends Controller
     public function store(StoreReportRequest $request)
     {
         $data = $request->validated();
-        $this->reportRepository->createReport($data);
+        $report = $this->reportRepository->createReport($data);
+        $this->reportRepository->sendNotificationTelegram($report);
         return redirect()->route('report.success');
     }
 

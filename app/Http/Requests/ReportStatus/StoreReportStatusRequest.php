@@ -26,13 +26,14 @@ class StoreReportStatusRequest extends FormRequest
             'report_id' => ['required', 'exists:reports,id'],
             'image' => ['nullable', 'mimes:jpg,png'],
             'status' => ['required'],
-            'description' => ['required']
+            'description' => ['required', 'max:255']
         ];
     }
 
     public function messages()
     {
         return [
+            'description.max' => 'Deskripsi max 255 karakter',
             'report_id.required' => 'Kode laporan wajib diisi',
             'report_id.exists' => 'Kode laporan tidak ditemukan',
             'image.mimes' => 'Bukti laporan harus berekstensi jpg atau png',

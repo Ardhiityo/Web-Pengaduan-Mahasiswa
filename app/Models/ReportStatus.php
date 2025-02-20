@@ -4,13 +4,10 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ReportStatus extends Model
 {
-    use SoftDeletes;
-
     protected $fillable = [
         'report_id',
         'image',

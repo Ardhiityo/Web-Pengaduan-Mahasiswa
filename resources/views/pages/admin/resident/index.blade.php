@@ -1,13 +1,13 @@
 @extends('layouts.admin')
 
-@section('title', 'Data Masyarakat')
+@section('title', 'Data Mahasiswa')
 
 @section('content')
     <a href="{{ route('admin.resident.create') }}" class="mb-3 btn btn-primary">Tambah Data</a>
 
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Data Masyarakat</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Data Mahasiswa</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">

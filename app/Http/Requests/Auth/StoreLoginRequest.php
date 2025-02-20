@@ -14,8 +14,8 @@ class StoreLoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email'],
-            'password' => ['required']
+            'email' => ['required', 'email', 'max:255'],
+            'password' => ['required', 'max:255']
         ];
     }
 
@@ -23,6 +23,8 @@ class StoreLoginRequest extends FormRequest
     {
         return [
             'email.required' => 'Email wajib di isi',
+            'email.max' => 'Email max 255 karakter',
+            'password.max' => 'Password max 255 karakter',
             'password.required' => 'Password wajib di isi'
         ];
     }

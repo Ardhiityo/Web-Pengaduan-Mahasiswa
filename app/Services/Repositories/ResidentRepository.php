@@ -27,9 +27,6 @@ class ResidentRepository implements ResidentRepositoryInterface
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
         ])->assignRole('resident');
-        if (isset($data['avatar'])) {
-            $data['avatar'] = $data['avatar']->store('assets/avatar', 'public');
-        }
         return $user->resident()->create($data);
     }
 

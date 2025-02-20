@@ -10,7 +10,7 @@
     </section>
 
     <section class="mt-4">
-        @foreach ($faqs as $faq)
+        @forelse ($faqs as $faq)
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                     <h2 class="accordion-header">
@@ -28,6 +28,25 @@
                     </div>
                 </div>
             </div>
-        @endforeach
+        @empty
+            <div class="d-flex flex-column justify-content-center align-items-center" style="height: 50vh" id="no-reports">
+                <div id="lottie"></div>
+                <h5>Belum ada FAQ</h5>
+            </div>
+        @endforelse
     </section>
+@endsection
+
+
+@section('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
+    <script>
+        var animation = bodymovin.loadAnimation({
+            container: document.getElementById('lottie'),
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: '{{ asset('assets/app/lottie/not-found.json') }}'
+        });
+    </script>
 @endsection

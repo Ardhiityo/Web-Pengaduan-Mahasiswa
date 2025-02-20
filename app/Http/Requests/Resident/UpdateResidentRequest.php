@@ -23,8 +23,8 @@ class UpdateResidentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required'],
-            'password' => ['nullable', 'min:8', 'confirmed'],
+            'name' => ['required', 'max:30'],
+            'password' => ['nullable', 'min:8', 'confirmed', 'max:255'],
             'avatar' => ['mimes:jpg,png']
         ];
     }
@@ -32,6 +32,8 @@ class UpdateResidentRequest extends FormRequest
     public function messages()
     {
         return [
+            'name.max' => 'Nama max 30 karakter',
+            'password.max' => 'Password max 255 karakter',
             'name.required' => 'Nama lengkap wajib di isi',
             'password.min' => 'Password harus memiliki minimal 8 karakter',
             'password.confirmed' => 'Konfirmasi kata sandi tidak sesuai.',

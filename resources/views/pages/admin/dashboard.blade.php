@@ -7,7 +7,6 @@
     <div class="mb-4 d-sm-flex align-items-center justify-content-between">
         <h1 class="mb-0 text-gray-800 h3">Dashboard</h1>
     </div>
-
     <!-- Earnings (Monthly) Card Example -->
     <div class="row">
         <div class="mb-4 col-xl-3 col-md-6">
@@ -15,7 +14,7 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="mr-2 col">
-                            <div class="mb-1 text-xs font-weight-bold text-primary text-uppercase">
+                            <div class="mb-1 text-xs font-weight-bold text-dark text-uppercase">
                                 Total Mahasiswa</div>
                             <div class="mb-0 text-gray-800 h5 font-weight-bold">{{ $totalResidents }}</div>
                         </div>
@@ -28,11 +27,11 @@
         </div>
 
         <div class="mb-4 col-xl-3 col-md-6">
-            <div class="py-2 shadow card border-left-success h-100">
+            <div class="py-2 shadow card border-left-primary h-100">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="mr-2 col">
-                            <div class="mb-1 text-xs font-weight-bold text-success text-uppercase">
+                            <div class="mb-1 text-xs font-weight-bold text-dark text-uppercase">
                                 Total kategori</div>
                             <div class="mb-0 text-gray-800 h5 font-weight-bold">{{ $totalReportCategories }}</div>
                         </div>
@@ -45,11 +44,11 @@
         </div>
 
         <div class="mb-4 col-xl-3 col-md-6">
-            <div class="py-2 shadow card border-left-info h-100">
+            <div class="py-2 shadow card border-left-primary h-100">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="mr-2 col">
-                            <div class="mb-1 text-xs font-weight-bold text-info text-uppercase">Total Laporan
+                            <div class="mb-1 text-xs font-weight-bold text-dark text-uppercase">Total Laporan
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
@@ -66,11 +65,11 @@
         </div>
 
         <div class="mb-4 col-xl-3 col-md-6">
-            <div class="py-2 shadow card border-left-info h-100">
+            <div class="py-2 shadow card border-left-primary h-100">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="mr-2 col">
-                            <div class="mb-1 text-xs font-weight-bold text-info text-uppercase">Total FAQ
+                            <div class="mb-1 text-xs font-weight-bold text-dark text-uppercase">Total FAQ
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">

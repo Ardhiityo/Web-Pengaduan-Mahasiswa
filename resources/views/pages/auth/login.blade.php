@@ -3,7 +3,7 @@
 @section('title', 'Masuk')
 
 @section('content')
-    <h5 class="mt-5 fw-bold">Selamat datang di Lapor Pak 👋</h5>
+    <h5 class="mt-5 fw-bold">Selamat datang di Simpel 👋</h5>
     <p class="mt-2 text-muted">Silahkan masuk untuk melanjutkan</p>
 
     <button class="py-2 mt-4 btn btn-primary w-100" type="button">
@@ -28,7 +28,7 @@
                 </symbol>
             </svg>
 
-            <div class="alert alert-success d-flex align-items-center" role="alert">
+            <div class="alert alert-primary d-flex align-items-center" role="alert">
                 <svg class="flex-shrink-0 bi me-2" width="24" height="24" role="img" aria-label="Success:">
                     <use xlink:href="#check-circle-fill" />
                 </svg>

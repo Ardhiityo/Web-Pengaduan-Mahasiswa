@@ -1,25 +1,26 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Data Masyarakat')
+@section('title', 'Edit Profil')
 
 @section('content')
     <!-- Page Heading -->
-    <a href="{{ route('admin.resident.index') }}" class="mb-3 btn btn-danger">Kembali</a>
+    <a href="{{ route('admin.dashboard') }}" class="mb-3 btn btn-danger">Kembali</a>
 
     <!-- DataTales Example -->
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
-            <h6 class="m-0 font-weight-bold text-primary">Tambah Data</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Edit Data</h6>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.resident.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.profile.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                @method('PATCH')
                 <div class="form-group">
-                    <label for="name">Nama Mahasiswa</label>
-                    <input type="text" class="form-control
+                    <label for="name">Nama</label>
+                    <input type="name" class="form-control
                     @error('name') is-invalid @enderror"
-                        id="name" name="name" value="{{ old('name') }}">
-                    @error('name')
+                        id="name" name="name" value="{{ old('name', $user->name) }}">
+                    @error('title')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
@@ -27,7 +28,7 @@
                     <label for="email">Email</label>
                     <input type="email" class="form-control
                     @error('email') is-invalid @enderror"
-                        id="email" name="email" value="{{ old('email') }}">
+                        id="email" name="email" value="{{ old('email', $user->email) }}">
                     @error('email')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -36,7 +37,7 @@
                     <label for="password">Password</label>
                     <input type="password" class="form-control
                     @error('password') is-invalid @enderror"
-                        id="password" name="password">
+                        id="password" name="password" value="{{ old('password') }}">
                     @error('password')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -45,5 +46,4 @@
             </form>
         </div>
     </div>
-
 @endsection

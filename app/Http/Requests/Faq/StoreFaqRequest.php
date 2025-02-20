@@ -23,8 +23,8 @@ class StoreFaqRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required'],
-            'description' => ['required']
+            'title' => ['required', 'max:30'],
+            'description' => ['required', 'max:255']
         ];
     }
 
@@ -32,6 +32,8 @@ class StoreFaqRequest extends FormRequest
     {
         return [
             'title.required' => 'Judul FAQ wajib diisi.',
+            'title.max' => 'Judul FAQ max 30 karakter.',
+            'description.max' => 'Deskripsi FAQ max 255 karakter.',
             'description.required' => 'Deskripsi FAQ wajib diisi.'
         ];
     }

@@ -26,7 +26,7 @@ class UpdateReportStatusRequest extends FormRequest
             'report_id' => ['required', 'exists:reports,id'],
             'image' => ['nullable', 'mimes:jpg,png'],
             'status' => ['required'],
-            'description' => ['required']
+            'description' => ['required', 'max:255']
         ];
     }
 
@@ -38,6 +38,7 @@ class UpdateReportStatusRequest extends FormRequest
             'image.mimes' => 'Bukti laporan harus berekstensi jpg atau png',
             'status.required' => 'Status laporan wajib diisi.',
             'description.required' => 'Deskripsi laporan wajib diisi.',
+            'description.max' => 'Deskripsi max 255 karakter.',
         ];
     }
 }

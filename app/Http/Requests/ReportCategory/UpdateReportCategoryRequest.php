@@ -23,7 +23,7 @@ class UpdateReportCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['nullable'],
+            'name' => ['nullable', 'max:30'],
             'image' => ['nullable', 'mimes:jpg,png']
         ];
     }
@@ -31,7 +31,8 @@ class UpdateReportCategoryRequest extends FormRequest
     public function messages()
     {
         return [
-            'image.mimes' => 'Ikon harus berupa file dengan ekstensi jpg atau png'
+            'image.mimes' => 'Ikon harus berupa file dengan ekstensi jpg atau png',
+            'name.max' => 'Nama max 30 karakter'
         ];
     }
 }

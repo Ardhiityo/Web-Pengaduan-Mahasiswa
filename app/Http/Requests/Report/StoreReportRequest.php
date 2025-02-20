@@ -30,12 +30,12 @@ class StoreReportRequest extends FormRequest
         return [
             'resident_id' => ['required', 'exists:residents,id'],
             'report_category_id' => ['required', 'exists:report_categories,id'],
-            'title' => ['required', 'max:255'],
-            'description' => ['required'],
+            'title' => ['required', 'max:30'],
+            'description' => ['required', 'max:255'],
             'image' => ['required', 'mimes:jpg,png'],
-            'latitude' => ['required'],
-            'longitude' => ['required'],
-            'address' => ['required']
+            'latitude' => ['required', 'max:255'],
+            'longitude' => ['required', 'max:255'],
+            'address' => ['required', 'max:255']
         ];
     }
 
@@ -43,13 +43,17 @@ class StoreReportRequest extends FormRequest
     {
         return
             [
+                'description.max' => 'Deskripsi max 255 karakter',
+                'latitude.max' => 'Latitude max 255 karakter',
+                'longitude.max' => 'Longitude max 255 karakter',
+                'address.max' => 'Alamat max 255 karakter',
                 'image.required' => 'Bukti laporan wajib diisi',
                 'resident_id.required' => 'Pelapor wajib diisi',
                 'resident_id.exists' => 'Pelapor tidak ditemukan',
                 'report_category_id.required' => 'Kategori laporan wajib diisi',
                 'report_category_id.exists' => 'Kategori laporan tidak ditemukan',
                 'title.required' => 'Judul laporan wajib diisi',
-                'title.max' => 'Judul laporan tidak boleh lebih dari 255 karakter',
+                'title.max' => 'Judul laporan tidak boleh lebih dari 30 karakter',
                 'description.required' => 'Deskripsi laporan wajib diisi',
                 'image.mimes' => 'Bukti laporan harus berekstensi jpg atau png',
                 'latitude.required' => 'Latitude wajib diisi',

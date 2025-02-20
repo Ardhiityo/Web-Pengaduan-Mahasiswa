@@ -1,0 +1,29 @@
+.error-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.error-content {
+    text-align: center;
+}
+
+.error-content h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #6439ff;
+    margin-bottom: 0.5rem;
+}
+
+.error-content p {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.lottie-animation {
+    max-width: 400px;
+    margin-bottom: 0.5rem;
+}
