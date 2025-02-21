@@ -10,11 +10,18 @@ use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\ResidentController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Auth\AuthGoogleController;
 use App\Http\Controllers\Admin\ReportStatusController;
 use App\Http\Controllers\Admin\ReportCategoryController;
 use App\Http\Controllers\User\FaqController as UserFaqController;
 use App\Http\Controllers\User\ReportController as UserReportController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
+
+// Login with google
+Route::get('/auth/redirect', [AuthGoogleController::class, 'redirect'])
+    ->name('redirect');
+Route::get('/auth/callback', [AuthGoogleController::class, 'callback'])
+    ->name('callback');
 
 //Resident
 Route::middleware(['auth', 'role:resident'])->group(function () {

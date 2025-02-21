@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\Interfaces\AdminRepositoryInterface;
+use App\Services\Interfaces\AuthGoogleRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Repositories\FaqRepository;
@@ -18,6 +19,7 @@ use App\Services\Interfaces\ResidentRepositoryInterface;
 use App\Services\Interfaces\ReportStatusRepositoryInterface;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
 use App\Services\Repositories\AdminRepository;
+use App\Services\Repositories\AuthGoogleRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -59,6 +61,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             abstract: AdminRepositoryInterface::class,
             concrete: AdminRepository::class
+        );
+
+        $this->app->bind(
+            AuthGoogleRepositoryInterface::class,
+            AuthGoogleRepository::class
         );
     }
 

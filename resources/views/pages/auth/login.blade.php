@@ -6,10 +6,10 @@
     <h5 class="mt-5 fw-bold">Selamat datang di Simpel 👋</h5>
     <p class="mt-2 text-muted">Silahkan masuk untuk melanjutkan</p>
 
-    <button class="py-2 mt-4 btn btn-primary w-100" type="button">
+    <a class="py-2 mt-4 btn btn-primary w-100" href="{{ route('redirect') }}">
         <i class="fa-brands fa-google me-2"></i>
-        Masuk dengan Google
-    </button>
+        Masuk / Daftar
+    </a>
 
     <div class="mt-2 d-flex align-items-center">
         <hr class="flex-grow-1">
