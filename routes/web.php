@@ -23,8 +23,10 @@ Route::get('/auth/redirect', [AuthGoogleController::class, 'redirect'])
 Route::get('/auth/callback', [AuthGoogleController::class, 'callback'])
     ->name('callback');
 
+// Fortify
+
 //Resident
-Route::middleware(['auth', 'role:resident'])->group(function () {
+Route::middleware(['auth', 'verified', 'role:resident'])->group(function () {
     Route::get('/reports/take', [UserReportController::class, 'take'])->name('report.take');
     Route::get('/reports/take/preview', [UserReportController::class, 'preview'])->name('report.take.preview');
     Route::get('/reports/take/create-report', [UserReportController::class, 'create'])->name('report.take.create-report');

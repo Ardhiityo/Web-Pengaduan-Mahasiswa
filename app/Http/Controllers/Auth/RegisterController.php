@@ -20,6 +20,6 @@ class RegisterController extends Controller
         $data = $request->validated();
         $this->authRepository->register($data);
         return redirect()->route('login')
-            ->with('success', 'Yeay, akunmu sukses dibuat, mari login!');
+            ->with('success', 'Yeay, akunmu berhasil dibuat, mari login!');
     }
 }

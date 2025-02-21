@@ -37,18 +37,22 @@ class AuthGoogleRepository implements AuthGoogleRepositoryInterface
                 $newUser->resident()->create([
                     'avatar' => 'assets/avatar/default/profile.jpg'
                 ]);
-                return redirect()->route('home');
+                session()->regenerate();
+                session()->regenerateToken();
+                return redirect()->route('profile');
             }
 
             //apabila sudah terdaftar
+            session()->regenerate();
+            session()->regenerateToken();
             Auth::login($user);
             if ($user->hasRole('admin')) {
                 return redirect()->route('admin.dashboard');
             } else if ($user->hasRole('resident')) {
-                return redirect()->route('home');
+                return redirect()->route('profile');
             }
         } catch (Exception $exception) {
-            return redirect()->route('login')->with(['success' => 'Terjadi kesalahan otentikasi.']);
+            return redirect()->route('login')->with(['success' => $exception->getMessage()]);
         }
     }
 }

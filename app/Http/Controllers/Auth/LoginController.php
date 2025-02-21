@@ -21,10 +21,14 @@ class LoginController extends Controller
         $credentials = $request->validated();
         if ($this->authRepository->login($credentials)) {
             if (Auth::user()->hasRole('admin')) {
+                session()->regenerate();
+                session()->regenerateToken();
                 return redirect()->route('admin.dashboard');
             }
             if (Auth::user()->hasRole('resident')) {
-                return redirect()->route('home');
+                session()->regenerate();
+                session()->regenerateToken();
+                return redirect()->route('profile');
             }
         }
         return redirect()->route('login')->withErrors([
@@ -34,6 +38,7 @@ class LoginController extends Controller
 
     public function logout()
     {
+        session()->invalidate();
         return $this->authRepository->logout();
     }
 }
