@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 use App\Services\Interfaces\AuthGoogleRepositoryInterface;
 use Exception;
+use Laravel\Socialite\Two\InvalidStateException;
 
 class AuthGoogleRepository implements AuthGoogleRepositoryInterface
 {
@@ -20,7 +21,7 @@ class AuthGoogleRepository implements AuthGoogleRepositoryInterface
     public function callback()
     {
         try {
-            $userFromGoogle = Socialite::driver('google')->user();
+            $userFromGoogle = Socialite::driver('google')->stateless()->user();
 
             $user = User::where('email', $userFromGoogle->getEmail())->first();
 
@@ -39,8 +40,6 @@ class AuthGoogleRepository implements AuthGoogleRepositoryInterface
                 $user = $newUser;
             }
 
-            session()->regenerate();
-            session()->regenerateToken();
             Auth::login($user);
 
             //apabila sudah terdaftar
@@ -49,8 +48,8 @@ class AuthGoogleRepository implements AuthGoogleRepositoryInterface
             } else if ($user->hasRole('resident')) {
                 return redirect()->route('profile');
             }
-        } catch (Exception $exception) {
-            return redirect()->route('login')->with(['success' => $exception->getMessage()]);
+        } catch (InvalidStateException $invalidStateException) {
+            return redirect()->route('login')->with(['error' => 'Ups, terjadi kesalahan, coba lagi atau ganti metode lain.']);
         }
     }
 }

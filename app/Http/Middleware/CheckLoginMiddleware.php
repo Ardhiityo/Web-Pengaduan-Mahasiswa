@@ -19,7 +19,7 @@ class CheckLoginMiddleware
         if (Auth::check()) {
             $user = Auth::user();
             if ($user->hasRole('resident')) {
-                return redirect()->route('home');
+                return redirect()->route('profile');
             }
             if ($user->hasRole('admin')) {
                 return redirect()->route('admin.dashboard');

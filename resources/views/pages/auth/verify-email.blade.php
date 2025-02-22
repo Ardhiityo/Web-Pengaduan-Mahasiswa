@@ -4,7 +4,7 @@
 
 @section('content')
     <h5 class="mt-5 fw-bold">Yuhu, langkah terakhir nih!</h5>
-    <p class="mt-2 text-muted">Biar makin betah, verifikasikan dulu yuk email kamu.</p>
+    <p class="mt-2 text-muted">Akun berhasil dibuat, tapi verifikasikan dulu yuk email kamu.</p>
     <form action="{{ url('/email/verification-notification') }}" method="POST" class="mt-4">
         @csrf
 
