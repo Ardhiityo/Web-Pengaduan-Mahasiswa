@@ -1,10 +1,11 @@
 @extends('layouts.admin')
 
-@section('title', 'Detail Data Laporan')
+@section('title', 'Detail Kemajuan Laporan')
 
 @section('content')
     <!-- Page Heading -->
-    <a href="{{ route('admin.report.show', $reportStatus->report->id) }}" class="mb-3 btn btn-danger">Kembali</a>
+    <a href="{{ route('admin.report.show', Crypt::encrypt($reportStatus->report->id)) }}"
+        class="mb-3 btn btn-danger">Kembali</a>
 
     <!-- DataTales Example -->
     <div class="mb-4 shadow card">

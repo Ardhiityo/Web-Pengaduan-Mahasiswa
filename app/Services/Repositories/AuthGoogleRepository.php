@@ -32,20 +32,18 @@ class AuthGoogleRepository implements AuthGoogleRepositoryInterface
                     'password' => Hash::make(Str::random(16))
                 ])->assignRole('resident');
 
-                Auth::login($newUser);
-
                 $newUser->resident()->create([
                     'avatar' => 'assets/avatar/default/profile.jpg'
                 ]);
-                session()->regenerate();
-                session()->regenerateToken();
-                return redirect()->route('profile');
+
+                $user = $newUser;
             }
 
-            //apabila sudah terdaftar
             session()->regenerate();
             session()->regenerateToken();
             Auth::login($user);
+
+            //apabila sudah terdaftar
             if ($user->hasRole('admin')) {
                 return redirect()->route('admin.dashboard');
             } else if ($user->hasRole('resident')) {

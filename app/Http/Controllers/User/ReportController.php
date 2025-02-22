@@ -4,17 +4,20 @@ namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Report\StoreReportRequest;
 use App\Services\Interfaces\ReportRepositoryInterface;
 use App\Services\Interfaces\ReportStatusRepositoryInterface;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
+use App\Services\Interfaces\DecryptParameterRepositoryInterface;
 
 class ReportController extends Controller
 {
     public function __construct(
         private ReportRepositoryInterface $reportRepository,
         private ReportCategoryRepositoryInterface $reportCategoryRepository,
-        private ReportStatusRepositoryInterface $reportStatusRepository
+        private ReportStatusRepositoryInterface $reportStatusRepository,
+        private DecryptParameterRepositoryInterface $decryptParameterRepository
     ) {}
 
     public function index(Request $request)
@@ -32,12 +35,16 @@ class ReportController extends Controller
         return view('pages.app.report.index', compact('reports', 'totalReports'));
     }
 
-    public function show($code)
+    public function show($reportId)
     {
-        if ($report = $this->reportRepository->getReportByCode($code)) {
+        $decrypt = $this->decryptParameterRepository->getData(id: $reportId, message: 'Ups, FAQ tidak ditemukan!', route: 'admin.report-category.index');
+
+        if ($decrypt instanceof RedirectResponse) return $decrypt;
+
+        if ($report = $this->reportRepository->getReportById($decrypt)) {
             return view('pages.app.report.show', compact('report'));
         }
-        return redirect()->route('home');
+        return view('pages.app.404');
     }
 
     public function take()
@@ -71,7 +78,11 @@ class ReportController extends Controller
 
     public function myReport(Request $request)
     {
-        $reports = $this->reportStatusRepository->getReportStatusByResident($request->query('status'));
-        return view('pages.app.report.my-reports', compact('reports'));
+        if ($request->query('status')) {
+            $reports = $this->reportStatusRepository->getReportStatusByResident($request->query('status'));
+            return view('pages.app.report.my-reports', compact('reports'));
+        } else {
+            return view('pages.app.404');
+        }
     }
 }

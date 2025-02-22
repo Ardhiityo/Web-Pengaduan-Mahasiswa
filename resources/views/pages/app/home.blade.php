@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
-@section('title', 'Home')
+@section('title', 'Beranda')
 
 @section('content')
     @auth
         <h6 class="text-primary">Hai, {{ Auth::user()->name }} 👋</h6>
     @else
-        <h6 class="text-dark">Selamat datang, Sahabat Mafik 👋</h6>
+        <h6 class="text-primary">Selamat datang, Sahabat Mafik 👋</h6>
     @endauth
     <h4 class="home-headline">Laporkan masalahmu,
         <br>Kita Tuntaskan Lewat Cara yang
@@ -36,7 +36,8 @@
         <div class="gap-3 mt-3 d-flex flex-column">
             @forelse ($latestReports as $report)
                 <div class="border-0 shadow-none card card-report">
-                    <a href="{{ route('report.code', $report->code) }}" class="text-decoration-none text-dark">
+                    <a href="{{ route('report.show', Crypt::encrypt($report->id)) }}"
+                        class="text-decoration-none text-dark">
                         <div class="p-0 card-body">
                             <div class="mb-2 card-report-image position-relative">
                                 <img src="{{ asset('storage/' . $report->image) }}" alt="image">

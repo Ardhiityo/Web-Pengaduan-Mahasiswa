@@ -28,15 +28,6 @@ class ReportRepository implements ReportRepositoryInterface
         }
     }
 
-    public function getReportByCode(string $code)
-    {
-        try {
-            return Report::where('code', $code)->firstOrFail();
-        } catch (\Throwable $th) {
-            return false;
-        }
-    }
-
     public function latestReports()
     {
         return Report::latest()->take(3)->get();

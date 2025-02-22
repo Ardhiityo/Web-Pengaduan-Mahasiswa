@@ -19,26 +19,11 @@ class LoginController extends Controller
     public function store(StoreLoginRequest $request)
     {
         $credentials = $request->validated();
-        if ($this->authRepository->login($credentials)) {
-            if (Auth::user()->hasRole('admin')) {
-                session()->regenerate();
-                session()->regenerateToken();
-                return redirect()->route('admin.dashboard');
-            }
-            if (Auth::user()->hasRole('resident')) {
-                session()->regenerate();
-                session()->regenerateToken();
-                return redirect()->route('profile');
-            }
-        }
-        return redirect()->route('login')->withErrors([
-            'email' => 'Email atau password salah'
-        ])->withInput();
+        return $this->authRepository->login($credentials);
     }
 
     public function logout()
     {
-        session()->invalidate();
         return $this->authRepository->logout();
     }
 }

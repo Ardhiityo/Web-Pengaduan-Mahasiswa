@@ -17,7 +17,7 @@ class AdminSeeder extends Seeder
         User::create([
             'name' => 'Admin Lapor Pak',
             'email' => 'admin@laporpak.com',
-            'password' => Hash::make('rahasia')
+            'password' => Hash::make('11111111')
         ])->assignRole('admin');
     }
 }

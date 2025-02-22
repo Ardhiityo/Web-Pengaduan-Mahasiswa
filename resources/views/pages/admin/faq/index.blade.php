@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'FAQ')
+@section('title', 'Data FAQ')
 
 @section('content')
     <a href="{{ route('admin.faq.create') }}" class="mb-3 btn btn-primary">Tambah Data</a>
@@ -28,11 +28,13 @@
                                 <td>{{ $faq->title }}</td>
                                 <td>{{ $faq->description }}</td>
                                 <td>
-                                    <a href="{{ route('admin.faq.edit', $faq->id) }}" class="btn btn-warning">Edit</a>
+                                    <a href="{{ route('admin.faq.edit', Crypt::encrypt($faq->id)) }}"
+                                        class="btn btn-warning">Edit</a>
 
-                                    <a href="{{ route('admin.faq.show', $faq->id) }}" class="btn btn-info">Show</a>
+                                    <a href="{{ route('admin.faq.show', Crypt::encrypt($faq->id)) }}"
+                                        class="btn btn-info">Show</a>
 
-                                    <form action="{{ route('admin.faq.destroy', $faq->id) }}" method="POST"
+                                    <form action="{{ route('admin.faq.destroy', Crypt::encrypt($faq->id)) }}" method="POST"
                                         class="d-inline">
                                         @csrf
                                         @method('DELETE')

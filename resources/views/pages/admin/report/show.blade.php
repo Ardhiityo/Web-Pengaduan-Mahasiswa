@@ -66,7 +66,8 @@
             <h6 class="m-0 font-weight-bold text-primary">Status Laporan</h6>
         </div>
         <div class="card-body">
-            <a href="{{ route('admin.report-status.create', $report->id) }}" class="mb-3 btn btn-primary">Tambah
+            <a href="{{ route('admin.report-status.create', Crypt::encrypt($report->id)) }}"
+                class="mb-3 btn btn-primary">Tambah
                 Kemajuan Laporan</a>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -94,13 +95,14 @@
                                 <td>{{ $reportStatus->status }}</td>
                                 <td>{{ $reportStatus->description }}</td>
                                 <td>
-                                    <a href="{{ route('admin.report-status.edit', $reportStatus->id) }}"
+                                    <a href="{{ route('admin.report-status.edit', Crypt::encrypt($reportStatus->id)) }}"
                                         class="btn btn-warning">Edit</a>
 
-                                    <a href="{{ route('admin.report-status.show', $reportStatus->id) }}"
+                                    <a href="{{ route('admin.report-status.show', Crypt::encrypt($reportStatus->id)) }}"
                                         class="btn btn-info">Show</a>
 
-                                    <form action="{{ route('admin.report-status.destroy', $reportStatus->id) }}"
+                                    <form
+                                        action="{{ route('admin.report-status.destroy', Crypt::encrypt($reportStatus->id)) }}"
                                         method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')

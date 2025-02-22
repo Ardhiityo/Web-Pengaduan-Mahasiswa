@@ -12,6 +12,7 @@ use App\Services\Repositories\ReportRepository;
 use App\Services\Repositories\ResidentRepository;
 use App\Services\Interfaces\FaqRepositoryInterface;
 use App\Services\Interfaces\AuthRepositoryInterface;
+use App\Services\Interfaces\DecryptParameterRepositoryInterface;
 use App\Services\Repositories\ReportStatusRepository;
 use App\Services\Interfaces\ReportRepositoryInterface;
 use App\Services\Repositories\ReportCategoryRepository;
@@ -20,6 +21,7 @@ use App\Services\Interfaces\ReportStatusRepositoryInterface;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
 use App\Services\Repositories\AdminRepository;
 use App\Services\Repositories\AuthGoogleRepository;
+use App\Services\Repositories\DecryptParameterRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -66,6 +68,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             AuthGoogleRepositoryInterface::class,
             AuthGoogleRepository::class
+        );
+
+        $this->app->bind(
+            DecryptParameterRepositoryInterface::class,
+            DecryptParameterRepository::class
         );
     }
 

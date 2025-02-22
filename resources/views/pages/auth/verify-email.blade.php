@@ -25,7 +25,7 @@
                         Yeay, berhasil dikirim, waktunya cek email kamu, jangan lupa cek folder spam juga ya!
                     </div>
                 </div>
-                <div id="lottie-verified"></div>
+                <div id="lottie"></div>
             </div>
         @else
             <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -65,13 +65,6 @@
             loop: true,
             autoplay: true,
             path: '{{ asset('assets/app/lottie/business-team.json') }}'
-        });
-        var animation = bodymovin.loadAnimation({
-            container: document.getElementById('lottie-verified'),
-            renderer: 'svg',
-            loop: true,
-            autoplay: true,
-            path: '{{ asset('assets/app/lottie/email-send.json') }}'
         });
     </script>
 @endsection

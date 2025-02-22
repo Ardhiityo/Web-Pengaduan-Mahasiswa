@@ -40,12 +40,14 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.report.edit', $report->id) }}" class="btn btn-warning">Edit</a>
+                                    <a href="{{ route('admin.report.edit', Crypt::encrypt($report->id)) }}"
+                                        class="btn btn-warning">Edit</a>
 
-                                    <a href="{{ route('admin.report.show', $report->id) }}" class="btn btn-info">Show</a>
+                                    <a href="{{ route('admin.report.show', Crypt::encrypt($report->id)) }}"
+                                        class="btn btn-info">Show</a>
 
-                                    <form action="{{ route('admin.report.destroy', $report->id) }}" method="POST"
-                                        class="d-inline">
+                                    <form action="{{ route('admin.report.destroy', Crypt::encrypt($report->id)) }}"
+                                        method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">Delete</button>

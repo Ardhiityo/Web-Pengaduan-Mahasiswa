@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Report\StoreReportRequest;
 use App\Http\Requests\Report\UpdateReportRequest;
 use App\Services\Interfaces\ReportRepositoryInterface;
 use App\Services\Interfaces\ResidentRepositoryInterface;
-use App\Services\Interfaces\ReportCategoryRepositoryInterface;
 use App\Services\Interfaces\ReportStatusRepositoryInterface;
+use App\Services\Interfaces\ReportCategoryRepositoryInterface;
+use App\Services\Interfaces\DecryptParameterRepositoryInterface;
 
 class ReportController extends Controller
 {
@@ -16,7 +18,8 @@ class ReportController extends Controller
         private ReportRepositoryInterface $reportRepository,
         private ResidentRepositoryInterface $residentRepository,
         private ReportCategoryRepositoryInterface $reportCategoryRepository,
-        private ReportStatusRepositoryInterface $reportStatusRepository
+        private ReportStatusRepositoryInterface $reportStatusRepository,
+        private DecryptParameterRepositoryInterface $decryptParameterRepository
     ) {}
 
     public function index()
@@ -42,13 +45,21 @@ class ReportController extends Controller
 
     public function show(string $id)
     {
-        $report = $this->reportRepository->getReportById($id);
-        return view('pages.admin.report.show', compact('report',));
+        $decrypt = $this->decryptParameterRepository->getData(id: $id, message: 'Ups, Laporan tidak ditemukan!', route: 'admin.report.index');
+
+        if ($decrypt instanceof RedirectResponse) return $decrypt;
+
+        $report = $this->reportRepository->getReportById($decrypt);
+        return view('pages.admin.report.show', compact('report'));
     }
 
     public function edit(string $id)
     {
-        $report = $this->reportRepository->getReportById($id);
+        $decrypt = $this->decryptParameterRepository->getData(id: $id, message: 'Ups, Laporan tidak ditemukan!', route: 'admin.report.index');
+
+        if ($decrypt instanceof RedirectResponse) return $decrypt;
+
+        $report = $this->reportRepository->getReportById($decrypt);
         $residents = $this->residentRepository->getAllResidents();
         $reportCategories = $this->reportCategoryRepository->getAllReportCategories();
         return view('pages.admin.report.edit', compact('report', 'residents', 'reportCategories'));
@@ -56,15 +67,23 @@ class ReportController extends Controller
 
     public function update(UpdateReportRequest $request, string $id)
     {
+        $decrypt = $this->decryptParameterRepository->getData(id: $id, message: 'Ups, Laporan tidak ditemukan!', route: 'admin.report.index');
+
+        if ($decrypt instanceof RedirectResponse) return $decrypt;
+
         $data = $request->validated();
-        $this->reportRepository->updateReport($data, $id);
+        $this->reportRepository->updateReport($data, $decrypt);
         toast('Data laporan sukses diupdate', 'success')->timerProgressBar();
         return redirect()->route('admin.report.index');
     }
 
     public function destroy(string $id)
     {
-        $this->reportRepository->deleteReport($id);
+        $decrypt = $this->decryptParameterRepository->getData(id: $id, message: 'Ups, Laporan tidak ditemukan!', route: 'admin.report.index');
+
+        if ($decrypt instanceof RedirectResponse) return $decrypt;
+
+        $this->reportRepository->deleteReport($decrypt);
         toast('Data laporan sukses dihapus', 'success')->timerProgressBar();
         return redirect()->route('admin.report.index');
     }

@@ -25,7 +25,7 @@ class UpdateAdminRequest extends FormRequest
         return [
             'name' => ['required', 'max:30'],
             'email' => ['required', 'email', 'max:255'],
-            'password' => ['required', 'max:255', 'min:8']
+            'password' => ['nullable', 'max:255', 'min:8']
         ];
     }
 
@@ -38,7 +38,6 @@ class UpdateAdminRequest extends FormRequest
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Format email tidak valid.',
             'email.max' => 'Email tidak boleh lebih dari 255 karakter.',
-            'password.required' => 'Password wajib diisi.',
             'password.max' => 'Password tidak boleh lebih dari 255 karakter.',
             'password.min' => 'Password minimal 8 karakter.',
         ];

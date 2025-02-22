@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Laporanmu')
+@section('title', 'Laporanku')
 
 @section('content')
     <ul class="nav nav-tabs" id="filter-tab" role="tablist">
@@ -33,7 +33,8 @@
             <div class="gap-3 mt-3 d-flex flex-column">
                 @forelse ($reports as $report)
                     <div class="border-0 shadow-none card card-report">
-                        <a href="{{ route('report.code', $report->report->code) }}" class="text-decoration-none text-dark">
+                        <a href="{{ route('report.show', Crypt::encrypt($report->report->id)) }}"
+                            class="text-decoration-none text-dark">
                             <div class="p-0 card-body">
                                 <div class="mb-2 card-report-image position-relative">
                                     <img src="{{ asset('storage/' . $report->report->image) }}" alt="image">
@@ -96,7 +97,8 @@
             <div class="gap-3 mt-3 d-flex flex-column">
                 @foreach ($reports as $report)
                     <div class="border-0 shadow-none card card-report">
-                        <a href="{{ route('report.code', $report->report->code) }}" class="text-decoration-none text-dark">
+                        <a href="{{ route('report.show', Crypt::encrypt($report->report->id)) }}"
+                            class="text-decoration-none text-dark">
                             <div class="p-0 card-body">
                                 <div class="mb-2 card-report-image position-relative">
                                     <img src="{{ asset('storage/' . $report->report->image) }}" alt="image">
@@ -153,7 +155,8 @@
             <div class="gap-3 mt-3 d-flex flex-column">
                 @foreach ($reports as $report)
                     <div class="border-0 shadow-none card card-report">
-                        <a href="{{ route('report.code', $report->report->code) }}" class="text-decoration-none text-dark">
+                        <a href="{{ route('report.show', Crypt::encrypt($report->report->id)) }}"
+                            class="text-decoration-none text-dark">
                             <div class="p-0 card-body">
                                 <div class="mb-2 card-report-image position-relative">
                                     <img src="{{ asset('storage/' . $report->report->image) }}" alt="image">
@@ -210,7 +213,7 @@
             <div class="gap-3 mt-3 d-flex flex-column">
                 @foreach ($reports as $report)
                     <div class="border-0 shadow-none card card-report">
-                        <a href="{{ route('report.code', $report->report->code) }}"
+                        <a href="{{ route('report.show', Crypt::encrypt($report->report->id)) }}"
                             class="text-decoration-none text-dark">
                             <div class="p-0 card-body">
                                 <div class="mb-2 card-report-image position-relative">

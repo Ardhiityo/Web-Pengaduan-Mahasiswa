@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Daftar akun')
+@section('title', 'Daftar')
 
 @section('content')
     <h5 class="mt-5 fw-bold">Daftar sebagai pengguna baru</h5>

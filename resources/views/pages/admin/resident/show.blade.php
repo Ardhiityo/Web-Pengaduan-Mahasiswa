@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Detail Data Masyarakat')
+@section('title', 'Detail Data Mahasiswa')
 
 @section('content')
     <!-- Page Heading -->

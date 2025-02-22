@@ -12,9 +12,23 @@ class AuthRepository implements AuthRepositoryInterface
 {
     public function __construct(private ResidentRepositoryInterface $residentRepository) {}
 
-    public function login(array $credentials): bool
+    public function login(array $credentials)
     {
-        return Auth::attempt($credentials);
+        $result = Auth::attempt($credentials);
+        if ($result) {
+            session()->regenerate();
+            session()->regenerateToken();
+            if (Auth::user()->hasRole('admin')) {
+                return redirect()->route('admin.dashboard');
+            }
+            if (Auth::user()->hasRole('resident')) {
+                return redirect()->route('profile');
+            }
+        } else {
+            return redirect()->route('login')->withErrors([
+                'email' => 'Email atau password salah'
+            ])->withInput();
+        }
     }
 
     public function logout()

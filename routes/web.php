@@ -23,8 +23,6 @@ Route::get('/auth/redirect', [AuthGoogleController::class, 'redirect'])
 Route::get('/auth/callback', [AuthGoogleController::class, 'callback'])
     ->name('callback');
 
-// Fortify
-
 //Resident
 Route::middleware(['auth', 'verified', 'role:resident'])->group(function () {
     Route::get('/reports/take', [UserReportController::class, 'take'])->name('report.take');
@@ -41,17 +39,19 @@ Route::middleware(['auth', 'verified', 'role:resident'])->group(function () {
 Route::get('/faq', [UserFaqController::class, 'index'])->name('faq.user');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/reports', [UserReportController::class, 'index'])->name('report.index');
-Route::get('/reports/{code}', [UserReportController::class, 'show'])->name('report.code');
+Route::get('/reports/{reportId}', [UserReportController::class, 'show'])->name('report.show');
 
-Route::get('/login', [LoginController::class, 'index'])
-    ->name('login');
-Route::post('/login', [LoginController::class, 'store'])
-    ->name('login.store');
+Route::middleware('check_login')->group(function () {
+    Route::get('/login', [LoginController::class, 'index'])
+        ->name('login');
+    Route::post('/login', [LoginController::class, 'store'])
+        ->name('login.store');
 
-Route::get('/register', [RegisterController::class, 'index'])
-    ->name('register');
-Route::post('/register', [RegisterController::class, 'store'])
-    ->name('register.store');
+    Route::get('/register', [RegisterController::class, 'index'])
+        ->name('register');
+    Route::post('/register', [RegisterController::class, 'store'])
+        ->name('register.store');
+});
 
 Route::post('/logout', [LoginController::class, 'logout'])
     ->name('logout')->middleware(['auth', 'role:admin|resident']);

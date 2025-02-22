@@ -12,7 +12,8 @@
             <h6 class="m-0 font-weight-bold text-primary">Tambah Data</h6>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.report.update', $report->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.report.update', Crypt::encrypt($report->id)) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
                 <div class="form-group">

@@ -9,7 +9,6 @@ use App\Services\Interfaces\ResidentRepositoryInterface;
 
 class ResidentRepository implements ResidentRepositoryInterface
 {
-
     public function getAllResidents()
     {
         return Resident::all();

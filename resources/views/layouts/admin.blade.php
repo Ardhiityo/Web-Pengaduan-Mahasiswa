@@ -9,6 +9,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
+    <link rel="shortcut icon" href="{{ asset('assets/LogoUnival.png') }}" type="image/x-icon">
+
     <title>@yield('title')</title>
 
     <!-- Custom fonts for this template-->

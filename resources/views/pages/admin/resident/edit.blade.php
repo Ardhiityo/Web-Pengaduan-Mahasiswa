@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Data Masyarakat')
+@section('title', 'Edit Data Mahasiswa')
 
 @section('content')
     <!-- Page Heading -->
@@ -12,7 +12,8 @@
             <h6 class="m-0 font-weight-bold text-primary">Edit Data</h6>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.resident.update', $resident->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.resident.update', Crypt::encrypt($resident->id)) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
                 <div class="form-group">
