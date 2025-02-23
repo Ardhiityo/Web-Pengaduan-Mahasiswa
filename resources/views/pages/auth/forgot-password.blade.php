@@ -4,8 +4,8 @@
 
 @section('content')
 @section('content')
-    <h5 class="mt-5 fw-bold">Selamat datang di Simpel 👋</h5>
-    <p class="mt-2 text-muted">Silahkan masuk untuk melanjutkan</p>
+    <h5 class="mt-5 fw-bold">Selalu jaga privasi akunmu.</h5>
+    <p class="mt-2 text-muted">Silahkan masukan email untuk melanjutkan</p>
 
     <form action="{{ url('/forgot-password') }}" method="POST" class="mt-4">
         @csrf

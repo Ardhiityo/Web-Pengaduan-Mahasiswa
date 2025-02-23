@@ -15,7 +15,7 @@ class StoreLoginRequest extends FormRequest
     {
         return [
             'email' => ['required', 'email', 'max:255'],
-            'password' => ['required', 'max:255']
+            'password' => ['required', 'max:255', 'min:8']
         ];
     }
 
@@ -25,6 +25,7 @@ class StoreLoginRequest extends FormRequest
             'email.required' => 'Email wajib di isi',
             'email.max' => 'Email max 255 karakter',
             'password.max' => 'Password max 255 karakter',
+            'password.min' => 'Password min 8 karakter',
             'password.required' => 'Password wajib di isi'
         ];
     }

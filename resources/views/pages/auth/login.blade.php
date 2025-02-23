@@ -3,8 +3,12 @@
 @section('title', 'Masuk')
 
 @section('content')
-    <h5 class="mt-5 fw-bold">Selamat datang di Simpel 👋</h5>
-    <p class="mt-2 text-muted">Silahkan masuk untuk melanjutkan</p>
+    <section class="text-center">
+        <img src="{{ asset('assets/LogoUnival.jpg') }}" alt="Logo LogoUnival" class="img-fluid" width="100" height="100">
+        <h5 class="mt-3 fw-bold">Selamat datang di Simpel</h5>
+        <p>Nikmati kemudahan layanan pengaduan elektronik, laporan sat-set, anti ribet.</p>
+        <p class="mt-3 text-muted">Silahkan masuk untuk melanjutkan</p>
+    </section>
 
     <a class="py-2 mt-4 btn btn-primary w-100" href="{{ route('redirect') }}">
         <i class="fa-brands fa-google me-2"></i>
@@ -84,7 +88,7 @@
             <label for="email" class="form-label">Email</label>
             <input type="email" class="form-control
             @error('email') is-invalid @enderror" id="email"
-                name="email" value="{{ old('email') }}">
+                name="email" value="{{ old('email') }}" required>
             @error('email')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -92,7 +96,7 @@
 
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password"
+            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" required
                 name="password" value="{{ old('password') }}" id="password">
             @error('password')
                 <div class="invalid-feedback">{{ $message }}</div>

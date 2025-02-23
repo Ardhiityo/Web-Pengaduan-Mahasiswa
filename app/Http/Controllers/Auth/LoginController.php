@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Auth\StoreLoginRequest;
 use App\Services\Interfaces\AuthRepositoryInterface;
 
@@ -18,8 +17,7 @@ class LoginController extends Controller
 
     public function store(StoreLoginRequest $request)
     {
-        $credentials = $request->validated();
-        return $this->authRepository->login($credentials);
+        return $this->authRepository->login($request->validated());
     }
 
     public function logout()

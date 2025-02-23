@@ -23,8 +23,8 @@ class UpdateFaqRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'max:30'],
-            'description' => ['required', 'max:255']
+            'title' => ['required', 'max:30', 'min:3'],
+            'description' => ['required', 'max:255', 'min:5']
         ];
     }
 
@@ -32,8 +32,10 @@ class UpdateFaqRequest extends FormRequest
     {
         return [
             'title.required' => 'Judul FAQ wajib diisi.',
+            'title.min' => 'Judul FAQ min 3 karakter.',
             'title.max' => 'Judul FAQ max 30 karakter.',
             'description.max' => 'Deskripsi FAQ max 255 karakter.',
+            'description.min' => 'Deskripsi FAQ min 5 karakter.',
             'description.required' => 'Deskripsi FAQ wajib diisi.'
         ];
     }

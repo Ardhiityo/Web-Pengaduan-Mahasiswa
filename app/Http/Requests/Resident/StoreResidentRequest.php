@@ -44,7 +44,7 @@ class StoreResidentRequest extends FormRequest
             'password.required' => 'Password wajib di isi',
             'password.max' => 'Password max 255 karakter',
             'password.min' => 'Password harus memiliki minimal 8 karakter',
-            'name.required' => 'Nama masyarakat wajib di isi',
+            'name.required' => 'Nama wajib di isi',
             'name.max' => 'Nama max 30 karakter'
         ];
     }

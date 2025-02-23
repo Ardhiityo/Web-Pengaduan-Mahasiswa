@@ -2,9 +2,7 @@
 
 namespace App\Services\Repositories;
 
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Services\Interfaces\AuthRepositoryInterface;
 use App\Services\Interfaces\ResidentRepositoryInterface;
 
@@ -16,8 +14,6 @@ class AuthRepository implements AuthRepositoryInterface
     {
         $result = Auth::attempt($credentials);
         if ($result) {
-            session()->regenerate();
-            session()->regenerateToken();
             if (Auth::user()->hasRole('admin')) {
                 return redirect()->route('admin.dashboard');
             }
