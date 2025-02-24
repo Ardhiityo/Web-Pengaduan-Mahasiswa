@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 use App\Services\Interfaces\AuthGoogleRepositoryInterface;
-use Exception;
 use Laravel\Socialite\Two\InvalidStateException;
 
 class AuthGoogleRepository implements AuthGoogleRepositoryInterface
@@ -49,7 +48,9 @@ class AuthGoogleRepository implements AuthGoogleRepositoryInterface
                 return redirect()->route('profile');
             }
         } catch (InvalidStateException $invalidStateException) {
-            return redirect()->route('login')->with(['error' => 'Ups, terjadi kesalahan, coba lagi atau ganti metode lain.']);
+            return redirect()
+                ->route('login')
+                ->with(['error' => 'Ups, terjadi kesalahan, coba lagi atau ganti metode lain.']);
         }
     }
 }

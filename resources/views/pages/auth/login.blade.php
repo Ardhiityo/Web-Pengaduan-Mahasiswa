@@ -4,7 +4,7 @@
 
 @section('content')
     <section class="text-center">
-        <img src="{{ asset('assets/LogoUnival.jpg') }}" alt="Logo LogoUnival" class="img-fluid" width="100" height="100">
+        <img src="{{ asset('assets/LogoUnival.jpg') }}" alt="Logo Unival" class="img-fluid" width="100" height="100">
         <h5 class="mt-3 fw-bold">Selamat datang di Simpel</h5>
         <p>Nikmati kemudahan layanan pengaduan elektronik, laporan sat-set, anti ribet.</p>
         <p class="mt-3 text-muted">Silahkan masuk untuk melanjutkan</p>

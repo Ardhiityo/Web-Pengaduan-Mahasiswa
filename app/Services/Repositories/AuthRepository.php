@@ -12,14 +12,11 @@ class AuthRepository implements AuthRepositoryInterface
 
     public function login(array $credentials)
     {
-        $result = Auth::attempt($credentials);
-        if ($result) {
+        if (Auth::attempt($credentials)) {
             if (Auth::user()->hasRole('admin')) {
                 return redirect()->route('admin.dashboard');
             }
-            if (Auth::user()->hasRole('resident')) {
-                return redirect()->route('profile');
-            }
+            return redirect()->route('profile');
         } else {
             return redirect()->route('login')->withErrors([
                 'email' => 'Email atau password salah'
@@ -30,8 +27,6 @@ class AuthRepository implements AuthRepositoryInterface
     public function logout()
     {
         Auth::logout();
-        session()->invalidate();
-        session()->regenerateToken();
         return redirect()->route('login');
     }
 
