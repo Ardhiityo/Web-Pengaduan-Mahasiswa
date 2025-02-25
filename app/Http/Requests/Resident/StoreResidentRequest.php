@@ -9,7 +9,7 @@ class StoreResidentRequest extends FormRequest
 {
     public function prepareForValidation()
     {
-        $this->merge(['avatar' => 'assets/avatar/default/profile.jpg', 'public']);
+        $this->merge(['avatar' => asset('assets/avatar/default/profile.jpg')]);
     }
 
     /**
