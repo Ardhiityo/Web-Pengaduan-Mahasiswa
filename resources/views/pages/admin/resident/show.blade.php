@@ -10,7 +10,7 @@
     <!-- DataTales Example -->
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
-            <h6 class="m-0 font-weight-bold text-primary">Detail Masyarakat</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Detail Mahasiswa</h6>
         </div>
         <div class="card-body">
             <table class="table table-bordered">

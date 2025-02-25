@@ -17,7 +17,7 @@
                 @csrf
                 @method('PATCH')
                 <div class="form-group">
-                    <label for="name">Nama Masyarakat</label>
+                    <label for="name">Nama Mahasiswa</label>
                     <input type="text" class="form-control
                     @error('name') is-invalid @enderror"
                         id="name" name="name" value="{{ old('name', $resident->user->name) }}">
