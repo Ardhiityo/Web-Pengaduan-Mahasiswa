@@ -16,7 +16,7 @@ class ResidentRepository implements ResidentRepositoryInterface
 
     public function getResidentById(int $id)
     {
-        return Resident::find($id);
+        return Resident::findOrFail($id);
     }
 
     public function createResident(array $data)
@@ -25,8 +25,10 @@ class ResidentRepository implements ResidentRepositoryInterface
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
-        ])->assignRole('resident');
-        return $user->resident()->create($data);
+        ])
+            ->assignRole('resident');
+        return $user->resident()
+            ->create($data);
     }
 
     public function updateResident(array $data, int $id)

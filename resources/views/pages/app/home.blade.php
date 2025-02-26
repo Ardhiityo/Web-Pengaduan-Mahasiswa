@@ -6,7 +6,7 @@
     @auth
         <h6 class="text-primary">Hai, {{ Auth::user()->name }} 👋</h6>
     @else
-        <h6 class="text-primary">Selamat datang, Sahabat Mafik 👋</h6>
+        <h6 class="text-primary">Selamat datang 👋</h6>
     @endauth
     <h4 class="home-headline">Laporkan masalahmu,
         <br>Kita Tuntaskan Lewat Cara yang

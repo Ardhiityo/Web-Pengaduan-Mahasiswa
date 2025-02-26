@@ -9,7 +9,7 @@
     <!-- DataTales Example -->
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
-            <h6 class="m-0 font-weight-bold text-primary">Tambah Data</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Edit Data</h6>
         </div>
         <div class="card-body">
             <form action="{{ route('admin.report-category.update', Crypt::encrypt($reportCategory->id)) }}" method="POST"
@@ -26,11 +26,11 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label for="old_image">Ikon lama</label> <br>
+                    <label for="old_image">Ikon Lama</label> <br>
                     <img src="{{ asset('storage/' . $reportCategory->image) }}" alt="image" width="200">
                     <br>
                     <br>
-                    <label for="image">Ikon baru</label>
+                    <label for="image">Ikon Baru</label>
                     <input type="file" class="form-control
                     @error('image') is-invalid @enderror"
                         id="image" name="image" value="{{ old('image') }}">

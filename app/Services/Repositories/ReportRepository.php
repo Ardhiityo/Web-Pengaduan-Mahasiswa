@@ -16,7 +16,7 @@ class ReportRepository implements ReportRepositoryInterface
     }
     public function getReportById(int $id)
     {
-        return Report::find($id);
+        return Report::findOrFail($id);
     }
 
     public function getReportsByCategory(string $category)

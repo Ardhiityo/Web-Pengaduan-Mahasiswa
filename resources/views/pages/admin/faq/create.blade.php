@@ -18,7 +18,7 @@
                     <label for="title">Judul FAQ</label>
                     <input type="text" class="form-control
                     @error('title') is-invalid @enderror"
-                        id="title" name="title" value="{{ old('title') }}">
+                        id="title" name="title" value="{{ old('title') }}" required minlength="3">
                     @error('title')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -26,7 +26,7 @@
                 <div class="form-group">
                     <label for="description">Deskripsi</label>
                     <textarea name="description" id="description" class="@error('description') is-invalid @enderror form-control"
-                        rows="3">{{ old('description') }}</textarea>
+                        rows="3" required minlength="5">{{ old('description') }}</textarea>
                     @error('description')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

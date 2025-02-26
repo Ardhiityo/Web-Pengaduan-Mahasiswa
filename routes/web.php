@@ -17,79 +17,122 @@ use App\Http\Controllers\User\FaqController as UserFaqController;
 use App\Http\Controllers\User\ReportController as UserReportController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 
-// Login with google
-Route::get('/auth/redirect', [AuthGoogleController::class, 'redirect'])
-    ->name('redirect');
-Route::get('/auth/callback', [AuthGoogleController::class, 'callback'])
-    ->name('callback');
-
-//Resident
-Route::middleware(['auth', 'verified', 'role:resident'])->group(function () {
-    Route::get('/reports/take', [UserReportController::class, 'take'])->name('report.take');
-    Route::get('/reports/take/preview', [UserReportController::class, 'preview'])->name('report.take.preview');
-    Route::get('/reports/take/create-report', [UserReportController::class, 'create'])->name('report.take.create-report');
-    Route::post('/reports/take/create-report', [UserReportController::class, 'store'])->name('report.take.create-report.store');
-    Route::get('/reports-success', [UserReportController::class, 'success'])->name('report.success');
-    Route::get('/myreports', [UserReportController::class, 'myReport'])->name('myreport');
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+// Auth with google
+Route::controller(AuthGoogleController::class)->group(function () {
+    Route::prefix('auth')->group(function () {
+        Route::get('/redirect',  'redirect')->name('redirect');
+        Route::get('/callback',  'callback')->name('callback');
+    });
 });
 
-Route::get('/faq', [UserFaqController::class, 'index'])->name('faq.user');
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/reports', [UserReportController::class, 'index'])->name('report.index');
-Route::get('/reports/{reportId}', [UserReportController::class, 'show'])->name('report.show');
-
+//Auth
 Route::middleware('check_login')->group(function () {
-    Route::get('/login', [LoginController::class, 'index'])
-        ->name('login');
-    Route::post('/login', [LoginController::class, 'store'])
-        ->name('login.store');
+    //Login
+    Route::controller(LoginController::class)->group(function () {
+        Route::prefix('login')->group(function () {
+            Route::get('/',  'index')->name('login');
+            Route::post('/',  'store')->name('login.store');
+        });
+    });
 
-    Route::get('/register', [RegisterController::class, 'index'])
-        ->name('register');
-    Route::post('/register', [RegisterController::class, 'store'])
-        ->name('register.store');
+    //Register
+    Route::controller(RegisterController::class)->group(function () {
+        Route::prefix('register')->group(function () {
+            Route::get('/',  'index')->name('register');
+            Route::post('/',  'store')->name('register.store');
+        });
+    });
 });
-
 Route::post('/logout', [LoginController::class, 'logout'])
     ->name('logout')->middleware(['auth', 'role:admin|resident']);
 
-//Dashboard Admin
+//Resident
+Route::middleware(['auth', 'verified', 'role:resident'])
+    ->group(function () {
+
+        //Report
+        Route::controller(UserReportController::class)->group(function () {
+            Route::prefix('reports')->group(function () {
+                Route::get('/take',  'take')
+                    ->name('report.take');
+                Route::get('/take/preview',  'preview')
+                    ->name('report.take.preview');
+                Route::get('/take/create-report',  'create')
+                    ->name('report.take.create-report');
+                Route::post('/take/create-report',  'store')
+                    ->name('report.take.create-report.store');
+                Route::get('/reports-success',  'success')
+                    ->name('report.success');
+                Route::get('/myreports',  'myReport')
+                    ->name('myreport');
+            });
+        });
+
+        //Profile
+        Route::controller(ProfileController::class)->group(function () {
+            Route::prefix('profile')->group(function () {
+                Route::get('/', 'index')->name('profile');
+                Route::get('/edit', 'edit')->name('profile.edit');
+                Route::patch('/', 'update')->name('profile.update');
+            });
+        });
+    });
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/faq', [UserFaqController::class, 'index'])->name('faq.user');
+
+Route::controller(UserReportController::class)->group(function () {
+    Route::prefix('reports')->group(function () {
+        Route::get('/',  'index')->name('report.index');
+        Route::get('/{reportId}', 'show')->name('report.show');
+    });
+});
+
+//Admin
 Route::prefix('admin')
     ->name('admin.')
     ->middleware(['auth', 'role:admin'])
     ->group(function () {
 
+        //Dasboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-        Route::get('/profile/edit', [AdminProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile/edit', [AdminProfileController::class, 'update'])->name('profile.update');
+        //Profile
+        Route::controller(AdminProfileController::class)->group(function () {
+            Route::prefix('profile')->group(function () {
+                Route::get('/edit', 'edit')->name('profile.edit');
+                Route::patch('/edit', 'update')->name('profile.update');
+            });
+        });
 
+        //Resident
         Route::resource('resident', ResidentController::class);
 
+        //Report category
         Route::resource('report-category', ReportCategoryController::class);
 
+        //Report
         Route::resource('report', ReportController::class);
+
+        //Report status
+        Route::resource('report-status', ReportStatusController::class)
+            ->except('create');
 
         Route::get('/report-status/{reportId}/create', [ReportStatusController::class, 'create'])->name('report-status.create');
 
-        Route::resource('report-status', ReportStatusController::class)->except('create');
-
-        Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
-
-        Route::get('/faq/create', [FaqController::class, 'create'])->name('faq.create');
-
-        Route::post('/faq', [FaqController::class, 'store'])->name('faq.store');
-
-        Route::get('/faq/{faqId}/edit', [FaqController::class, 'edit'])->name('faq.edit');
-
-        Route::get('/faq/{faqId}', [FaqController::class, 'show'])->name('faq.show');
-
-        Route::put('/faq/{faqId}', [FaqController::class, 'update'])->name('faq.update');
-
-        Route::delete('/faq/{faqId}', [FaqController::class, 'destroy'])->name('faq.destroy');
+        //FAQ
+        Route::controller(FaqController::class)
+            ->group(function () {
+                Route::prefix('faq')->name('faq.')->group(function () {
+                    Route::get('/',  'index')->name('index');
+                    Route::post('/',  'store')->name('store');
+                    Route::get('/create',  'create')->name('create');
+                    Route::get('/{faqId}/edit',  'edit')->name('edit');
+                    Route::get('/{faqId}',  'show')->name('show');
+                    Route::put('/{faqId}',  'update')->name('update');
+                    Route::delete('/{faqId}',  'destroy')->name('destroy');
+                });
+            });
     });
 
 Route::fallback(function () {

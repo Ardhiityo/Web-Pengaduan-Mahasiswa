@@ -9,7 +9,7 @@
     <!-- DataTales Example -->
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
-            <h6 class="m-0 font-weight-bold text-primary">Tambah Data</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Edit Data</h6>
         </div>
         <div class="card-body">
             <form action="{{ route('admin.report.update', Crypt::encrypt($report->id)) }}" method="POST"

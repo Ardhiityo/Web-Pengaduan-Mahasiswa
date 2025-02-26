@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
+use App\Models\ReportCategory;
 use Faker\Factory;
-use App\Models\Faq;
-use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 
-class FaqSeeder extends Seeder
+class ReportCategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,9 +16,9 @@ class FaqSeeder extends Seeder
     {
         $faker = Factory::create();
 
-        Faq::create([
-            'title' => $faker->sentence(5),
-            'description' => $faker->sentence(10)
+        ReportCategory::create([
+            'name' => $faker->name(),
+            'image' => $faker->image()
         ]);
     }
 }

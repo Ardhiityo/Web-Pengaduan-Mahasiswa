@@ -36,7 +36,7 @@ class FaqController extends Controller
 
     public function show($faqId)
     {
-        $decrypt = $this->decryptParameterRepository->getData(id: $faqId, message: 'Ups, FAQ tidak ditemukan!', route: 'admin.report-category.index');
+        $decrypt = $this->decryptParameterRepository->getData(id: $faqId, message: 'Ups, FAQ tidak ditemukan!', route: 'admin.faq.index');
 
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
@@ -46,7 +46,7 @@ class FaqController extends Controller
 
     public function edit($faqId)
     {
-        $decrypt = $this->decryptParameterRepository->getData(id: $faqId, message: 'Ups, FAQ tidak ditemukan!', route: 'admin.report-category.index');
+        $decrypt = $this->decryptParameterRepository->getData(id: $faqId, message: 'Ups, FAQ tidak ditemukan!', route: 'admin.faq.index');
 
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
@@ -56,7 +56,7 @@ class FaqController extends Controller
 
     public function update($faqId, UpdateFaqRequest $request)
     {
-        $decrypt = $this->decryptParameterRepository->getData(id: $faqId, message: 'Ups, FAQ tidak ditemukan!', route: 'admin.report-category.index');
+        $decrypt = $this->decryptParameterRepository->getData(id: $faqId, message: 'Ups, FAQ tidak ditemukan!', route: 'admin.faq.index');
 
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
@@ -67,7 +67,7 @@ class FaqController extends Controller
 
     public function destroy($faqId)
     {
-        $decrypt = $this->decryptParameterRepository->getData(id: $faqId, message: 'Ups, FAQ tidak ditemukan!', route: 'admin.report-category.index');
+        $decrypt = $this->decryptParameterRepository->getData(id: $faqId, message: 'Ups, FAQ tidak ditemukan!', route: 'admin.faq.index');
 
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 

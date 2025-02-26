@@ -13,7 +13,7 @@ class ReportCategoryRepository implements ReportCategoryRepositoryInterface
     }
     public function getReportCategoryById(int $id)
     {
-        return ReportCategory::find($id);
+        return ReportCategory::findOrFail($id);
     }
 
     public function createReportCategory(array $data)

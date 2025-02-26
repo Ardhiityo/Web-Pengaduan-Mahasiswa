@@ -20,7 +20,7 @@
                 </tr>
                 <tr>
                     <td>Deskripsi</td>
-                    <td>{{ $faq->id }}</td>
+                    <td>{{ $faq->description }}</td>
                 </tr>
             </table>
         </div>

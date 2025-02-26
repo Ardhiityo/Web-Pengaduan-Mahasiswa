@@ -2,7 +2,6 @@
 
 namespace App\Services\Repositories;
 
-use Exception;
 use App\Models\Faq;
 use App\Services\Interfaces\FaqRepositoryInterface;
 
@@ -14,7 +13,7 @@ class FaqRepository implements FaqRepositoryInterface
     }
     public function getFaqById($faqId)
     {
-        return Faq::find($faqId);
+        return Faq::findOrFail($faqId);
     }
     public function createFaq($data)
     {
@@ -22,7 +21,7 @@ class FaqRepository implements FaqRepositoryInterface
     }
     public function updateFaq($faqId, $data)
     {
-        $faq = Faq::find($faqId);
+        $faq = Faq::findOrFail($faqId);
         return $faq->update($data);
     }
     public function deleteFaq($faqId)
