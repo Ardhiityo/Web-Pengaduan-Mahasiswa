@@ -15,11 +15,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolePermissionSeeder::class,
             AdminSeeder::class,
-            ResidentSeeder::class,
+            // ResidentSeeder::class,
             ReportCategorySeeder::class,
-            ReportSeeder::class,
-            ReportStatusSeeder::class,
-            FaqSeeder::class
+            // ReportSeeder::class,
+            // ReportStatusSeeder::class,
+            // FaqSeeder::class
         ]);
     }
 }

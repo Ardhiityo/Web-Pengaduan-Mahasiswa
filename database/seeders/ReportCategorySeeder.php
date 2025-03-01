@@ -3,8 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\ReportCategory;
-use Faker\Factory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class ReportCategorySeeder extends Seeder
@@ -14,11 +12,21 @@ class ReportCategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = Factory::create();
-
         ReportCategory::create([
-            'name' => $faker->name(),
-            'image' => $faker->image()
+            'name' => 'Lingkungan',
+            'image' => 'assets/category/TreeEvergreen.png'
+        ]);
+        ReportCategory::create([
+            'name' => 'Keamanan',
+            'image' => 'assets/category/Shield.png'
+        ]);
+        ReportCategory::create([
+            'name' => 'Kesehatan',
+            'image' => 'assets/category/Heartbeat.png'
+        ]);
+        ReportCategory::create([
+            'name' => 'Infrastruktur',
+            'image' => 'assets/category/Bridge.png'
         ]);
     }
 }
