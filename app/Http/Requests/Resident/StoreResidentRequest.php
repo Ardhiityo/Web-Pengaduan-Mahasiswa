@@ -3,13 +3,27 @@
 namespace App\Http\Requests\Resident;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreResidentRequest extends FormRequest
 {
     public function prepareForValidation()
     {
-        $this->merge(['avatar' => 'assets/avatar/default/profile.jpg']);
+        // Path file in public
+        $publicPath = public_path('assets/avatar/default/profile.jpg');
+        $extension = pathinfo($publicPath, PATHINFO_EXTENSION);
+
+        // New path in storage
+        $storedPath = 'assets/avatar/' . uniqid('profile-default-') . ".$extension";
+
+        // Copy file to storage
+        if (file_exists($publicPath)) {
+            Storage::disk('public')->put($storedPath, file_get_contents($publicPath));
+
+            // Change avatar input with a new path in storage
+            $this->merge(['avatar' => $storedPath]);
+        }
     }
 
     /**

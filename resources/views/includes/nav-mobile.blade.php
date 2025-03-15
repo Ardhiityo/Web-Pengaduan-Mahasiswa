@@ -4,7 +4,7 @@
         </button>
     </div>
     <nav class="justify-around nav-mobile d-flex">
-        <a href="{{ route('home') }}" class="{{ request()->routeIs('/') ? 'active' : '' }}">
+        <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">
             <i class="fas fa-house"></i>
             Beranda
         </a>

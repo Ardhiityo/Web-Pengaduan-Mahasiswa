@@ -61,6 +61,9 @@ class ResidentRepository implements ResidentRepositoryInterface
         if ($resident->reports()->count() >= 1) {
             return false;
         } else {
+            if (Storage::disk('public')->exists($resident->avatar)) {
+                Storage::disk('public')->delete($resident->avatar);
+            }
             $resident->user()->delete();
             $resident->delete();
             return true;
