@@ -46,16 +46,6 @@ Route::middleware('check_login')->group(function () {
 Route::post('/logout', [LoginController::class, 'logout'])
     ->name('logout')->middleware(['auth', 'role:admin|resident']);
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/faq', [UserFaqController::class, 'index'])->name('faq.user');
-
-Route::controller(UserReportController::class)->group(function () {
-    Route::prefix('reports')->group(function () {
-        Route::get('/',  'index')->name('report.index');
-        Route::get('/{reportId}', 'show')->name('report.show');
-    });
-});
-
 //Resident
 Route::middleware(['auth', 'verified', 'role:resident'])
     ->group(function () {
@@ -87,6 +77,16 @@ Route::middleware(['auth', 'verified', 'role:resident'])
             });
         });
     });
+
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/faq', [UserFaqController::class, 'index'])->name('faq.user');
+
+Route::controller(UserReportController::class)->group(function () {
+    Route::prefix('reports')->group(function () {
+        Route::get('/',  'index')->name('report.index');
+        Route::get('/{reportId}', 'show')->name('report.show');
+    });
+});
 
 //Admin
 Route::prefix('admin')

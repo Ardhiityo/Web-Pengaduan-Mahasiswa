@@ -4,8 +4,11 @@ namespace App\Services\Repositories;
 
 use App\Models\Report;
 use App\Models\ReportCategory;
+use App\Models\ReportStatus;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use App\Services\Interfaces\ReportRepositoryInterface;
 
 class ReportRepository implements ReportRepositoryInterface
@@ -49,16 +52,40 @@ class ReportRepository implements ReportRepositoryInterface
     public function updateReport(array $data, int $id)
     {
         $report = $this->getReportById($id);
+
         if (isset($data['image'])) {
+            //check if the image is available in storage
+            if (Storage::disk('public')->exists($report->image)) {
+                //delete the image that is in storage
+                Storage::disk('public')->delete($report->image);
+            }
             $data['image'] = $data['image']->store('assets/report', 'public');
         }
+
         return $report->update($data);
     }
 
     public function deleteReport(int $id)
     {
         $report = $this->getReportById($id);
+
+        if ($report->reportStatuses->count()) {
+            $reportStatuses = ReportStatus::where('report_id', $report->id)->get();
+            foreach ($reportStatuses as $reportStatus) {
+                if ($reportStatus->image) {
+                    if (Storage::disk('public')->exists($reportStatus->image)) {
+                        Storage::disk('public')->delete($reportStatus->image);
+                    }
+                }
+            }
+        }
         $report->reportStatuses()->delete();
+
+        //check if the image is available in storage
+        if (Storage::disk('public')->exists($report->image)) {
+            //delete the image that is in storage
+            Storage::disk('public')->delete($report->image);
+        }
         $report->delete();
     }
 

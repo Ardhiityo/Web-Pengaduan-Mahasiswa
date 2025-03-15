@@ -8,9 +8,9 @@ use App\Models\ReportCategory;
 use Database\Seeders\AdminSeeder;
 use Illuminate\Http\UploadedFile;
 use Database\Seeders\DatabaseSeeder;
-use Database\Seeders\ReportCategorySeeder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Database\Seeders\ReportCategorySeeder;
 
 class ReportCategoryControllerTest extends TestCase
 {

@@ -5,6 +5,7 @@ namespace App\Services\Repositories;
 use App\Models\ReportStatus;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Services\Interfaces\ReportStatusRepositoryInterface;
 
 class ReportStatusRepository implements ReportStatusRepositoryInterface
@@ -39,28 +40,48 @@ class ReportStatusRepository implements ReportStatusRepositoryInterface
         if (isset($data['image'])) {
             $data['image'] = $data['image']->store('assets/report-status', 'public');
         }
+
         return ReportStatus::create($data);
     }
 
     public function updateReportStatus(array $data, int $id)
     {
         $reportStatus = $this->getReportStatusById($id);
+
         if (isset($data['image'])) {
+            //ensure the image is not null before updating
+            if ($reportStatus->image) {
+                //check if the image is available in storage
+                if (Storage::disk('public')->exists($reportStatus->image)) {
+                    //delete the image that is in storage
+                    Storage::disk('public')->delete($reportStatus->image);
+                }
+            }
+            //save the image in storage
             $data['image'] = $data['image']->store('assets/report-status', 'public');
         }
+
         return $reportStatus->update($data);
     }
 
     public function deleteReportStatus(int $id)
     {
-        $report = $this->getReportStatusById($id);
-        return $report->delete();
+        $reportStatus = $this->getReportStatusById($id);
+
+        //check if the image is available in storage
+        if (Storage::disk('public')->exists($reportStatus->image)) {
+            //delete the image that is in storage
+            Storage::disk('public')->delete($reportStatus->image);
+        }
+
+        return $reportStatus->delete();
     }
     public function getActiveReportStatusByResident()
     {
         $reportDelivered = $this->getReportStatusByResident('delivered')->count();
         $reportInProcess = $this->getReportStatusByResident('in_process')->count();
         $total = $reportDelivered + $reportInProcess;
+
         return $total;
     }
 
@@ -69,6 +90,7 @@ class ReportStatusRepository implements ReportStatusRepositoryInterface
         $reportCompleted = $this->getReportStatusByResident('completed')->count();
         $reportRejected = $this->getReportStatusByResident('rejected')->count();
         $total = $reportCompleted + $reportRejected;
+
         return $total;
     }
 }

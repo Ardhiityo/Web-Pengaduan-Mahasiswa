@@ -5,6 +5,7 @@ namespace App\Services\Repositories;
 use App\Models\User;
 use App\Models\Resident;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Services\Interfaces\ResidentRepositoryInterface;
 
 class ResidentRepository implements ResidentRepositoryInterface
@@ -27,6 +28,7 @@ class ResidentRepository implements ResidentRepositoryInterface
             'password' => Hash::make($data['password'])
         ])
             ->assignRole('resident');
+
         return $user->resident()
             ->create($data);
     }
@@ -34,14 +36,22 @@ class ResidentRepository implements ResidentRepositoryInterface
     public function updateResident(array $data, int $id)
     {
         $resident = $this->getResidentById($id);
+
         $resident->user()->update([
             'name' => $data['name'],
             'password' => isset($data['password']) ?
                 Hash::make($data['password']) : $resident->user->password
         ]);
+
         if (isset($data['avatar'])) {
+            //delete old photo profile
+            if (Storage::disk('public')->exists($resident->avatar)) {
+                Storage::disk('public')->delete($resident->avatar);
+            }
+            //save new photo profile
             $data['avatar'] = $data['avatar']->store('assets/avatar', 'public');
         }
+
         return $resident->update($data);
     }
 

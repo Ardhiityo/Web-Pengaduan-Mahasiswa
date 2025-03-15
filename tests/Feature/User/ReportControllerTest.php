@@ -2,12 +2,13 @@
 
 namespace Tests\Feature\User;
 
-use App\Models\ReportCategory;
+use Faker\Factory;
 use Tests\TestCase;
 use App\Models\User;
-use Database\Seeders\DatabaseSeeder;
-use Faker\Factory;
+use App\Models\ReportCategory;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Log;
+use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Auth;
 
 class ReportControllerTest extends TestCase
@@ -50,6 +51,8 @@ class ReportControllerTest extends TestCase
         $this->seed(DatabaseSeeder::class);
 
         $user = User::where('email', 'hello@test.com')->first();
+        self::assertNotNull($user);
+
         $user->email_verified_at = now();
         $user->save();
 
@@ -57,9 +60,13 @@ class ReportControllerTest extends TestCase
 
         $reportCategory = ReportCategory::first();
 
+        self::assertNotNull($reportCategory);
+
         $faker = Factory::create();
 
         $file = UploadedFile::fake()->image('icon.jpg');
+
+        self::assertNotNull($file);
 
         $this->post('/reports/take/create-report', [
             'report_category_id' => $reportCategory->id,

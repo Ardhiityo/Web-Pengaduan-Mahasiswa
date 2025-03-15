@@ -4,8 +4,10 @@ namespace Tests\Feature\User;
 
 use Tests\TestCase;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileControllerTest extends TestCase
 {

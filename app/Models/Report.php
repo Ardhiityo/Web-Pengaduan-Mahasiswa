@@ -28,11 +28,6 @@ class Report extends Model
         return $date->translatedFormat('l, j F Y, H:i');
     }
 
-    // public function getCodeAttribute($value)
-    // {
-    //     return substr($value, 0, -5) . str_repeat('*', 5);
-    // }
-
     public function resident(): BelongsTo
     {
         return $this->belongsTo(Resident::class);

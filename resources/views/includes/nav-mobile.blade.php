@@ -3,13 +3,13 @@
             <i class="fa-solid fa-camera"></i>
         </button>
     </div>
-    <nav class="nav-mobile d-flex">
-        <a href="{{ route('home') }}" class="{{ request()->is('/') ? 'active' : '' }}">
+    <nav class="justify-around nav-mobile d-flex">
+        <a href="{{ route('home') }}" class="{{ request()->routeIs('/') ? 'active' : '' }}">
             <i class="fas fa-house"></i>
             Beranda
         </a>
         <a href="{{ route('myreport', ['status' => 'delivered']) }}"
-            class="{{ request()->is('myreports') ? 'active' : '' }}">
+            class="{{ request()->routeIs('myreport') ? 'active' : '' }}">
             <i class="fas fa-solid fa-clipboard-list"></i>
             Laporanmu
         </a>
@@ -17,11 +17,11 @@
         <div></div>
         <div></div>
         <div></div>
-        <a href="{{ route('faq.user') }}" class="{{ request()->is('faq') ? 'active' : '' }}">
+        <a href="{{ route('faq.user') }}" class="{{ request()->routeIs('faq.user') ? 'active' : '' }}">
             <i class="fas fa-comments"></i>
             FAQ
         </a>
-        <a href="{{ route('profile') }}" class="{{ request()->is('profile') ? 'active' : '' }}">
+        <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'active' : '' }}">
             <i class="fas fa-user"></i>
             Profil
         </a>
