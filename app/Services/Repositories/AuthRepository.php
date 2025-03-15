@@ -28,7 +28,6 @@ class AuthRepository implements AuthRepositoryInterface
     public function logout()
     {
         Auth::logout();
-        session()->invalidate();
         return redirect()->route('login');
     }
 

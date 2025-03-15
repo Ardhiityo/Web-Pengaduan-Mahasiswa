@@ -6,9 +6,10 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Socialite\Facades\Socialite;
-use App\Services\Interfaces\AuthGoogleRepositoryInterface;
 use Laravel\Socialite\Two\InvalidStateException;
+use App\Services\Interfaces\AuthGoogleRepositoryInterface;
 
 class AuthGoogleRepository implements AuthGoogleRepositoryInterface
 {
@@ -32,14 +33,27 @@ class AuthGoogleRepository implements AuthGoogleRepositoryInterface
                     'password' => Hash::make(Str::random(16))
                 ])->assignRole('resident');
 
+                // Path file in public
+                $publicPath = public_path('assets/avatar/default/profile.jpg');
+                $extension = pathinfo($publicPath, PATHINFO_EXTENSION);
+
+                // New path in storage
+                $storedPath = 'assets/avatar/' . uniqid('profile-default-') . ".$extension";
+
+                // Copy file to storage
+                if (file_exists($publicPath)) {
+                    Storage::disk('public')->put($storedPath, file_get_contents($publicPath));
+                }
+
                 $newUser->resident()->create([
-                    'avatar' => 'assets/avatar/default/profile.jpg'
+                    'avatar' => $storedPath
                 ]);
 
                 $user = $newUser;
             }
 
             Auth::login($user);
+            session()->regenerate();
 
             //apabila sudah terdaftar
             if ($user->hasRole('admin')) {

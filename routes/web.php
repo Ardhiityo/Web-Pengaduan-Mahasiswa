@@ -49,7 +49,6 @@ Route::post('/logout', [LoginController::class, 'logout'])
 //Resident
 Route::middleware(['auth', 'verified', 'role:resident'])
     ->group(function () {
-
         //Report
         Route::controller(UserReportController::class)->group(function () {
             Route::prefix('reports')->group(function () {
