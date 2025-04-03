@@ -30,7 +30,8 @@ class AuthGoogleRepository implements AuthGoogleRepositoryInterface
                 $newUser = User::create([
                     'email' => $userFromGoogle->getEmail(),
                     'name' => $userFromGoogle->getName(),
-                    'password' => Hash::make(Str::random(16))
+                    'password' => Hash::make(Str::random(16)),
+                    'email_verified_at' => now()
                 ])->assignRole('resident');
 
                 // Path file in public

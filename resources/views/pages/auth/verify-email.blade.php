@@ -49,9 +49,15 @@
             </div>
         @endif
 
-        <button class="mt-2 btn btn-primary w-100" type="submit" color="primary" id="btn-login">
-            Verifikasi
-        </button>
+        @if (session('status') == 'verification-link-sent')
+            <button class="mt-2 btn btn-primary w-100" type="submit" color="primary" id="btn-login">
+                Verifikasi ulang
+            </button>
+        @else
+            <button class="mt-2 btn btn-primary w-100" type="submit" color="primary" id="btn-login">
+                Verifikasi
+            </button>
+        @endif
 
     </form>
 @endsection
