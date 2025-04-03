@@ -34,7 +34,7 @@ class ReportSeeder extends Seeder
         $reportCategory = ReportCategory::first();
 
         Report::create([
-            'code' => $faker->uuid(),
+            'code' => uniqid('FIK-'),
             'resident_id' => $resident->id,
             'report_category_id' => $reportCategory->id,
             'title' => $faker->sentence(),

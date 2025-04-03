@@ -33,12 +33,12 @@ class ReportRepository implements ReportRepositoryInterface
 
     public function latestReports()
     {
-        return Report::latest()->take(3)->get();
+        return Report::with('reportStatuses')->latest()->take(3)->get();
     }
 
     public function createReport(array $data)
     {
-        $data['code'] = "FIK-" . now()->format('U') . rand(0, 1000);
+        $data['code'] = uniqid('FIK-');
 
         if (isset($data['image'])) {
             $data['image'] = $data['image']->store('assets/report', 'public');
