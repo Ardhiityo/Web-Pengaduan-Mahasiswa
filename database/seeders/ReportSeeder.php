@@ -2,12 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\Report;
-use App\Models\ReportCategory;
-use App\Models\Resident;
 use Faker\Factory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Report;
+use App\Models\Resident;
+use App\Models\ReportCategory;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ReportSeeder extends Seeder
 {
@@ -18,16 +19,27 @@ class ReportSeeder extends Seeder
     {
         $faker = Factory::create();
 
+        // Path file in public
+        $publicPath = public_path('assets/app/images/report-1.png');
+        $extension = pathinfo($publicPath, PATHINFO_EXTENSION);
+
+        // New path in storage
+        $storedPath = 'assets/report/' . uniqid() . ".$extension";
+
+        if (file_exists($publicPath)) {
+            Storage::disk('public')->put($storedPath, file_get_contents($publicPath));
+        }
+
         $resident = Resident::first();
         $reportCategory = ReportCategory::first();
 
         Report::create([
             'code' => $faker->uuid(),
-            'resident_id' =>  $resident->id,
+            'resident_id' => $resident->id,
             'report_category_id' => $reportCategory->id,
-            'title' => $faker->title(),
+            'title' => $faker->sentence(),
             'description' => $faker->sentence(),
-            'image' => $faker->image(),
+            'image' => $storedPath,
             'latitude' => $faker->latitude(),
             'longitude' => $faker->longitude(),
             'address' => $faker->address()

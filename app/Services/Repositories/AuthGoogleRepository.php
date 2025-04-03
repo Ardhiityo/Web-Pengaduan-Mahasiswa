@@ -38,7 +38,7 @@ class AuthGoogleRepository implements AuthGoogleRepositoryInterface
                 $extension = pathinfo($publicPath, PATHINFO_EXTENSION);
 
                 // New path in storage
-                $storedPath = 'assets/avatar/' . uniqid('profile-default-') . ".$extension";
+                $storedPath = 'assets/avatar/' . uniqid() . ".$extension";
 
                 // Copy file to storage
                 if (file_exists($publicPath)) {

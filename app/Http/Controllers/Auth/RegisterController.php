@@ -18,6 +18,7 @@ class RegisterController extends Controller
     public function store(StoreRegisterRequest $request)
     {
         $this->authRepository->register($request->validated());
+
         return redirect()->route('login')
             ->with('success', 'Yeay, akunmu berhasil dibuat, mari login!');
     }

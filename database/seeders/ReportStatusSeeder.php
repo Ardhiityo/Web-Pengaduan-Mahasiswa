@@ -21,7 +21,6 @@ class ReportStatusSeeder extends Seeder
 
         ReportStatus::create([
             'report_id' => $report->id,
-            'image' => $faker->image(),
             'status' => 'delivered',
             'description' => $faker->sentence()
         ]);
