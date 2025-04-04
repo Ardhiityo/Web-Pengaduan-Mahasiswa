@@ -4,6 +4,7 @@ namespace App\Services\Repositories;
 
 use App\Models\ReportStatus;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Services\Interfaces\ReportStatusRepositoryInterface;
@@ -49,15 +50,9 @@ class ReportStatusRepository implements ReportStatusRepositoryInterface
         $reportStatus = $this->getReportStatusById($id);
 
         if (isset($data['image'])) {
-            //ensure the image is not null before updating
-            if ($reportStatus->image) {
-                //check if the image is available in storage
-                if (Storage::disk('public')->exists($reportStatus->image)) {
-                    //delete the image that is in storage
-                    Storage::disk('public')->delete($reportStatus->image);
-                }
+            if (!is_null($reportStatus->image)) {
+                Storage::disk('public')->delete($reportStatus->image);
             }
-            //save the image in storage
             $data['image'] = $data['image']->store('assets/report-status', 'public');
         }
 
@@ -67,13 +62,11 @@ class ReportStatusRepository implements ReportStatusRepositoryInterface
     public function deleteReportStatus(int $id)
     {
         $reportStatus = $this->getReportStatusById($id);
+        Log::info($reportStatus);
 
-        //check if the image is available in storage
-        if (Storage::disk('public')->exists($reportStatus->image)) {
-            //delete the image that is in storage
+        if (!is_null($reportStatus->image)) {
             Storage::disk('public')->delete($reportStatus->image);
         }
-
         return $reportStatus->delete();
     }
     public function getActiveReportStatusByResident()

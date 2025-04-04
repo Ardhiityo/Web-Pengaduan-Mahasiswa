@@ -5,7 +5,6 @@ namespace App\Services\Repositories;
 use App\Models\Report;
 use App\Models\ReportCategory;
 use App\Models\ReportStatus;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
@@ -55,7 +54,7 @@ class ReportRepository implements ReportRepositoryInterface
 
         if (isset($data['image'])) {
             //check if the image is available in storage
-            if (Storage::disk('public')->exists($report->image)) {
+            if (!is_null($report->image)) {
                 //delete the image that is in storage
                 Storage::disk('public')->delete($report->image);
             }
@@ -73,7 +72,7 @@ class ReportRepository implements ReportRepositoryInterface
             $reportStatuses = ReportStatus::where('report_id', $report->id)->get();
             foreach ($reportStatuses as $reportStatus) {
                 if ($reportStatus->image) {
-                    if (Storage::disk('public')->exists($reportStatus->image)) {
+                    if (!is_null($reportStatus->image)) {
                         Storage::disk('public')->delete($reportStatus->image);
                     }
                 }
@@ -81,9 +80,7 @@ class ReportRepository implements ReportRepositoryInterface
         }
         $report->reportStatuses()->delete();
 
-        //check if the image is available in storage
-        if (Storage::disk('public')->exists($report->image)) {
-            //delete the image that is in storage
+        if (!is_null($report->image)) {
             Storage::disk('public')->delete($report->image);
         }
         $report->delete();

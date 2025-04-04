@@ -6,9 +6,11 @@ use Faker\Factory;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\ReportCategory;
+use Database\Seeders\AdminSeeder;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Log;
 use Database\Seeders\DatabaseSeeder;
+use Database\Seeders\ReportCategorySeeder;
+use Database\Seeders\ResidentSeeder;
 use Illuminate\Support\Facades\Auth;
 
 class ReportControllerTest extends TestCase
@@ -48,18 +50,15 @@ class ReportControllerTest extends TestCase
 
     public function testReportViewTakeCreate()
     {
-        $this->seed(DatabaseSeeder::class);
+        $this->seed([AdminSeeder::class, ResidentSeeder::class, ReportCategorySeeder::class]);
 
         $user = User::where('email', 'hello@test.com')->first();
         self::assertNotNull($user);
 
-        $user->email_verified_at = now();
-        $user->save();
-
         Auth::login($user);
+        self::assertNotNull(Auth::user());
 
         $reportCategory = ReportCategory::first();
-
         self::assertNotNull($reportCategory);
 
         $faker = Factory::create();
@@ -69,6 +68,7 @@ class ReportControllerTest extends TestCase
         self::assertNotNull($file);
 
         $this->post('/reports/take/create-report', [
+            // 'resident_id' => $user->resident->id,
             'report_category_id' => $reportCategory->id,
             'title' => $faker->sentence(5),
             'description' => $faker->sentence(10),

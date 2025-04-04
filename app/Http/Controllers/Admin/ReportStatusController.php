@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Crypt;
 use App\Services\Interfaces\ReportRepositoryInterface;
 use App\Http\Requests\ReportStatus\StoreReportStatusRequest;
 use App\Services\Interfaces\ReportStatusRepositoryInterface;
 use App\Http\Requests\ReportStatus\UpdateReportStatusRequest;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
 use App\Services\Interfaces\DecryptParameterRepositoryInterface;
-use Illuminate\Support\Facades\Crypt;
 
 class ReportStatusController extends Controller
 {

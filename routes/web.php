@@ -17,12 +17,6 @@ use App\Http\Controllers\User\FaqController as UserFaqController;
 use App\Http\Controllers\User\ReportController as UserReportController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
 
-Route::get('/debug-session', function () {
-    session(['debug' => 'hello']);
-    return session('debug');
-});
-
-
 Route::middleware('web')->group(function () {
     // Auth with google
     Route::controller(AuthGoogleController::class)->group(function () {

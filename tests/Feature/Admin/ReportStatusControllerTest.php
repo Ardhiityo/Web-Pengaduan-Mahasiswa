@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Report;
 use App\Models\ReportStatus;
+use Illuminate\Support\Facades\Log;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -121,11 +122,14 @@ class ReportStatusControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::where('email', 'admin@test.com')->first();
+        self::assertNotNull($user);
 
         Auth::login($user);
+        self::assertNotNull(Auth::user());
 
         $reportStatus = ReportStatus::first();
+        self::assertNotNull($reportStatus);
 
         $this->delete('/admin/report-status/' . Crypt::encrypt($reportStatus->id))
             ->assertStatus(302);
