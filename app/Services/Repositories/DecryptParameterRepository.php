@@ -12,9 +12,12 @@ class DecryptParameterRepository implements DecryptParameterRepositoryInterface
     {
         try {
             $decrypt = Crypt::decrypt($id);
+
             return $decrypt;
         } catch (DecryptException $decryptException) {
-            toast($message, 'error')->timerProgressBar();
+            toast(title: $message, type: 'error')
+                ->timerProgressBar();
+
             return redirect()->route($route);
         }
     }

@@ -20,7 +20,7 @@ class ProfileController extends Controller
 
     public function update(UpdateAdminRequest $request)
     {
-        $this->adminRepository->updateAdmin($request->validated());
+        $this->adminRepository->updateAdmin(data: $request->validated());
 
         return redirect()->route('admin.dashboard');
     }

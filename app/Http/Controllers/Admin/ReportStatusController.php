@@ -23,70 +23,101 @@ class ReportStatusController extends Controller
 
     public function create($reportId)
     {
-        $decrypt = $this->decryptParameterRepository->getData(id: $reportId, message: 'Ups, Kemajuan laporan tidak ditemukan!', route: 'admin.report-status.index');
+        $decrypt = $this->decryptParameterRepository
+            ->getData(
+                id: $reportId,
+                message: 'Ups, Kemajuan laporan tidak ditemukan!',
+                route: 'admin.report-status.index'
+            );
 
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
-        $report = $this->reportRepository->getReportById($decrypt);
+        $report = $this->reportRepository->getReportById(id: $decrypt);
 
         return view('pages.admin.report-status.create', compact('report', 'report'));
     }
 
     public function store(StoreReportStatusRequest $request)
     {
-        $data = $request->validated();
-        $reportStatus = $this->reportStatusRepository->createReportStatus($data);
-        toast('Status kemajuan laporan sukses ditambahkan', 'success')->timerProgressBar();
+        $reportStatus = $this->reportStatusRepository
+            ->createReportStatus(data: $request->validated());
+
+        toast(title: 'Status kemajuan laporan sukses ditambahkan', type: 'success')
+            ->timerProgressBar();
 
         return redirect()->route('admin.report.show', Crypt::encrypt($reportStatus->report->id));
     }
 
     public function show(string $reportStatusId)
     {
-        $decrypt = $this->decryptParameterRepository->getData(id: $reportStatusId, message: 'Ups, Kemajuan laporan tidak ditemukan!', route: 'admin.report.index');
+        $decrypt = $this->decryptParameterRepository
+            ->getData(
+                id: $reportStatusId,
+                message: 'Ups, Kemajuan laporan tidak ditemukan!',
+                route: 'admin.report.index'
+            );
 
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
-        $reportStatus = $this->reportStatusRepository->getReportStatusById($decrypt);
+        $reportStatus = $this->reportStatusRepository->getReportStatusById(id: $decrypt);
 
         return view('pages.admin.report-status.show', compact('reportStatus'));
     }
 
     public function edit(string $reportStatusId)
     {
-        $decrypt = $this->decryptParameterRepository->getData(id: $reportStatusId, message: 'Ups, Kemajuan laporan tidak ditemukan!', route: 'admin.report-status.index');
+        $decrypt = $this->decryptParameterRepository
+            ->getData(
+                id: $reportStatusId,
+                message: 'Ups, Kemajuan laporan tidak ditemukan!',
+                route: 'admin.report-status.index'
+            );
 
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
-        $reportStatus = $this->reportStatusRepository->getReportStatusById($decrypt);
+        $reportStatus = $this->reportStatusRepository->getReportStatusById(id: $decrypt);
 
         return view('pages.admin.report-status.edit', compact('reportStatus'));
     }
 
     public function update(UpdateReportStatusRequest $request, string $reportStatusId)
     {
-        $decrypt = $this->decryptParameterRepository->getData(id: $reportStatusId, message: 'Ups, Kemajuan laporan tidak ditemukan!', route: 'admin.report-status.index');
+        $decrypt = $this->decryptParameterRepository
+            ->getData(
+                id: $reportStatusId,
+                message: 'Ups, Kemajuan laporan tidak ditemukan!',
+                route: 'admin.report-status.index'
+            );
 
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
         $data = $request->validated();
-        $this->reportStatusRepository->updateReportStatus($data, $decrypt);
-        toast('Data laporan sukses diupdate', 'success')->timerProgressBar();
+
+        $this->reportStatusRepository->updateReportStatus(data: $data, id: $decrypt);
+
+        toast(title: 'Data laporan sukses diupdate', type: 'success')
+            ->timerProgressBar();
 
         return redirect()->route('admin.report.show', Crypt::encrypt($data['report_id']));
     }
 
     public function destroy(string $id)
     {
-        $decrypt = $this->decryptParameterRepository->getData(id: $id, message: 'Ups, Kemajuan laporan tidak ditemukan!', route: 'admin.report-status.index');
+        $decrypt = $this->decryptParameterRepository
+            ->getData(
+                id: $id,
+                message: 'Ups, Kemajuan laporan tidak ditemukan!',
+                route: 'admin.report-status.index'
+            );
 
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
-        $reportStatus = $this->reportStatusRepository->getReportStatusById($decrypt);
+        $reportStatus = $this->reportStatusRepository->getReportStatusById(id: $decrypt);
 
-        $this->reportStatusRepository->deleteReportStatus($decrypt);
+        $this->reportStatusRepository->deleteReportStatus(id: $decrypt);
 
-        toast('Kemajuan laporan sukses dihapus', 'success')->timerProgressBar();
+        toast(title: 'Kemajuan laporan sukses dihapus', type: 'success')
+            ->timerProgressBar();
 
         return redirect()->route('admin.report.show', Crypt::encrypt($reportStatus->report->id));
     }

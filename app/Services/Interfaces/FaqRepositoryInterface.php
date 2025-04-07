@@ -6,7 +6,7 @@ interface FaqRepositoryInterface
 {
     public function getAllFaqs();
     public function createFaq($data);
-    public function getFaqById($faqId);
-    public function updateFaq($faqId, $data);
-    public function deleteFaq($faqId);
+    public function getFaqById(int $faqId);
+    public function updateFaq(int $faqId, $data);
+    public function deleteFaq(int $faqId);
 }

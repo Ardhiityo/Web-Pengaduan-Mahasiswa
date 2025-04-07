@@ -23,7 +23,7 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         if ($category = $request->query('category')) {
-            if ($reports = $this->reportRepository->getReportsByCategory($category)) {
+            if ($reports = $this->reportRepository->getReportsByCategory(category: $category)) {
                 $totalReports = $reports->count();
             } else {
                 return redirect()->route('home');
@@ -42,7 +42,7 @@ class ReportController extends Controller
 
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
-        if ($report = $this->reportRepository->getReportById($decrypt)) {
+        if ($report = $this->reportRepository->getReportById(id: $decrypt)) {
             return view('pages.app.report.show', compact('report'));
         }
 
@@ -68,8 +68,10 @@ class ReportController extends Controller
 
     public function store(StoreReportRequest $request)
     {
-        $report = $this->reportRepository->createReport($request->validated());
-        $this->reportRepository->sendNotificationTelegram($report);
+        $report = $this->reportRepository->createReport(data: $request->validated());
+
+        $this->reportRepository->sendNotificationTelegram(report: $report);
+
         return redirect()->route('report.success');
     }
 

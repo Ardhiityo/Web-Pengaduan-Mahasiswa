@@ -30,44 +30,61 @@ class ResidentController extends Controller
 
     public function store(StoreResidentRequest $request)
     {
-        $data = $request->validated();
-        $this->residentRepository->createResident($data);
-        toast('Data mahasiswa sukses ditambahkan', 'success')->timerProgressBar();
+        $this->residentRepository->createResident(data: $request->validated());
+
+        toast(title: 'Data mahasiswa sukses ditambahkan', type: 'success')
+            ->timerProgressBar();
 
         return redirect()->route('admin.resident.index');
     }
 
     public function show(string $id)
     {
-        $decrypt = $this->decryptParameterRepository->getData(id: $id, message: 'Ups, Mahasiswa tidak ditemukan!', route: 'admin.resident.index');
+        $decrypt = $this->decryptParameterRepository
+            ->getData(
+                id: $id,
+                message: 'Ups, Mahasiswa tidak ditemukan!',
+                route: 'admin.resident.index'
+            );
 
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
-        $resident = $this->residentRepository->getResidentById($decrypt);
+        $resident = $this->residentRepository->getResidentById(id: $decrypt);
 
         return view('pages.admin.resident.show', compact('resident'));
     }
 
     public function edit(string $id)
     {
-        $decrypt = $this->decryptParameterRepository->getData(id: $id, message: 'Ups, Mahasiswa tidak ditemukan!', route: 'admin.resident.index');
+        $decrypt = $this->decryptParameterRepository
+            ->getData(
+                id: $id,
+                message: 'Ups, Mahasiswa tidak ditemukan!',
+                route: 'admin.resident.index'
+            );
 
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
-        $resident = $this->residentRepository->getResidentById($decrypt);
+        $resident = $this->residentRepository->getResidentById(id: $decrypt);
 
         return view('pages.admin.resident.edit', compact('resident'));
     }
 
     public function update(UpdateResidentRequest $request, string $id)
     {
-        $decrypt = $this->decryptParameterRepository->getData(id: $id, message: 'Ups, Mahasiswa tidak ditemukan!', route: 'admin.resident.index');
+        $decrypt = $this->decryptParameterRepository
+            ->getData(
+                id: $id,
+                message: 'Ups, Mahasiswa tidak ditemukan!',
+                route: 'admin.resident.index'
+            );
 
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
-        $data = $request->validated();
-        $this->residentRepository->updateResident(data: $data, id: $decrypt);
-        toast('Data mahasiswa sukses diupdate', 'success')->timerProgressBar();
+        $this->residentRepository->updateResident(data: $request->validated(), id: $decrypt);
+
+        toast(title: 'Data mahasiswa sukses diupdate', type: 'success')
+            ->timerProgressBar();
 
         return redirect()->route('admin.resident.index');
     }
@@ -79,11 +96,14 @@ class ResidentController extends Controller
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
         if (!$this->residentRepository->deleteResident($decrypt)) {
-            toast('Gagal dihapus! Pastikan data mahasiswa yang hendak dihapus tidak memiliki laporan', 'error')->timerProgressBar();
+            toast(title: 'Gagal dihapus! Pastikan data mahasiswa yang hendak dihapus tidak memiliki laporan', type: 'error')
+                ->timerProgressBar();
 
             return redirect()->route('admin.resident.index');
         }
-        toast('Data mahasiswa sukses dihapus', 'success')->timerProgressBar();
+
+        toast(title: 'Data mahasiswa sukses dihapus', type: 'success')
+            ->timerProgressBar();
 
         return redirect()->route('admin.resident.index');
     }

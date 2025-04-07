@@ -10,11 +10,11 @@ class ReportCategoryRepository implements ReportCategoryRepositoryInterface
 {
     public function getAllReportCategories()
     {
-        return ReportCategory::all();
+        return ReportCategory::select('id', 'name', 'image')->get();
     }
     public function getReportCategoryById(int $id)
     {
-        return ReportCategory::findOrFail($id);
+        return ReportCategory::find($id);
     }
 
     public function createReportCategory(array $data)
