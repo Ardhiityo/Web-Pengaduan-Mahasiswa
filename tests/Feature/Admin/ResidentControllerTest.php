@@ -4,6 +4,7 @@ namespace Tests\Feature\Admin;
 
 use Tests\TestCase;
 use App\Models\User;
+use App\Models\Resident;
 use Database\Seeders\AdminSeeder;
 use Database\Seeders\DatabaseSeeder;
 use Database\Seeders\ResidentSeeder;
@@ -103,15 +104,19 @@ class ResidentControllerTest extends TestCase
         $this->seed([AdminSeeder::class, ResidentSeeder::class]);
 
         $user = User::first();
+        self::assertNotNull($user);
 
         Auth::login($user);
+        self::assertNotNull(Auth::user());
 
         $user = User::where('email', 'hello@test.com')->first();
+        self::assertNotNull($user);
 
         $this->delete('/admin/resident/' . Crypt::encrypt($user->resident->id))
             ->assertRedirect(url('/admin/resident'))
             ->assertStatus(302);
 
-        self::assertNull(User::find($user->id));
+        $resident = Resident::find($user->id);
+        self::assertNull($resident);
     }
 }

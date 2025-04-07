@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('residents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->unique();
+            $table->foreignId('user_id')->constrained()
+                ->unique();
             $table->string('avatar')->nullable();
             $table->timestamps();
         });

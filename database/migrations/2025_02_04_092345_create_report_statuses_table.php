@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('report_statuses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('report_id');
+            $table->foreignId('report_id')->constrained();
             $table->string('image')->nullable();
             $table->enum('status', ['delivered', 'in_process', 'completed', 'rejected']);
             $table->longText('description');

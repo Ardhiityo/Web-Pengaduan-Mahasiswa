@@ -25,6 +25,7 @@ class ReportController extends Controller
     public function index()
     {
         $reports = $this->reportRepository->getAllReports();
+
         return view('pages.admin.report.index', compact('reports'));
     }
 
@@ -32,6 +33,7 @@ class ReportController extends Controller
     {
         $residents = $this->residentRepository->getAllResidents();
         $reportCategories = $this->reportCategoryRepository->getAllReportCategories();
+
         return view('pages.admin.report.create', compact('residents', 'reportCategories'));
     }
 
@@ -40,6 +42,7 @@ class ReportController extends Controller
         $data = $request->validated();
         $this->reportRepository->createReport($data);
         toast('Data laporan sukses ditambahkan', 'success')->timerProgressBar();
+
         return redirect()->route('admin.report.index');
     }
 
@@ -50,6 +53,7 @@ class ReportController extends Controller
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
         $report = $this->reportRepository->getReportById($decrypt);
+
         return view('pages.admin.report.show', compact('report'));
     }
 
@@ -62,6 +66,7 @@ class ReportController extends Controller
         $report = $this->reportRepository->getReportById($decrypt);
         $residents = $this->residentRepository->getAllResidents();
         $reportCategories = $this->reportCategoryRepository->getAllReportCategories();
+
         return view('pages.admin.report.edit', compact('report', 'residents', 'reportCategories'));
     }
 
@@ -74,6 +79,7 @@ class ReportController extends Controller
         $data = $request->validated();
         $this->reportRepository->updateReport($data, $decrypt);
         toast('Data laporan sukses diupdate', 'success')->timerProgressBar();
+
         return redirect()->route('admin.report.index');
     }
 
@@ -85,6 +91,7 @@ class ReportController extends Controller
 
         $this->reportRepository->deleteReport($decrypt);
         toast('Data laporan sukses dihapus', 'success')->timerProgressBar();
+
         return redirect()->route('admin.report.index');
     }
 }

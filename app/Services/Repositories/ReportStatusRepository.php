@@ -4,7 +4,6 @@ namespace App\Services\Repositories;
 
 use App\Models\ReportStatus;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Services\Interfaces\ReportStatusRepositoryInterface;
@@ -24,6 +23,7 @@ class ReportStatusRepository implements ReportStatusRepositoryInterface
     public function getReportStatusByResident(string $status)
     {
         $residentId = Auth::user()->resident->id;
+
         return
             ReportStatus::whereHas('report', function ($query) use ($residentId) {
                 $query->where('resident_id', $residentId);
@@ -62,11 +62,11 @@ class ReportStatusRepository implements ReportStatusRepositoryInterface
     public function deleteReportStatus(int $id)
     {
         $reportStatus = $this->getReportStatusById($id);
-        Log::info($reportStatus);
 
         if (!is_null($reportStatus->image)) {
             Storage::disk('public')->delete($reportStatus->image);
         }
+
         return $reportStatus->delete();
     }
     public function getActiveReportStatusByResident()

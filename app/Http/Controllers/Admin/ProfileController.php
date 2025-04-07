@@ -14,12 +14,14 @@ class ProfileController extends Controller
     public function edit()
     {
         $user = Auth::user();
+
         return view('pages.admin.edit-profile', compact('user'));
     }
 
     public function update(UpdateAdminRequest $request)
     {
         $this->adminRepository->updateAdmin($request->validated());
+
         return redirect()->route('admin.dashboard');
     }
 }

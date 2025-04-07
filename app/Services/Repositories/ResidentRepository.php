@@ -64,8 +64,8 @@ class ResidentRepository implements ResidentRepositoryInterface
             if (!is_null($resident->avatar)) {
                 Storage::disk('public')->delete($resident->avatar);
             }
-            $resident->user()->delete();
             $resident->delete();
+            $resident->user()->delete();
             return true;
         }
     }

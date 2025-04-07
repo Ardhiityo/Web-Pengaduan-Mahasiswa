@@ -29,10 +29,8 @@ class ReportCategoryRepository implements ReportCategoryRepositoryInterface
         $reportCategory = $this->getReportCategoryById($id);
 
         if (isset($data['image'])) {
-            if ($reportCategory->image) {
-                if (!is_null($reportCategory->image)) {
-                    Storage::disk('public')->delete($reportCategory->image);
-                }
+            if (!is_null($reportCategory->image)) {
+                Storage::disk('public')->delete($reportCategory->image);
             }
             $data['image'] = $data['image']->store('assets/report-category', 'public');
         }
@@ -50,10 +48,8 @@ class ReportCategoryRepository implements ReportCategoryRepositoryInterface
         if ($reportCategory->reports()->count() >= 1) {
             return false;
         } else {
-            if ($reportCategory->image) {
-                if (!is_null($reportCategory->image)) {
-                    Storage::disk('public')->delete($reportCategory->image);
-                }
+            if (!is_null($reportCategory->image)) {
+                Storage::disk('public')->delete($reportCategory->image);
             }
             $reportCategory->delete();
 

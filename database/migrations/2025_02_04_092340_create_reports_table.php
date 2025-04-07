@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
             $table->string('code');
-            $table->foreignId('resident_id');
-            $table->foreignId('report_category_id');
+            $table->foreignId('resident_id')->constrained();
+            $table->foreignId('report_category_id')->constrained();
             $table->string('title');
             $table->longText('description');
             $table->string('image');

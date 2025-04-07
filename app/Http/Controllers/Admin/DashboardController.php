@@ -16,6 +16,7 @@ class DashboardController extends Controller
         $totalReportCategories = ReportCategory::count();
         $totalReports = Report::count();
         $totalFAQ = Faq::count();
+
         return view('pages.admin.dashboard', compact('totalResidents', 'totalReportCategories', 'totalReports', 'totalFAQ'));
     }
 }

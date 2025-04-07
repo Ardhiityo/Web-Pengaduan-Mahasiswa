@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Crypt;
@@ -38,6 +37,7 @@ class ReportStatusController extends Controller
         $data = $request->validated();
         $reportStatus = $this->reportStatusRepository->createReportStatus($data);
         toast('Status kemajuan laporan sukses ditambahkan', 'success')->timerProgressBar();
+
         return redirect()->route('admin.report.show', Crypt::encrypt($reportStatus->report->id));
     }
 
@@ -48,6 +48,7 @@ class ReportStatusController extends Controller
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
         $reportStatus = $this->reportStatusRepository->getReportStatusById($decrypt);
+
         return view('pages.admin.report-status.show', compact('reportStatus'));
     }
 
@@ -58,6 +59,7 @@ class ReportStatusController extends Controller
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
         $reportStatus = $this->reportStatusRepository->getReportStatusById($decrypt);
+
         return view('pages.admin.report-status.edit', compact('reportStatus'));
     }
 
@@ -70,6 +72,7 @@ class ReportStatusController extends Controller
         $data = $request->validated();
         $this->reportStatusRepository->updateReportStatus($data, $decrypt);
         toast('Data laporan sukses diupdate', 'success')->timerProgressBar();
+
         return redirect()->route('admin.report.show', Crypt::encrypt($data['report_id']));
     }
 

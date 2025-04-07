@@ -19,6 +19,7 @@ class ResidentController extends Controller
     public function index()
     {
         $residents = $this->residentRepository->getAllResidents();
+
         return view('pages.admin.resident.index', compact('residents'));
     }
 
@@ -32,6 +33,7 @@ class ResidentController extends Controller
         $data = $request->validated();
         $this->residentRepository->createResident($data);
         toast('Data mahasiswa sukses ditambahkan', 'success')->timerProgressBar();
+
         return redirect()->route('admin.resident.index');
     }
 
@@ -53,6 +55,7 @@ class ResidentController extends Controller
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
         $resident = $this->residentRepository->getResidentById($decrypt);
+
         return view('pages.admin.resident.edit', compact('resident'));
     }
 
@@ -65,6 +68,7 @@ class ResidentController extends Controller
         $data = $request->validated();
         $this->residentRepository->updateResident(data: $data, id: $decrypt);
         toast('Data mahasiswa sukses diupdate', 'success')->timerProgressBar();
+
         return redirect()->route('admin.resident.index');
     }
 
@@ -80,6 +84,7 @@ class ResidentController extends Controller
             return redirect()->route('admin.resident.index');
         }
         toast('Data mahasiswa sukses dihapus', 'success')->timerProgressBar();
+
         return redirect()->route('admin.resident.index');
     }
 }

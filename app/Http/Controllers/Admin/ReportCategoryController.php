@@ -19,6 +19,7 @@ class ReportCategoryController extends Controller
     public function index()
     {
         $reportCategories = $this->reportCategoryRepository->getAllReportCategories();
+
         return view('pages.admin.category.index', compact('reportCategories'));
     }
 
@@ -32,6 +33,7 @@ class ReportCategoryController extends Controller
         $data = $request->validated();
         $this->reportCategoryRepository->createReportCategory($data);
         toast('Data kategori sukses ditambahkan', 'success')->timerProgressBar();
+
         return redirect()->route('admin.report-category.index');
     }
 
@@ -42,6 +44,7 @@ class ReportCategoryController extends Controller
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
         $reportCategory = $this->reportCategoryRepository->getReportCategoryById($decrypt);
+
         return view('pages.admin.category.show', compact('reportCategory'));
     }
 
@@ -52,6 +55,7 @@ class ReportCategoryController extends Controller
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
         $reportCategory = $this->reportCategoryRepository->getReportCategoryById($decrypt);
+
         return view('pages.admin.category.edit', compact('reportCategory'));
     }
 
@@ -65,6 +69,7 @@ class ReportCategoryController extends Controller
 
         $this->reportCategoryRepository->updateReportCategory($data, $decrypt);
         toast('Data kategori sukses diupdate', 'success')->timerProgressBar();
+
         return redirect()->route('admin.report-category.index');
     }
 
@@ -79,6 +84,7 @@ class ReportCategoryController extends Controller
             return redirect()->route('admin.report-category.index');
         }
         toast('Data kategori sukses dihapus', 'success')->timerProgressBar();
+
         return redirect()->route('admin.report-category.index');
     }
 }

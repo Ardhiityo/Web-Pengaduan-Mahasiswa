@@ -19,6 +19,7 @@ class FaqController extends Controller
     public function index()
     {
         $faqs = $this->faqRepository->getAllFaqs();
+
         return view('pages.admin.faq.index', compact('faqs'));
     }
 
@@ -31,6 +32,7 @@ class FaqController extends Controller
     {
         $this->faqRepository->createFaq($request->validated());
         toast('Data FAQ sukses ditambahkan', 'success')->timerProgressBar();
+
         return redirect()->route('admin.faq.index');
     }
 
@@ -41,6 +43,7 @@ class FaqController extends Controller
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
         $faq = $this->faqRepository->getFaqById($decrypt);
+
         return view('pages.admin.faq.show', compact('faq'));
     }
 
@@ -51,6 +54,7 @@ class FaqController extends Controller
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
         $faq = $this->faqRepository->getFaqById($decrypt);
+
         return view('pages.admin.faq.edit', compact('faq'));
     }
 
@@ -62,6 +66,7 @@ class FaqController extends Controller
 
         $this->faqRepository->updateFaq($decrypt, $request->validated());
         toast('Data FAQ sukses diupdate', 'success')->timerProgressBar();
+
         return redirect()->route('admin.faq.index');
     }
 
@@ -73,6 +78,7 @@ class FaqController extends Controller
 
         $this->faqRepository->deleteFaq($decrypt);
         toast('Data FAQ sukses dihapus', 'success')->timerProgressBar();
+
         return redirect()->route('admin.faq.index');
     }
 }

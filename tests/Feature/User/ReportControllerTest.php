@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\User;
 
+use App\Models\Report;
 use Faker\Factory;
 use Tests\TestCase;
 use App\Models\User;
@@ -9,9 +10,10 @@ use App\Models\ReportCategory;
 use Database\Seeders\AdminSeeder;
 use Illuminate\Http\UploadedFile;
 use Database\Seeders\DatabaseSeeder;
-use Database\Seeders\ReportCategorySeeder;
 use Database\Seeders\ResidentSeeder;
 use Illuminate\Support\Facades\Auth;
+use Database\Seeders\ReportCategorySeeder;
+use Database\Seeders\ReportSeeder;
 
 class ReportControllerTest extends TestCase
 {
@@ -20,8 +22,6 @@ class ReportControllerTest extends TestCase
         $this->seed(DatabaseSeeder::class);
 
         $user = User::where('email', 'hello@test.com')->first();
-        $user->email_verified_at = now();
-        $user->save();
 
         Auth::login($user);
 
@@ -38,8 +38,6 @@ class ReportControllerTest extends TestCase
         $this->seed(DatabaseSeeder::class);
 
         $user = User::where('email', 'hello@test.com')->first();
-        $user->email_verified_at = now();
-        $user->save();
 
         Auth::login($user);
 
@@ -50,34 +48,30 @@ class ReportControllerTest extends TestCase
 
     public function testReportViewTakeCreate()
     {
-        $this->seed([AdminSeeder::class, ResidentSeeder::class, ReportCategorySeeder::class]);
+        $this->seed([AdminSeeder::class, ResidentSeeder::class, ReportCategorySeeder::class, ReportSeeder::class]);
 
         $user = User::where('email', 'hello@test.com')->first();
         self::assertNotNull($user);
 
         Auth::login($user);
-        self::assertNotNull(Auth::user());
-
-        $reportCategory = ReportCategory::first();
-        self::assertNotNull($reportCategory);
-
-        $faker = Factory::create();
+        self::assertNotNull(Auth::user()->id);
 
         $file = UploadedFile::fake()->image('icon.jpg');
-
         self::assertNotNull($file);
 
+        $report = Report::first();
+        self::assertNotNull($report->id);
+
         $this->post('/reports/take/create-report', [
-            // 'resident_id' => $user->resident->id,
-            'report_category_id' => $reportCategory->id,
-            'title' => $faker->sentence(5),
-            'description' => $faker->sentence(10),
+            'report_category_id' => $report->report_category_id,
+            'title' => $report->title,
+            'description' => $report->description,
             'image' => $file,
-            'latitude' => $faker->latitude(),
-            'longitude' => $faker->longitude(),
-            'address' => $faker->address()
+            'latitude' => $report->latitude,
+            'longitude' => $report->longitude,
+            'address' => $report->address
         ])
-            ->assertRedirect(url('/reports/reports-success'))
+            ->assertRedirect(route('report.success'))
             ->assertStatus(302);
     }
 
@@ -86,8 +80,6 @@ class ReportControllerTest extends TestCase
         $this->seed(DatabaseSeeder::class);
 
         $user = User::where('email', 'hello@test.com')->first();
-        $user->email_verified_at = now();
-        $user->save();
 
         Auth::login($user);
 
@@ -101,8 +93,6 @@ class ReportControllerTest extends TestCase
         $this->seed(DatabaseSeeder::class);
 
         $user = User::where('email', 'hello@test.com')->first();
-        $user->email_verified_at = now();
-        $user->save();
 
         Auth::login($user);
 
@@ -117,8 +107,6 @@ class ReportControllerTest extends TestCase
         $this->seed(DatabaseSeeder::class);
 
         $user = User::where('email', 'hello@test.com')->first();
-        $user->email_verified_at = now();
-        $user->save();
 
         Auth::login($user);
 

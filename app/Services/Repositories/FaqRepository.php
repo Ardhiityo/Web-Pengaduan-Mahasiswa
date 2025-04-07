@@ -22,6 +22,7 @@ class FaqRepository implements FaqRepositoryInterface
     public function updateFaq($faqId, $data)
     {
         $faq = Faq::findOrFail($faqId);
+
         return $faq->update($data);
     }
     public function deleteFaq($faqId)
