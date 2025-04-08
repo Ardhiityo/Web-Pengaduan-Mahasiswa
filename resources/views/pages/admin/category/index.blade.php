@@ -3,7 +3,8 @@
 @section('title', 'Data Kategori')
 
 @section('content')
-    <a href="{{ route('admin.report-category.create') }}" class="mb-3 btn btn-primary">Tambah Data</a>
+    <a href="{{ route('admin.report-category.create') }}" class="mb-3 btn btn-primary">
+        Tambah Data</a>
 
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">

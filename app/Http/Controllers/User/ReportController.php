@@ -23,8 +23,8 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         if ($category = $request->query('category')) {
-            if ($reports = $this->reportRepository->getReportsByCategory(category: $category)) {
-                $totalReports = $reports->count();
+            if ($reportCategory = $this->reportRepository->getReportsByCategory(category: $category)) {
+                $totalReports = $reportCategory->reports->count();
             } else {
                 return redirect()->route('home');
             }

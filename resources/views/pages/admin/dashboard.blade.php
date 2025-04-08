@@ -7,7 +7,6 @@
     <div class="mb-4 d-sm-flex align-items-center justify-content-between">
         <h1 class="mb-0 text-gray-800 h3">Dashboard</h1>
     </div>
-    <!-- Earnings (Monthly) Card Example -->
     <div class="row">
         <div class="mb-4 col-xl-3 col-md-6">
             <div class="py-2 shadow card border-left-primary h-100">

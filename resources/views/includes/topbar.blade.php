@@ -1,5 +1,4 @@
 <nav class="mb-4 bg-white shadow navbar navbar-expand navbar-light topbar static-top">
-
     <!-- Sidebar Toggle (Topbar) -->
     <button id="sidebarToggleTop" class="mr-3 btn btn-link d-md-none rounded-circle">
         <i class="fa fa-bars"></i>
@@ -38,5 +37,4 @@
             </div>
         </li>
     </ul>
-
 </nav>

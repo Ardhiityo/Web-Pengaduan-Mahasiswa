@@ -66,9 +66,9 @@
             <h6 class="m-0 font-weight-bold text-primary">Status Laporan</h6>
         </div>
         <div class="card-body">
-            <a href="{{ route('admin.report-status.create', Crypt::encrypt($report->id)) }}"
-                class="mb-3 btn btn-primary">Tambah
-                Kemajuan Laporan</a>
+            <a href="{{ route('admin.report-status.create', Crypt::encrypt($report->id)) }}" class="mb-3 btn btn-primary">
+                Tambah Kemajuan Laporan
+            </a>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>

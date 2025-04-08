@@ -17,6 +17,7 @@ class ReportRepository implements ReportRepositoryInterface
     {
         return Report::all();
     }
+
     public function getReportById(int $id)
     {
         return Report::find($id);
@@ -24,11 +25,9 @@ class ReportRepository implements ReportRepositoryInterface
 
     public function getReportsByCategory(string $category)
     {
-        try {
-            return ReportCategory::where('name', $category)->firstOrFail()->reports;
-        } catch (\Throwable $th) {
-            return false;
-        }
+        return ReportCategory::with('reports', 'reportStatuses')
+            ->where('name', $category)
+            ->first();
     }
 
     public function latestReports()
