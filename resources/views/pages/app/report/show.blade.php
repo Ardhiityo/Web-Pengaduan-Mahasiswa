@@ -24,7 +24,7 @@
                       <span class="me-2">
                           :
                       </span>
-                      <p>
+                      <p class="col-12">
                           {{ $report->code }}
                       </p>
                   </div>
