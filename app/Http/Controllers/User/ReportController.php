@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
+use App\Jobs\ProcessNotification;
+use App\Services\TelegramService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Report\StoreReportRequest;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Requests\Report\StoreReportRequest;
 use App\Services\Interfaces\ReportRepositoryInterface;
 use App\Services\Interfaces\ReportStatusRepositoryInterface;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
@@ -17,7 +19,8 @@ class ReportController extends Controller
         private ReportRepositoryInterface $reportRepository,
         private ReportCategoryRepositoryInterface $reportCategoryRepository,
         private ReportStatusRepositoryInterface $reportStatusRepository,
-        private DecryptParameterRepositoryInterface $decryptParameterRepository
+        private DecryptParameterRepositoryInterface $decryptParameterRepository,
+        private TelegramService $telegramService
     ) {}
 
     public function index(Request $request)
@@ -70,7 +73,7 @@ class ReportController extends Controller
     {
         $report = $this->reportRepository->createReport(data: $request->validated());
 
-        $this->reportRepository->sendNotificationTelegram(report: $report);
+        ProcessNotification::dispatch($report);
 
         return redirect()->route('report.success');
     }

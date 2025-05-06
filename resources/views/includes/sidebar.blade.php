@@ -8,7 +8,7 @@
                     style="padding: 50px">
                 {{-- Logo --}}
             </div>
-            <span style="font-family: 'Saira', serif;">SIMPEL MAFIK</span>
+            <span style="font-family: 'Saira', serif;">SIMPEL</span>
         </a>
 
         <!-- Divider -->

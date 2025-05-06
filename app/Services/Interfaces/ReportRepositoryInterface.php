@@ -11,5 +11,4 @@ interface ReportRepositoryInterface
     public function createReport(array $data);
     public function updateReport(array $data, int $id);
     public function deleteReport(int $id);
-    public function sendNotificationTelegram($report);
 }

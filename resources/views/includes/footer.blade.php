@@ -3,7 +3,7 @@
             <div class="my-auto text-center copyright">
                 <span>
                     <small>
-                        Sistem Informasi Pengaduan Elektronik Mahasiswa Fakultas Ilmu Komputer <sup>&copy;</sup>
+                        Sistem Informasi Pengaduan Elektronik Mahasiswa <sup>&copy;</sup>
                     </small>
                 </span>
                 <p class="p-0 mt-2 mb-0">
