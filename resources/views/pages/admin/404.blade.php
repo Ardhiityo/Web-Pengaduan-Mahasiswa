@@ -2,7 +2,6 @@
 
 @section('title', 'Page Not Found')
 
-
 @section('content')
     <div class="container-fluid">
         <!-- 404 Error Text -->

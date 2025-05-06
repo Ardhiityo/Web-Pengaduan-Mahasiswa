@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="max-w-screen-sm p-3 mx-auto bg-white min-vh-100">
+    <div class="p-3 mx-auto max-w-screen-sm bg-white min-vh-100">
         @yield('content')
     </div>
 

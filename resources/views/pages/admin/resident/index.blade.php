@@ -37,16 +37,16 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('admin.resident.edit', Crypt::encrypt($resident->id)) }}"
-                                        class="btn btn-warning">Edit</a>
+                                        class="my-1 btn btn-sm btn-warning">Edit</a>
 
                                     <a href="{{ route('admin.resident.show', Crypt::encrypt($resident->id)) }}"
-                                        class="btn btn-info">Show</a>
+                                        class="my-1 btn btn-sm btn-info">Show</a>
 
                                     <form action="{{ route('admin.resident.destroy', Crypt::encrypt($resident->id)) }}"
                                         method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button type="submit" class="my-1 btn btn-sm btn-danger">Delete</button>
                                     </form>
                                 </td>
                             </tr>

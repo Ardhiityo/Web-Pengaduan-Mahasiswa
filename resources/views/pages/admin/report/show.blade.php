@@ -96,17 +96,17 @@
                                 <td>{{ $reportStatus->description }}</td>
                                 <td>
                                     <a href="{{ route('admin.report-status.edit', Crypt::encrypt($reportStatus->id)) }}"
-                                        class="btn btn-warning">Edit</a>
+                                        class="my-1 btn btn-sm btn-warning">Edit</a>
 
                                     <a href="{{ route('admin.report-status.show', Crypt::encrypt($reportStatus->id)) }}"
-                                        class="btn btn-info">Show</a>
+                                        class="my-1 btn btn-sm btn-info">Show</a>
 
                                     <form
                                         action="{{ route('admin.report-status.destroy', Crypt::encrypt($reportStatus->id)) }}"
                                         method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button type="submit" class="my-1 btn btn-sm btn-danger">Delete</button>
                                     </form>
                                 </td>
                             </tr>
@@ -118,7 +118,7 @@
     </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
     <script>
         var map = L.map('map').setView([{{ $report->latitude }}, {{ $report->longitude }}], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -127,4 +127,4 @@
         var marker = L.marker([{{ $report->latitude }}, {{ $report->longitude }}]).addTo(map)
             .bindPopup("<b>Lokasi laporan</b><br>{{ $report->address }}").openPopup();
     </script>
-@endsection
+@endpush

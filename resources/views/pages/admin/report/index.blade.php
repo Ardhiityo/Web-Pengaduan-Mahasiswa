@@ -41,16 +41,16 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('admin.report.edit', Crypt::encrypt($report->id)) }}"
-                                        class="btn btn-warning">Edit</a>
+                                        class="my-1 btn btn-sm btn-warning">Edit</a>
 
                                     <a href="{{ route('admin.report.show', Crypt::encrypt($report->id)) }}"
-                                        class="btn btn-info">Show</a>
+                                        class="my-1 btn btn-sm btn-info">Show</a>
 
                                     <form action="{{ route('admin.report.destroy', Crypt::encrypt($report->id)) }}"
                                         method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button type="submit" class="my-1 btn btn-sm btn-danger">Delete</button>
                                     </form>
 
                                 </td>

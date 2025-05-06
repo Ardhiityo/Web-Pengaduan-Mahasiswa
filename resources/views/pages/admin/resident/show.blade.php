@@ -6,7 +6,6 @@
     <!-- Page Heading -->
     <a href="{{ route('admin.resident.index') }}" class="mb-3 btn btn-danger">Kembali</a>
 
-
     <!-- DataTales Example -->
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
@@ -31,5 +30,4 @@
             </table>
         </div>
     </div>
-
 @endsection

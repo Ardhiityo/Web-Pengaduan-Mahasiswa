@@ -2,12 +2,10 @@
 
 namespace App\Services\Repositories;
 
-use Exception;
 use App\Models\Report;
 use App\Models\ReportStatus;
 use App\Models\ReportCategory;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Http;
+use Symfony\Component\Uid\Ulid;
 use Illuminate\Support\Facades\Storage;
 use App\Services\Interfaces\ReportRepositoryInterface;
 
@@ -37,7 +35,7 @@ class ReportRepository implements ReportRepositoryInterface
 
     public function createReport(array $data)
     {
-        $data['code'] = uniqid('FIK-');
+        $data['code'] = (string) Ulid::generate();
 
         if (isset($data['image'])) {
             $data['image'] = $data['image']->store('assets/report', 'public');

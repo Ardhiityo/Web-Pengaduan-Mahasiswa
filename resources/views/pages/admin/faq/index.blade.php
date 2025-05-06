@@ -29,16 +29,16 @@
                                 <td>{{ $faq->description }}</td>
                                 <td>
                                     <a href="{{ route('admin.faq.edit', Crypt::encrypt($faq->id)) }}"
-                                        class="btn btn-warning">Edit</a>
+                                        class="my-1 btn btn-warning btn-sm">Edit</a>
 
                                     <a href="{{ route('admin.faq.show', Crypt::encrypt($faq->id)) }}"
-                                        class="btn btn-info">Show</a>
+                                        class="my-1 btn btn-info btn-sm">Show</a>
 
                                     <form action="{{ route('admin.faq.destroy', Crypt::encrypt($faq->id)) }}" method="POST"
                                         class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button type="submit" class="my-1 btn btn-sm btn-danger">Delete</button>
                                     </form>
                                 </td>
                             </tr>
@@ -47,5 +47,5 @@
                 </table>
             </div>
         </div>
-    </div>;
+    </div>
 @endsection

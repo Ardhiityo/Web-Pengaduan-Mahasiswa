@@ -9,7 +9,7 @@ class FaqRepository implements FaqRepositoryInterface
 {
     public function getAllFaqs()
     {
-        return Faq::select('title', 'description')->get();
+        return Faq::select('id', 'title', 'description')->get();
     }
     public function getFaqById(int $faqId)
     {

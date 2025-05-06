@@ -108,7 +108,7 @@
     </div>
 @endsection
 
-@section('scripts')
+@push('scripts')
     <!-- Tambahkan JavaScript untuk mendapatkan lokasi pengguna -->
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
@@ -124,4 +124,4 @@
             }
         });
     </script>
-@endsection
+@endpush

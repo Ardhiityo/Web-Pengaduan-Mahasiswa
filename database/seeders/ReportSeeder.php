@@ -7,6 +7,7 @@ use App\Models\Report;
 use App\Models\Resident;
 use App\Models\ReportCategory;
 use Illuminate\Database\Seeder;
+use Symfony\Component\Uid\Ulid;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
@@ -34,7 +35,7 @@ class ReportSeeder extends Seeder
         $reportCategory = ReportCategory::first();
 
         Report::create([
-            'code' => uniqid('FIK-'),
+            'code' => Ulid::generate(),
             'resident_id' => $resident->id,
             'report_category_id' => $reportCategory->id,
             'title' => $faker->sentence(nbWords: 2),

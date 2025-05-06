@@ -26,5 +26,4 @@
             </table>
         </div>
     </div>
-
 @endsection

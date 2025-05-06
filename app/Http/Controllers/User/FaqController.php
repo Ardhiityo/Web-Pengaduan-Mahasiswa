@@ -12,6 +12,7 @@ class FaqController extends Controller
     public function index()
     {
         $faqs = $this->faqRepository->getAllFaqs();
+
         return view('pages.app.faq', compact('faqs'));
     }
 }

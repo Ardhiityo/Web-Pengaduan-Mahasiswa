@@ -15,6 +15,7 @@ class ProfileController extends Controller
     {
         $reportActive = $this->reportStatusRepository->getActiveReportStatusByResident();
         $reportDone = $this->reportStatusRepository->getDoneReportStatusByResident();
+
         return view('pages.app.profile', compact('reportActive', 'reportDone'));
     }
 
