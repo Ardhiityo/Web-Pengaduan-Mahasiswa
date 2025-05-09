@@ -80,7 +80,7 @@ Route::middleware(['auth', 'role:resident', 'verified'])
         });
     });
 
-Route::middleware('check_is_admin')->group(function () {;
+Route::middleware('check_is_resident')->group(function () {;
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/faq', [UserFaqController::class, 'index'])->name('faq.user');
 });
@@ -95,7 +95,7 @@ Route::controller(UserReportController::class)->group(function () {
 //Admin
 Route::prefix('admin')
     ->name('admin.')
-    ->middleware(['auth', 'role:admin'])
+    ->middleware(['auth', 'role:admin,superadmin'])
     ->group(function () {
 
         //Dasboard
