@@ -22,6 +22,14 @@
                     <td>{{ $report->resident->user->name }}</td>
                 </tr>
                 <tr>
+                    <td>Nim</td>
+                    <td>{{ $report->resident->nim }}</td>
+                </tr>
+                <tr>
+                    <td>Program Studi</td>
+                    <td>{{ $report->studyProgram->name }}</td>
+                </tr>
+                <tr>
                     <td>Judul</td>
                     <td>{{ $report->title }}</td>
                 </tr>

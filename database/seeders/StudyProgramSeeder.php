@@ -14,11 +14,20 @@ class StudyProgramSeeder extends Seeder
      */
     public function run(): void
     {
-        $faculty = Faculty::first();
+        //1
+        $faculty = Faculty::where('name', 'Fakultas Ilmu Komputer')->first();
 
         StudyProgram::create([
             'faculty_id' => $faculty->id,
             'name' => 'Teknik Informatika'
+        ]);
+
+        //2
+        $faculty = Faculty::where('name', 'Fakultas Ekonomi Bisnis')->first();
+
+        StudyProgram::create([
+            'faculty_id' => $faculty->id,
+            'name' => 'Manajemen'
         ]);
     }
 }

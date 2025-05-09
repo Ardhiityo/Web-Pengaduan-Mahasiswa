@@ -23,14 +23,14 @@ class ReportRepository implements ReportRepositoryInterface
                 ->pluck('id')->toArray();
 
             return Report::with([
-                    'resident' => function (Builder $query) {
-                        $query->with(['user' => function (Builder $query) {
-                            $query->select('id', 'name');
-                        }])->select('id', 'user_id');
-                    },
-                    'reportCategory' => fn(Builder $query) => $query->select('id', 'name'),
-                    'studyProgram' =>  fn(Builder $query) => $query->select('id', 'name'),
-                ])->whereIn('study_program_id', $studyProgramId)
+                'resident' => function (Builder $query) {
+                    $query->with(['user' => function (Builder $query) {
+                        $query->select('id', 'name');
+                    }])->select('id', 'user_id');
+                },
+                'reportCategory' => fn(Builder $query) => $query->select('id', 'name'),
+                'studyProgram' =>  fn(Builder $query) => $query->select('id', 'name'),
+            ])->whereIn('study_program_id', $studyProgramId)
                 ->select('id', 'code', 'title', 'resident_id', 'report_category_id', 'study_program_id')
                 ->get();
         } else if ($user->hasRole('superadmin')) {
@@ -41,7 +41,31 @@ class ReportRepository implements ReportRepositoryInterface
 
     public function getReportById(int $id)
     {
-        return Report::find($id);
+        return Report::select(
+            'id',
+            'code',
+            'title',
+            'description',
+            'address',
+            'image',
+            'longitude',
+            'latitude',
+            'description',
+            'resident_id',
+            'report_category_id',
+            'study_program_id'
+        )->find($id)
+            ->load([
+                'studyProgram' => function (Builder $query) {
+                    $query->select('id', 'name');
+                },
+                'reportCategory' => fn(Builder $query) => $query->select('id', 'name'),
+                'resident' => function (Builder $query) {
+                    $query->with(['user' => function (Builder $query) {
+                        $query->select('id', 'name');
+                    }])->select('id', 'user_id', 'nim');
+                },
+            ]);
     }
 
     public function getReportsByCategory(string $category)

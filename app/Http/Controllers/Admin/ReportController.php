@@ -61,7 +61,7 @@ class ReportController extends Controller
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
         $report = $this->reportRepository->getReportById($decrypt);
-
+        Log::info(json_encode($report, JSON_PRETTY_PRINT));
         return view('pages.admin.report.show', compact('report'));
     }
 

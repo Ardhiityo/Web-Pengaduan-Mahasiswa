@@ -51,7 +51,7 @@
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="mb-0 mr-3 text-gray-800 h5 font-weight-bold">{{ $totalReports }}</div>
+                                    <div class="mr-3 mb-0 text-gray-800 h5 font-weight-bold">{{ $totalReports }}</div>
                                 </div>
                             </div>
                         </div>
@@ -72,7 +72,7 @@
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="mb-0 mr-3 text-gray-800 h5 font-weight-bold">{{ $totalFAQ }}</div>
+                                    <div class="mr-3 mb-0 text-gray-800 h5 font-weight-bold">{{ $totalFAQs }}</div>
                                 </div>
                             </div>
                         </div>

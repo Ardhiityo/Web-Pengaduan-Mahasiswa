@@ -27,7 +27,9 @@ class ResidentSeeder extends Seeder
         }
 
         $faker = Factory::create();
-        $studyProgram = StudyProgram::first();
+
+        //1
+        $studyProgram = StudyProgram::where('name', 'Teknik Informatika')->first();
 
         $user = User::create([
             'name' => $faker->name(),
@@ -41,6 +43,23 @@ class ResidentSeeder extends Seeder
             'avatar' => $storedPath,
             'study_program_id' => $studyProgram->id,
             'nim' => 22040004,
+        ]);
+
+        //2
+        $studyProgram = StudyProgram::where('name', 'Manajemen')->first();
+
+        $user = User::create([
+            'name' => $faker->name(),
+            'email' => 'allo@test.com',
+            'password' => 11111111,
+            'email_verified_at' => now()
+        ])->assignRole('resident');
+
+        Resident::create([
+            'user_id' => $user->id,
+            'avatar' => $storedPath,
+            'study_program_id' => $studyProgram->id,
+            'nim' => 22040005,
         ]);
     }
 }

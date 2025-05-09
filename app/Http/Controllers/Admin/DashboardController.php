@@ -3,20 +3,16 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Faq;
-use App\Models\Report;
-use App\Models\ReportCategory;
-use App\Models\Resident;
+use App\Services\DashboardService;
 
 class DashboardController extends Controller
 {
+    public function __construct(private DashboardService $dashboardService) {}
+
     public function index()
     {
-        $totalResidents = Resident::count();
-        $totalReportCategories = ReportCategory::count();
-        $totalReports = Report::count();
-        $totalFAQ = Faq::count();
+        $data = $this->dashboardService->getDashboardData();
 
-        return view('pages.admin.dashboard', compact('totalResidents', 'totalReportCategories', 'totalReports', 'totalFAQ'));
+        return view('pages.admin.dashboard', $data);
     }
 }
