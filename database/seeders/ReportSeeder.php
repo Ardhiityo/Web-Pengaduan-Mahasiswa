@@ -38,7 +38,7 @@ class ReportSeeder extends Seeder
             'code' => Ulid::generate(),
             'resident_id' => $resident->id,
             'report_category_id' => $reportCategory->id,
-            'faculty_id' => $resident->studyProgram->faculty_id,
+            'study_program_id' => $resident->study_program_id,
             'title' => $faker->sentence(nbWords: 2),
             'description' => $faker->sentence(10),
             'image' => $storedPath,

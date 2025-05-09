@@ -22,15 +22,15 @@
                     <td>{{ $report->resident->user->name }}</td>
                 </tr>
                 <tr>
-                    <td>Judul laporan</td>
+                    <td>Judul</td>
                     <td>{{ $report->title }}</td>
                 </tr>
                 <tr>
-                    <td>Kategori laporan</td>
+                    <td>Kategori</td>
                     <td>{{ $report->reportCategory->name }}</td>
                 </tr>
                 <tr>
-                    <td>Deskripsi laporan</td>
+                    <td>Deskripsi</td>
                     <td>{{ $report->description }}</td>
                 </tr>
                 <tr>
@@ -40,7 +40,7 @@
                     <td>{{ $report->address }}</td>
                 </tr>
                 <tr>
-                    <td>Bukti laporan</td>
+                    <td>Bukti</td>
                     <td>
                         <img src="{{ asset('storage/' . $report->image) }}" alt="image" width="200">
                     </td>
@@ -95,11 +95,11 @@
                                 <td>{{ $reportStatus->status }}</td>
                                 <td>{{ $reportStatus->description }}</td>
                                 <td>
-                                    <a href="{{ route('admin.report-status.edit', Crypt::encrypt($reportStatus->id)) }}"
-                                        class="my-1 btn btn-sm btn-warning">Edit</a>
-
                                     <a href="{{ route('admin.report-status.show', Crypt::encrypt($reportStatus->id)) }}"
                                         class="my-1 btn btn-sm btn-info">Show</a>
+
+                                    <a href="{{ route('admin.report-status.edit', Crypt::encrypt($reportStatus->id)) }}"
+                                        class="my-1 btn btn-sm btn-warning">Edit</a>
 
                                     <form
                                         action="{{ route('admin.report-status.destroy', Crypt::encrypt($reportStatus->id)) }}"

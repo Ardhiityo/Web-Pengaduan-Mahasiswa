@@ -31,14 +31,16 @@
         </li>
 
         <!-- Nav Item - Tables -->
-        <li class="nav-item
+        @role('superadmin')
+            <li class="nav-item
         {{ request()->is('admin/report-category*') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('admin.report-category.index') }}">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Data Kategori</span></a>
-        </li>
-
+                <a class="nav-link" href="{{ route('admin.report-category.index') }}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Data Kategori</span></a>
+            </li>
+        @endrole
         <!-- Nav Item - Tables -->
+
         <li
             class="nav-item
         {{ request()->is('admin/report') || request()->is('admin/report/*') || request()->is('admin/report-status/*') ? 'active' : '' }}">
@@ -48,10 +50,13 @@
         </li>
 
         <!-- Nav Item - Tables -->
-        <li class="nav-item
-        {{ request()->is('admin/faq') || request()->is('admin/faq/*') ? 'active' : '' }}">
-            <a class="nav-link" href="{{ route('admin.faq.index') }}">
-                <i class="fas fa-fw fa-table"></i>
-                <span>Data FAQ</span></a>
-        </li>
+        @role('superadmin')
+            <li
+                class="nav-item
+                {{ request()->is('admin/faq') || request()->is('admin/faq/*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.faq.index') }}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Data FAQ</span></a>
+            </li>
+        @endrole
     </ul>

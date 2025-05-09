@@ -16,8 +16,10 @@ class CheckIsResidentMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->hasRole("admin") || Auth::user()->hasRole("superadmin")) {
-            return abort(403, 'User does not have the right roles.');
+        if ($user = Auth::user()) {
+            if ($user->hasRole('admin') || $user->hasRole('superadmin')) {
+                return abort(403, 'User does not have the right roles.');
+            }
         }
         return $next($request);
     }

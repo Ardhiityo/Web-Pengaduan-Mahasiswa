@@ -46,7 +46,7 @@ Route::controller(RegisterController::class)->group(function () {
 
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])
-        ->name('logout')->middleware(['auth', 'role:admin|resident']);
+        ->name('logout')->middleware(['auth', 'role:admin|superadmin|resident']);
 });
 
 //Resident
@@ -95,7 +95,7 @@ Route::controller(UserReportController::class)->group(function () {
 //Admin
 Route::prefix('admin')
     ->name('admin.')
-    ->middleware(['auth', 'role:admin,superadmin'])
+    ->middleware(['auth', 'role:admin|superadmin'])
     ->group(function () {
 
         //Dasboard

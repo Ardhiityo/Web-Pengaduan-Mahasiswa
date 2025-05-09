@@ -28,9 +28,9 @@ class Report extends Model
         return $date->translatedFormat('l, j F Y, H:i');
     }
 
-    public function faculty(): BelongsTo
+    public function studyProgram(): BelongsTo
     {
-        return $this->belongsTo(Faculty::class);
+        return $this->belongsTo(StudyProgram::class);
     }
 
     public function resident(): BelongsTo

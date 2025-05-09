@@ -3,7 +3,9 @@
 namespace App\Services\Repositories;
 
 use App\Models\User;
+use App\Models\Admin;
 use App\Models\Resident;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Services\Interfaces\ResidentRepositoryInterface;
@@ -12,7 +14,21 @@ class ResidentRepository implements ResidentRepositoryInterface
 {
     public function getAllResidents()
     {
-        return Resident::all();
+        $user = Auth::user();
+
+        if ($user->hasRole('admin')) {
+            $admin = Admin::with('faculty')->where('user_id', $user->id)->first();
+            $studyProgramId = $admin->faculty->studyPrograms->pluck('id')->toArray();
+
+            return Resident::with('studyProgram')
+                ->whereIn('study_program_id', $studyProgramId)
+                ->select('nim', 'user_id', 'study_program_id', 'avatar')
+                ->get();
+        } else if ($user->hasRole('superadmin')) {
+            return Resident::with('studyProgram')
+                ->select('nim', 'user_id', 'study_program_id', 'avatar')
+                ->get();
+        }
     }
 
     public function getResidentById(int $id)

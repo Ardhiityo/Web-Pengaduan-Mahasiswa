@@ -5,15 +5,38 @@ namespace App\Services\Repositories;
 use App\Models\Report;
 use App\Models\ReportStatus;
 use App\Models\ReportCategory;
+use App\Models\StudyProgram;
 use Symfony\Component\Uid\Ulid;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Services\Interfaces\ReportRepositoryInterface;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ReportRepository implements ReportRepositoryInterface
 {
     public function getAllReports()
     {
-        return Report::all();
+        $user = Auth::user();
+        if ($user->hasRole('admin')) {
+            $admin = $user->admins()->first();
+            $studyProgramId = StudyProgram::where('faculty_id', $admin->faculty_id)
+                ->pluck('id')->toArray();
+
+            return Report::with([
+                    'resident' => function (Builder $query) {
+                        $query->with(['user' => function (Builder $query) {
+                            $query->select('id', 'name');
+                        }])->select('id', 'user_id');
+                    },
+                    'reportCategory' => fn(Builder $query) => $query->select('id', 'name'),
+                    'studyProgram' =>  fn(Builder $query) => $query->select('id', 'name'),
+                ])->whereIn('study_program_id', $studyProgramId)
+                ->select('id', 'code', 'title', 'resident_id', 'report_category_id', 'study_program_id')
+                ->get();
+        } else if ($user->hasRole('superadmin')) {
+            return Report::with('resident', 'reportCategory')->select('code', 'title', 'image')
+                ->get();
+        }
     }
 
     public function getReportById(int $id)

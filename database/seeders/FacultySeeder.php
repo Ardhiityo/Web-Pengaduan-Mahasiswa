@@ -13,8 +13,13 @@ class FacultySeeder extends Seeder
      */
     public function run(): void
     {
-        Faculty::create([
-            'name' => 'Fakultas Ilmu Komputer',
+        Faculty::insert([
+            [
+                'name' => 'Fakultas Ilmu Komputer',
+            ],
+            [
+                'name' => 'Fakultas Ekonomi Bisnis',
+            ]
         ]);
     }
 }

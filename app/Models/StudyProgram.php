@@ -15,4 +15,9 @@ class StudyProgram extends Model
     {
         return $this->hasMany(Resident::class);
     }
+
+    public function reports()
+    {
+        return $this->hasMany(Report::class);
+    }
 }

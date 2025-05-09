@@ -14,7 +14,8 @@ class AuthRepository implements AuthRepositoryInterface
     {
         if (Auth::attempt($credentials)) {
             session()->regenerate();
-            if (Auth::user()->hasRole('admin')) {
+            $user = Auth::user();
+            if ($user->hasRole('admin') || $user->hasRole('superadmin')) {
                 return redirect()->route('admin.dashboard');
             }
             return redirect()->intended(route('profile'));

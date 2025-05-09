@@ -16,7 +16,9 @@
                         <tr>
                             <th>No</th>
                             <th>Nama </th>
+                            <th>Nim</th>
                             <th>Email</th>
+                            <th>Program Studi</th>
                             <th>Foto profil</th>
                             <th>Aksi</th>
                         </tr>
@@ -26,7 +28,9 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $resident->user->name }}</td>
+                                <td>{{ $resident->nim }}</td>
                                 <td>{{ $resident->user->email }}</td>
+                                <td>{{ $resident->studyProgram->name }}</td>
                                 <td>
                                     @if ($resident->avatar)
                                         <img src="{{ asset('storage/' . $resident->avatar) }}" alt="avatar"
@@ -36,11 +40,13 @@
                                     @endif
                                 </td>
                                 <td>
+                                    <a href="{{ route('admin.resident.show', Crypt::encrypt($resident->id)) }}"
+                                        class="my-1 btn btn-sm btn-info">
+                                        Show
+                                    </a>
+
                                     <a href="{{ route('admin.resident.edit', Crypt::encrypt($resident->id)) }}"
                                         class="my-1 btn btn-sm btn-warning">Edit</a>
-
-                                    <a href="{{ route('admin.resident.show', Crypt::encrypt($resident->id)) }}"
-                                        class="my-1 btn btn-sm btn-info">Show</a>
 
                                     <form action="{{ route('admin.resident.destroy', Crypt::encrypt($resident->id)) }}"
                                         method="POST" class="d-inline">

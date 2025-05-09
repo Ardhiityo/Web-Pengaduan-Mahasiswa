@@ -16,11 +16,11 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Kode laporan </th>
+                            <th>Kode</th>
+                            <th>Judul</th>
                             <th>Pelapor</th>
-                            <th>Judul laporan</th>
-                            <th>Kategori laporan</th>
-                            <th>Bukti laporan</th>
+                            <th>Kategori</th>
+                            <th>Program Studi</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -29,22 +29,17 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $report->code }}</td>
-                                <td>{{ $report->resident->user->name }}</td>
                                 <td>{{ $report->title }}</td>
+                                <td>{{ $report->resident->user->name }}</td>
                                 <td>{{ $report->reportCategory->name }}</td>
+                                <td>{{ $report->studyProgram->name }}</td>
                                 <td>
-                                    @if ($report->image)
-                                        <img src="{{ asset('storage/' . $report->image) }}" alt="image" width="100">
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.report.edit', Crypt::encrypt($report->id)) }}"
-                                        class="my-1 btn btn-sm btn-warning">Edit</a>
 
                                     <a href="{{ route('admin.report.show', Crypt::encrypt($report->id)) }}"
                                         class="my-1 btn btn-sm btn-info">Show</a>
+
+                                    <a href="{{ route('admin.report.edit', Crypt::encrypt($report->id)) }}"
+                                        class="my-1 btn btn-sm btn-warning">Edit</a>
 
                                     <form action="{{ route('admin.report.destroy', Crypt::encrypt($report->id)) }}"
                                         method="POST" class="d-inline">
