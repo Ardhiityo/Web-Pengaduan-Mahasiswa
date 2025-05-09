@@ -2,13 +2,14 @@
 
 namespace Database\Seeders;
 
+use App\Models\Faculty;
 use Faker\Factory;
 use App\Models\User;
 use App\Models\Resident;
+use App\Models\StudyProgram;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class ResidentSeeder extends Seeder
 {
@@ -27,8 +28,8 @@ class ResidentSeeder extends Seeder
             Storage::disk('public')->put($storedPath, file_get_contents($publicPath));
         }
 
-
         $faker = Factory::create();
+        $studyProgram = StudyProgram::first();
 
         $user = User::create([
             'name' => $faker->name(),
@@ -39,7 +40,9 @@ class ResidentSeeder extends Seeder
 
         Resident::create([
             'user_id' => $user->id,
-            'avatar' => $storedPath
+            'avatar' => $storedPath,
+            'study_program_id' => $studyProgram->id,
+            'nim' => 22040004,
         ]);
     }
 }

@@ -28,6 +28,11 @@ class Report extends Model
         return $date->translatedFormat('l, j F Y, H:i');
     }
 
+    public function faculty(): BelongsTo
+    {
+        return $this->belongsTo(Faculty::class);
+    }
+
     public function resident(): BelongsTo
     {
         return $this->belongsTo(Resident::class);

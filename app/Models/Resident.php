@@ -22,4 +22,9 @@ class Resident extends Model
     {
         return $this->hasMany(Report::class);
     }
+
+    public function studyProgram()
+    {
+        return $this->belongsTo(StudyProgram::class);
+    }
 }

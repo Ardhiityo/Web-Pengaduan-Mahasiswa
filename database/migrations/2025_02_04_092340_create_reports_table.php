@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('code');
             $table->foreignId('resident_id')->constrained();
             $table->foreignId('report_category_id')->constrained();
+            $table->foreignId('faculty_id')->constrained();
             $table->string('title');
             $table->longText('description');
             $table->string('image');
