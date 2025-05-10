@@ -10,7 +10,9 @@ class Resident extends Model
 {
     protected $fillable = [
         'user_id',
-        'avatar'
+        'avatar',
+        'study_program_id',
+        'nim'
     ];
 
     public function user(): BelongsTo

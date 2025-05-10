@@ -13,11 +13,17 @@ return new class extends Migration
     {
         Schema::create('residents', function (Blueprint $table) {
             $table->id();
-            $table->integer('nim')->unique();
-            $table->foreignId('user_id')->constrained()
+            $table->integer('nim')
+                ->unique()
+                ->nullable();
+            $table->foreignId('user_id')
+                ->constrained()
                 ->unique();
-            $table->foreignId('study_program_id')->constrained();
-            $table->string('avatar')->nullable();
+            $table->foreignId('study_program_id')
+                ->nullable()
+                ->constrained();
+            $table->string('avatar')
+                ->nullable();
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\Interfaces\AdminRepositoryInterface;
 use App\Services\Interfaces\AuthGoogleRepositoryInterface;
+use App\Services\Repositories\StudyProgramRepository;
 use Carbon\Carbon;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Repositories\FaqRepository;
@@ -19,6 +20,7 @@ use App\Services\Repositories\ReportCategoryRepository;
 use App\Services\Interfaces\ResidentRepositoryInterface;
 use App\Services\Interfaces\ReportStatusRepositoryInterface;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
+use App\Services\Interfaces\StudyProgramRepositoryInterface;
 use App\Services\Repositories\AdminRepository;
 use App\Services\Repositories\AuthGoogleRepository;
 use App\Services\Repositories\DecryptParameterRepository;
@@ -73,6 +75,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             DecryptParameterRepositoryInterface::class,
             DecryptParameterRepository::class
+        );
+
+        $this->app->bind(
+            StudyProgramRepositoryInterface::class,
+            StudyProgramRepository::class
         );
     }
 

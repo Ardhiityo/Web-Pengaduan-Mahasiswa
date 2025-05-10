@@ -15,7 +15,7 @@ class StoreResidentRequest extends FormRequest
         $extension = pathinfo($publicPath, PATHINFO_EXTENSION);
 
         // New path in storage
-        $storedPath = 'assets/avatar/' . uniqid('profile-default-') . ".$extension";
+        $storedPath = 'assets/resident/' . uniqid() . ".$extension";
 
         // Copy file to storage
         if (file_exists($publicPath)) {
@@ -42,7 +42,9 @@ class StoreResidentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'max:30'],
+            'name' => ['required', 'max:30', 'string'],
+            'nim' => ['required', 'digits_between:8,10', 'numeric', 'unique:residents,nim'],
+            'study_program_id' => ['required', 'exists:study_programs,id'],
             'email' => ['required', 'email', 'unique:users', 'max:255'],
             'password' => ['required', 'min:8', 'max:255'],
             'avatar' => ['nullable']
@@ -59,7 +61,13 @@ class StoreResidentRequest extends FormRequest
             'password.max' => 'Password max 255 karakter',
             'password.min' => 'Password harus memiliki minimal 8 karakter',
             'name.required' => 'Nama wajib di isi',
-            'name.max' => 'Nama max 30 karakter'
+            'name.max' => 'Nama max 30 karakter',
+            'nim.required' => 'NIM wajib di isi',
+            'nim.numeric' => 'NIM harus berupa angka',
+            'study_program_id.required' => 'Program studi wajib di isi',
+            'study_program_id.exists' => 'Program studi tidak valid',
+            'nim.unique' => 'NIM sudah terdaftar',
+            'nim.digits_between' => 'NIM harus memiliki panjang antara 8-10 digit',
         ];
     }
 }

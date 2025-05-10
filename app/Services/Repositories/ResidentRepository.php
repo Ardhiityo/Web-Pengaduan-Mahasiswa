@@ -5,8 +5,8 @@ namespace App\Services\Repositories;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Resident;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Services\Interfaces\ResidentRepositoryInterface;
 
@@ -38,15 +38,13 @@ class ResidentRepository implements ResidentRepositoryInterface
 
     public function createResident(array $data)
     {
-        $user = User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password'])
-        ])
-            ->assignRole('resident');
+        $user = User::create($data);
 
-        return $user->resident()
-            ->create($data);
+        $user->assignRole('resident');
+
+        $user->resident()->create($data);
+
+        return $user;
     }
 
     public function updateResident(array $data, int $id)
@@ -56,7 +54,7 @@ class ResidentRepository implements ResidentRepositoryInterface
         $resident->user()->update([
             'name' => $data['name'],
             'password' => isset($data['password']) ?
-                Hash::make($data['password']) : $resident->user->password
+                $data['password'] : $resident->user->password
         ]);
 
         if (isset($data['avatar'])) {

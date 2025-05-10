@@ -8,12 +8,15 @@ use App\Http\Requests\Resident\StoreResidentRequest;
 use App\Http\Requests\Resident\UpdateResidentRequest;
 use App\Services\Interfaces\DecryptParameterRepositoryInterface;
 use App\Services\Interfaces\ResidentRepositoryInterface;
+use App\Services\Interfaces\StudyProgramRepositoryInterface;
+use Illuminate\Http\Request;
 
 class ResidentController extends Controller
 {
     public function __construct(
         private ResidentRepositoryInterface $residentRepository,
-        private DecryptParameterRepositoryInterface $decryptParameterRepository
+        private DecryptParameterRepositoryInterface $decryptParameterRepository,
+        private StudyProgramRepositoryInterface $studyProgramRepository
     ) {}
 
     public function index()
@@ -25,7 +28,9 @@ class ResidentController extends Controller
 
     public function create()
     {
-        return view('pages.admin.resident.create');
+        $studyPrograms = $this->studyProgramRepository->getAllStudyPrograms();
+
+        return view('pages.admin.resident.create', compact('studyPrograms'));
     }
 
     public function store(StoreResidentRequest $request)
