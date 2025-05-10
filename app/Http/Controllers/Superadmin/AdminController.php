@@ -4,16 +4,19 @@ namespace App\Http\Controllers\Superadmin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Superadmin\StoreAdminRequest;
 use App\Services\Interfaces\AdminRepositoryInterface;
 use App\Services\Interfaces\FacultyRepositoryInterface;
+use App\Services\Repositories\DecryptParameterRepository;
 
 class AdminController extends Controller
 {
 
     public function __construct(
         private AdminRepositoryInterface $adminRepository,
-        private FacultyRepositoryInterface $facultyRepository
+        private FacultyRepositoryInterface $facultyRepository,
+        private DecryptParameterRepository $decryptParameterRepository
     ) {}
 
     public function index()
@@ -42,6 +45,17 @@ class AdminController extends Controller
 
     public function show(string $id)
     {
-        //
+        $decrypt = $this->decryptParameterRepository
+            ->getData(
+                id: $id,
+                message: 'Ups, Admin tidak ditemukan!',
+                route: 'admin.report.index'
+            );
+
+        if ($decrypt instanceof RedirectResponse) return $decrypt;
+
+        $admin = $this->adminRepository->getAdminById($decrypt);
+
+        return view('pages.superadmin.admin.show', compact('admin'));
     }
 }

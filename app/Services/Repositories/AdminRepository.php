@@ -47,4 +47,18 @@ class AdminRepository implements AdminRepositoryInterface
 
         return $user;
     }
+
+    public function getAdminById($id)
+    {
+        return Admin::with([
+            'faculty' => function (Builder $query) {
+                $query->select('id', 'name');
+            },
+            'user' => function (Builder $query) {
+                $query->select('id', 'name', 'email');
+            }
+        ])
+            ->select('id', 'user_id', 'faculty_id')
+            ->find($id);
+    }
 }
