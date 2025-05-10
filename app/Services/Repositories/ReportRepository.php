@@ -31,10 +31,21 @@ class ReportRepository implements ReportRepositoryInterface
                 'reportCategory' => fn(Builder $query) => $query->select('id', 'name'),
                 'studyProgram' =>  fn(Builder $query) => $query->select('id', 'name'),
             ])->whereIn('study_program_id', $studyProgramId)
+                ->oldest()
                 ->select('id', 'code', 'title', 'resident_id', 'report_category_id', 'study_program_id')
                 ->get();
         } else if ($user->hasRole('superadmin')) {
-            return Report::with('resident', 'reportCategory')->select('code', 'title', 'image')
+            return Report::with([
+                'resident' => function (Builder $query) {
+                    $query->with(['user' => function (Builder $query) {
+                        $query->select('id', 'name');
+                    }])->select('id', 'user_id');
+                },
+                'reportCategory' => fn(Builder $query) => $query->select('id', 'name'),
+                'studyProgram' =>  fn(Builder $query) => $query->select('id', 'name'),
+            ])
+                ->oldest()
+                ->select('id', 'code', 'title', 'resident_id', 'report_category_id', 'study_program_id')
                 ->get();
         }
     }

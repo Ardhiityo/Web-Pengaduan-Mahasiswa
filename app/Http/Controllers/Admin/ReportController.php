@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Report\StoreReportRequest;
@@ -61,7 +60,7 @@ class ReportController extends Controller
         if ($decrypt instanceof RedirectResponse) return $decrypt;
 
         $report = $this->reportRepository->getReportById($decrypt);
-        Log::info(json_encode($report, JSON_PRETTY_PRINT));
+
         return view('pages.admin.report.show', compact('report'));
     }
 

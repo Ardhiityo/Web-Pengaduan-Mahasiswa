@@ -3,7 +3,9 @@
 namespace App\Services\Repositories;
 
 use App\Models\User;
+use App\Models\Admin;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use App\Services\Interfaces\AdminRepositoryInterface;
 
 class AdminRepository implements AdminRepositoryInterface
@@ -17,5 +19,32 @@ class AdminRepository implements AdminRepositoryInterface
             $data['password'] = $admin->password : $data['password'];
 
         return $admin->update($data);
+    }
+
+    public function getAllAdmins()
+    {
+        return Admin::with([
+            'user' => function (Builder $query) {
+                $query->select('id', 'name', 'email');
+            },
+            'faculty' => function (Builder $query) {
+                $query->select('id', 'name');
+            },
+        ])
+            ->select('id', 'user_id', 'faculty_id')
+            ->get();
+    }
+
+    public function createAdmin($data)
+    {
+        $user = User::create($data);
+
+        $user->assignRole('admin');
+
+        $data['user_id'] = $user->id;
+
+        Admin::create($data);
+
+        return $user;
     }
 }

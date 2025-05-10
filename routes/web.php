@@ -2,17 +2,18 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Admin\FaqController;
 use App\Http\Controllers\User\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\User\ProfileController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Admin\ResidentController;
+use App\Http\Controllers\Superadmin\FaqController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Auth\AuthGoogleController;
+use App\Http\Controllers\Superadmin\AdminController;
 use App\Http\Controllers\Admin\ReportStatusController;
-use App\Http\Controllers\Admin\ReportCategoryController;
+use App\Http\Controllers\Superadmin\ReportCategoryController;
 use App\Http\Controllers\User\FaqController as UserFaqController;
 use App\Http\Controllers\User\ReportController as UserReportController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
@@ -112,9 +113,6 @@ Route::prefix('admin')
         //Resident
         Route::resource('resident', ResidentController::class);
 
-        //Report category
-        Route::resource('report-category', ReportCategoryController::class);
-
         //Report
         Route::resource('report', ReportController::class);
 
@@ -123,20 +121,18 @@ Route::prefix('admin')
             ->except('create');
 
         Route::get('/report-status/{reportId}/create', [ReportStatusController::class, 'create'])->name('report-status.create');
+    });
 
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'role:superadmin'])
+    ->group(function () {
+        //Report category
+        Route::resource('report-category', ReportCategoryController::class);
         //FAQ
-        Route::controller(FaqController::class)
-            ->group(function () {
-                Route::prefix('faq')->name('faq.')->group(function () {
-                    Route::get('/',  'index')->name('index');
-                    Route::post('/',  'store')->name('store');
-                    Route::get('/create',  'create')->name('create');
-                    Route::get('/{faqId}/edit',  'edit')->name('edit');
-                    Route::get('/{faqId}',  'show')->name('show');
-                    Route::put('/{faqId}',  'update')->name('update');
-                    Route::delete('/{faqId}',  'destroy')->name('destroy');
-                });
-            });
+        Route::resource('faq', FaqController::class);
+        // Admin
+        Route::resource('admin', AdminController::class);
     });
 
 Route::fallback(function () {

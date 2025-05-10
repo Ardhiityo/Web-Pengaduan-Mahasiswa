@@ -33,8 +33,9 @@ class DashboardService
             $totalReports = Report::count();
             $totalReportCategories = ReportCategory::count();
             $totalFAQs = Faq::count();
+            $totalAdmins = Admin::count();
 
-            return compact('totalResidents', 'totalReportCategories', 'totalReports', 'totalFAQs');
+            return compact('totalResidents', 'totalReportCategories', 'totalReports', 'totalFAQs', 'totalAdmins');
         }
     }
 }

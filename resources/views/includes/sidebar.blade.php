@@ -1,20 +1,15 @@
     <ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: #6439ff">
-        <!-- Sidebar - Brand -->
         <a class="my-4 sidebar-brand d-flex flex-column align-items-center justify-content-center"
             href="{{ route('admin.dashboard') }}">
             <div class="sidebar-brand-icon">
-                {{-- Logo --}}
                 <img src="{{ asset('assets/admin/img/LogoUnival.png') }}" alt="logo" style="width: 45%"
                     style="padding: 50px">
-                {{-- Logo --}}
             </div>
-            <span style="font-family: 'Saira', serif;">SIMPEL</span>
+            <span style="font-family: 'Saira', serif;">Al-Khairiyah</span>
         </a>
 
-        <!-- Divider -->
         <hr class="my-0 sidebar-divider">
 
-        <!-- Nav Item - Dashboard -->
         <li class="nav-item
         {{ request()->is('admin/dashboard') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('admin.dashboard') }}">
@@ -22,7 +17,6 @@
                 <span>Dashboard</span></a>
         </li>
 
-        <!-- Nav Item - Tables -->
         <li class="nav-item
         {{ request()->is('admin/resident*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('admin.resident.index') }}">
@@ -30,7 +24,15 @@
                 <span>Data Mahasiswa</span></a>
         </li>
 
-        <!-- Nav Item - Tables -->
+        @role('superadmin')
+            <li class="nav-item
+        {{ request()->is('admin/admin*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.admin.index') }}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Data Admin</span></a>
+            </li>
+        @endrole
+
         @role('superadmin')
             <li class="nav-item
         {{ request()->is('admin/report-category*') ? 'active' : '' }}">
@@ -39,7 +41,6 @@
                     <span>Data Kategori</span></a>
             </li>
         @endrole
-        <!-- Nav Item - Tables -->
 
         <li
             class="nav-item
@@ -49,7 +50,6 @@
                 <span>Data Laporan</span></a>
         </li>
 
-        <!-- Nav Item - Tables -->
         @role('superadmin')
             <li
                 class="nav-item
