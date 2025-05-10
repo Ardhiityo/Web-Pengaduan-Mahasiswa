@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tambah Data FAQ')
+@section('title', 'Edit Data FAQ')
 
 @section('content')
     <!-- Page Heading -->

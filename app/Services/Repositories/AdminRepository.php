@@ -4,21 +4,20 @@ namespace App\Services\Repositories;
 
 use App\Models\User;
 use App\Models\Admin;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use App\Services\Interfaces\AdminRepositoryInterface;
 
 class AdminRepository implements AdminRepositoryInterface
 {
-    public function updateAdmin($data)
+    public function updateAdmin($id, $data)
     {
-        $user = Auth::user();
-        $admin = User::find($user->id);
+        $admin = Admin::find($id);
 
         is_null($data['password']) ?
-            $data['password'] = $admin->password : $data['password'];
+            $data['password'] = $admin->user->password : $data['password'];
 
-        return $admin->update($data);
+        $admin->user->update($data);
+        $admin->update($data);
     }
 
     public function getAllAdmins()
@@ -60,5 +59,13 @@ class AdminRepository implements AdminRepositoryInterface
         ])
             ->select('id', 'user_id', 'faculty_id')
             ->find($id);
+    }
+
+    public function deleteAdminById($id)
+    {
+        $admin = Admin::find($id);
+        $admin->delete();
+
+        return $admin->user->delete();
     }
 }
