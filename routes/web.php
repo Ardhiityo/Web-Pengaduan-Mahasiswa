@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Auth\AuthGoogleController;
 use App\Http\Controllers\Superadmin\AdminController;
 use App\Http\Controllers\Admin\ReportStatusController;
+use App\Http\Controllers\Superadmin\FacultyController;
 use App\Http\Controllers\Superadmin\ReportCategoryController;
 use App\Http\Controllers\User\FaqController as UserFaqController;
 use App\Http\Controllers\User\ReportController as UserReportController;
@@ -133,6 +134,8 @@ Route::prefix('admin')
         Route::resource('faq', FaqController::class);
         // Admin
         Route::resource('admin', AdminController::class);
+        // Faculty
+        Route::resource('faculty', FacultyController::class);
     });
 
 Route::fallback(function () {

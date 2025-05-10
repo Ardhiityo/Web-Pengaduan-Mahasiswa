@@ -30,11 +30,11 @@
                                 <td>{{ $admin->user->email }}</td>
                                 <td>{{ $admin->faculty->name }}</td>
                                 <td>
-                                    <a href="{{ route('admin.admin.edit', Crypt::encrypt($admin->id)) }}"
-                                        class="my-1 btn btn-warning btn-sm">Edit</a>
-
                                     <a href="{{ route('admin.admin.show', Crypt::encrypt($admin->id)) }}"
                                         class="my-1 btn btn-info btn-sm">Show</a>
+
+                                    <a href="{{ route('admin.admin.edit', Crypt::encrypt($admin->id)) }}"
+                                        class="my-1 btn btn-warning btn-sm">Edit</a>
 
                                     <form action="{{ route('admin.admin.destroy', Crypt::encrypt($admin->id)) }}"
                                         method="POST" class="d-inline">

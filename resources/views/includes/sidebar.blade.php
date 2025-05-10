@@ -35,6 +35,15 @@
 
         @role('superadmin')
             <li class="nav-item
+        {{ request()->is('admin/faculty*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.faculty.index') }}">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Data Fakultas</span></a>
+            </li>
+        @endrole
+
+        @role('superadmin')
+            <li class="nav-item
         {{ request()->is('admin/report-category*') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('admin.report-category.index') }}">
                     <i class="fas fa-fw fa-table"></i>

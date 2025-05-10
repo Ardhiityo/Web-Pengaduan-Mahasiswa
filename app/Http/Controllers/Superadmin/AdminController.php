@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Superadmin;
 
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Superadmin\StoreAdminRequest;
