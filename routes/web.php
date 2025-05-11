@@ -14,6 +14,7 @@ use App\Http\Controllers\Auth\AuthGoogleController;
 use App\Http\Controllers\Superadmin\AdminController;
 use App\Http\Controllers\Admin\ReportStatusController;
 use App\Http\Controllers\Superadmin\FacultyController;
+use App\Http\Controllers\Superadmin\AdminFacultyController;
 use App\Http\Controllers\Superadmin\ReportCategoryController;
 use App\Http\Controllers\User\FaqController as UserFaqController;
 use App\Http\Controllers\User\ReportController as UserReportController;
@@ -136,6 +137,11 @@ Route::prefix('admin')
         Route::resource('admin', AdminController::class);
         // Faculty
         Route::resource('faculty', FacultyController::class);
+        // Admin Faculty
+        Route::get('/admin-faculty/{admin}/create', [AdminFacultyController::class, 'create'])
+            ->name('admin-faculty.create');
+        Route::post('/admin-faculty/{admin}/create', [AdminFacultyController::class, 'store'])
+            ->name('admin-faculty.store');
     });
 
 Route::fallback(function () {

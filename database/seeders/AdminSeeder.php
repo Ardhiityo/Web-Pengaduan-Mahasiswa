@@ -23,12 +23,14 @@ class AdminSeeder extends Seeder
         $user->assignRole('admin');
 
         $faculty = Faculty::where('name', 'Fakultas Ilmu Komputer')->first();
+        $faculty2 = Faculty::where('name', 'Fakultas Ekonomi Bisnis')->first();
 
         $user->faculties()->attach($faculty->id);
+        $user->faculties()->attach($faculty2->id);
 
         //2
         $user = User::create([
-            'name' => '',
+            'name' => 'Liza',
             'email' => 'admin@feb.com',
             'password' => 11111111
         ]);

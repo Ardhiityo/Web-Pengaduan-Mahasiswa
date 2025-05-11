@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Superadmin;
 
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Superadmin\StoreAdminRequest;
@@ -45,31 +46,14 @@ class AdminController extends Controller
 
     public function show(string $id)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $id,
-                message: 'Ups, Admin tidak ditemukan!',
-                route: 'admin.report.index'
-            );
-
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $admin = $this->adminRepository->getAdminById($decrypt);
+        $admin = $this->adminRepository->getAdminById($id);
 
         return view('pages.superadmin.admin.show', compact('admin'));
     }
 
     public function edit(string $id)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $id,
-                message: 'Ups, Admin tidak ditemukan!',
-                route: 'admin.admin.index'
-            );
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $admin = $this->adminRepository->getAdminById($decrypt);
+        $admin = $this->adminRepository->getAdminById($id);
 
         $faculties = $this->facultyRepository->getAllFaculties();
 
@@ -78,16 +62,7 @@ class AdminController extends Controller
 
     public function update(UpdateAdminRequest $request, string $id)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $id,
-                message: 'Ups, Admin tidak ditemukan!',
-                route: 'admin.admin.index'
-            );
-
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $this->adminRepository->updateAdmin($decrypt, $request->validated());
+        $this->adminRepository->updateAdmin($id, $request->validated());
 
         toast(title: 'Data admin sukses diupdate', type: 'success')
             ->timerProgressBar();
@@ -97,15 +72,7 @@ class AdminController extends Controller
 
     public function destroy(string $id)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $id,
-                message: 'Ups, Admin tidak ditemukan!',
-                route: 'admin.admin.index'
-            );
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $this->adminRepository->deleteAdminById($decrypt);
+        $this->adminRepository->deleteAdminById($id);
 
         toast(title: 'Data admin sukses dihapus', type: 'success')
             ->timerProgressBar();

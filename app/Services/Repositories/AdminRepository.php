@@ -4,6 +4,7 @@ namespace App\Services\Repositories;
 
 use App\Models\User;
 use App\Models\Admin;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use App\Services\Interfaces\AdminRepositoryInterface;
 
@@ -11,7 +12,7 @@ class AdminRepository implements AdminRepositoryInterface
 {
     public function updateAdmin($id, $data)
     {
-        $admin = Admin::find($id);
+        $admin = $this->getAdminById($id);
 
         is_null($data['password']) ?
             $data['password'] = $admin->user->password : $data['password'];
@@ -22,50 +23,61 @@ class AdminRepository implements AdminRepositoryInterface
 
     public function getAllAdmins()
     {
-        return Admin::with([
-            'user' => function (Builder $query) {
-                $query->select('id', 'name', 'email');
-            },
-            'faculty' => function (Builder $query) {
-                $query->select('id', 'name');
-            },
-        ])
-            ->select('id', 'user_id', 'faculty_id')
+        return User::role('admin')
+            ->select('id', 'name', 'email')  // tambahkan id karena diperlukan untuk relasi
+            ->with([
+                'faculties' => function (Builder $query) {
+                    $query->select('faculties.id', 'faculties.name', 'admin_faculty.user_id')
+                        ->withPivot(['user_id']);  // jika perlu data dari tabel pivot
+                }
+            ])
             ->get();
     }
 
-    public function createAdmin($data)
+    public function createAdmin(array $data)
     {
         $user = User::create($data);
 
         $user->assignRole('admin');
 
-        $data['user_id'] = $user->id;
-
-        Admin::create($data);
+        $user->faculties()->attach($data['faculty_id']);
 
         return $user;
     }
 
     public function getAdminById($id)
     {
-        return Admin::with([
-            'faculty' => function (Builder $query) {
-                $query->select('id', 'name');
-            },
-            'user' => function (Builder $query) {
-                $query->select('id', 'name', 'email');
-            }
-        ])
-            ->select('id', 'user_id', 'faculty_id')
-            ->find($id);
+        try {
+            return User::with([
+                'faculties' => function (Builder $query) {
+                    $query->select('id', 'name');
+                },
+            ])
+                ->select('id', 'name', 'email')
+                ->findOrFail($id);
+        } catch (\Throwable $th) {
+            Log::info($th->getMessage());
+            return abort(404, 'Admin not found');
+        }
     }
 
     public function deleteAdminById($id)
     {
-        $admin = Admin::find($id);
-        $admin->delete();
+        try {
+            $admin = User::findOrFail($id);
+            return $admin->delete();
+        } catch (\Throwable $th) {
+            return abort(404, 'Admin not found');
+        }
+    }
 
-        return $admin->user->delete();
+    public function addAdminFaculty(array $data)
+    {
+        try {
+            $admin = User::findOrFail($data['user_id']);
+            return $admin->faculties()->attach($data['faculty_id']);
+        } catch (\Throwable $th) {
+            return abort(404, 'Admin not found');
+        }
     }
 }

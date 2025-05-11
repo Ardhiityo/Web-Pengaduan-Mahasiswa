@@ -10,6 +10,9 @@ class Faculty extends Model
     use HasUuids;
     public $incrementing = false;
     protected $keyType = 'string';
+    protected $fillable = [
+        'name',
+    ];
 
     public function studyPrograms()
     {
