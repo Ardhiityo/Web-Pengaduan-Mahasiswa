@@ -80,4 +80,13 @@ class AdminRepository implements AdminRepositoryInterface
             return abort(404, 'Admin not found');
         }
     }
+
+    public function deleteAdminFaculty($adminId, $facultyId)
+    {
+        try {
+            return User::findOrFail($adminId)->faculties()->detach($facultyId);
+        } catch (\Throwable $th) {
+            return abort(404, 'Admin not found');
+        }
+    }
 }

@@ -10,4 +10,5 @@ interface AdminRepositoryInterface
     public function getAdminById($id);
     public function deleteAdminById($id);
     public function addAdminFaculty(array $data);
+    public function deleteAdminFaculty($adminId, $facultyId);
 }

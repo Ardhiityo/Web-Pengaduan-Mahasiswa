@@ -140,8 +140,10 @@ Route::prefix('admin')
         // Admin Faculty
         Route::get('/admin-faculty/{admin}/create', [AdminFacultyController::class, 'create'])
             ->name('admin-faculty.create');
-        Route::post('/admin-faculty/{admin}/create', [AdminFacultyController::class, 'store'])
+        Route::post('/admin-faculty/{admin}', [AdminFacultyController::class, 'store'])
             ->name('admin-faculty.store');
+        Route::delete('/admin-faculty/{admin}/destroy/{faculty}', [AdminFacultyController::class, 'destroy'])
+            ->name('admin-faculty.destroy');
     });
 
 Route::fallback(function () {

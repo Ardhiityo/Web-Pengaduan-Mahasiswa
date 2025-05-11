@@ -32,4 +32,14 @@ class AdminFacultyController extends Controller
 
         return redirect()->route("admin.admin.show", ["admin" => $data['user_id']]);
     }
+
+    public function destroy(string $adminId, string $facultyId)
+    {
+        $this->adminRepository->deleteAdminFaculty($adminId, $facultyId);
+
+        toast(title: 'Data admin fakultas sukses dihapus', type: 'success')
+            ->timerProgressBar();
+
+        return redirect()->route("admin.admin.show", ["admin" => $adminId]);
+    }
 }

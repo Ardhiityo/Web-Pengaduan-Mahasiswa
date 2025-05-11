@@ -46,7 +46,8 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $faculty->name }}</td>
                                 <td>
-                                    <form action="{{ route('admin.faculty.destroy', ['faculty' => $faculty->id]) }}"
+                                    <form
+                                        action="{{ route('admin.admin-faculty.destroy', ['admin' => $admin->id, 'faculty' => $faculty->id]) }}"
                                         method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
