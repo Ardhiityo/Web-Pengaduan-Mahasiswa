@@ -2,6 +2,7 @@
 
 namespace App\Services\Repositories;
 
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Interfaces\AuthRepositoryInterface;
 use App\Services\Interfaces\ResidentRepositoryInterface;
@@ -18,6 +19,8 @@ class AuthRepository implements AuthRepositoryInterface
             if ($user->hasRole('admin') || $user->hasRole('superadmin')) {
                 return redirect()->route('admin.dashboard');
             }
+            Log::info($user->hasVerifiedEmail());
+            Log::info($user);
             return redirect()->intended(route('profile'));
         } else {
             return redirect()->route('login')->withErrors([

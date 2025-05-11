@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Faq;
 use App\Models\Admin;
+use App\Models\AdminFaculty;
 use App\Models\Report;
 use App\Models\Resident;
 use App\Models\StudyProgram;
@@ -17,13 +18,13 @@ class DashboardService
         $user = Auth::user();
 
         if ($user->hasRole('admin')) {
-            $admin = Admin::where("user_id", $user->id)->first();
-            $studyProgramId = StudyProgram::where('faculty_id', $admin->faculty_id)
+            $adminFacultyIds = $user->faculties->pluck('id')->toArray();
+            $studyProgramIds = StudyProgram::whereIn('faculty_id', $adminFacultyIds)
                 ->pluck('id')
                 ->toArray();
 
-            $totalResidents = Resident::whereIn('study_program_id', $studyProgramId)->count();
-            $totalReports = Report::whereIn('study_program_id', $studyProgramId)->count();
+            $totalResidents = Resident::whereIn('study_program_id', $studyProgramIds)->count();
+            $totalReports = Report::whereIn('study_program_id', $studyProgramIds)->count();
             $totalReportCategories = ReportCategory::count();
             $totalFAQs = Faq::count();
 
@@ -33,7 +34,7 @@ class DashboardService
             $totalReports = Report::count();
             $totalReportCategories = ReportCategory::count();
             $totalFAQs = Faq::count();
-            $totalAdmins = Admin::count();
+            $totalAdmins = AdminFaculty::count();
 
             return compact('totalResidents', 'totalReportCategories', 'totalReports', 'totalFAQs', 'totalAdmins');
         }

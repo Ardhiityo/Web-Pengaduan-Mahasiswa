@@ -5,7 +5,6 @@ namespace App\Services\Repositories;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Resident;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Services\Interfaces\ResidentRepositoryInterface;

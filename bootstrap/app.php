@@ -2,7 +2,6 @@
 
 use Illuminate\Foundation\Application;
 use App\Http\Middleware\CheckLoginMiddleware;
-use App\Http\Middleware\CheckIsAdminMiddleware;
 use App\Http\Middleware\CheckIsResidentMiddleware;
 use Spatie\Permission\Middleware\RoleMiddleware;
 use Illuminate\Foundation\Configuration\Exceptions;

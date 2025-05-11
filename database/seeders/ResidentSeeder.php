@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Resident;
 use App\Models\StudyProgram;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class ResidentSeeder extends Seeder
