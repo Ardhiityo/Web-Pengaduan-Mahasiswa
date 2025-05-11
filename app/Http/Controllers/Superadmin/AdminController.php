@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Superadmin;
 
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Superadmin\StoreAdminRequest;
-use App\Http\Requests\Superadmin\UpdateAdminRequest;
 use App\Services\Interfaces\AdminRepositoryInterface;
 use App\Services\Interfaces\FacultyRepositoryInterface;
 use App\Services\Repositories\DecryptParameterRepository;
+use App\Http\Requests\Superadmin\Admin\UpdateAdminRequest;
 
 class AdminController extends Controller
 {
@@ -60,9 +58,9 @@ class AdminController extends Controller
         return view('pages.superadmin.admin.edit', compact('admin', 'faculties'));
     }
 
-    public function update(UpdateAdminRequest $request, string $id)
+    public function update(UpdateAdminRequest $request, string $adminId)
     {
-        $this->adminRepository->updateAdmin($id, $request->validated());
+        $this->adminRepository->updateAdmin($adminId, $request->validated());
 
         toast(title: 'Data admin sukses diupdate', type: 'success')
             ->timerProgressBar();

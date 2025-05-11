@@ -3,8 +3,6 @@
 namespace App\Services\Repositories;
 
 use App\Models\User;
-use App\Models\Admin;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use App\Services\Interfaces\AdminRepositoryInterface;
 
@@ -14,11 +12,9 @@ class AdminRepository implements AdminRepositoryInterface
     {
         $admin = $this->getAdminById($id);
 
-        is_null($data['password']) ?
-            $data['password'] = $admin->user->password : $data['password'];
+        is_null($data['password']) ? $data['password'] = $admin->password : $data['password'];
 
-        $admin->user->update($data);
-        $admin->update($data);
+        return $admin->update($data);
     }
 
     public function getAllAdmins()
@@ -53,10 +49,9 @@ class AdminRepository implements AdminRepositoryInterface
                     $query->select('id', 'name');
                 },
             ])
-                ->select('id', 'name', 'email')
+                ->select('id', 'name', 'email', 'password')
                 ->findOrFail($id);
         } catch (\Throwable $th) {
-            Log::info($th->getMessage());
             return abort(404, 'Admin not found');
         }
     }
