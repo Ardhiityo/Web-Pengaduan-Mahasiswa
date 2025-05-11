@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,7 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable implements MustVerifyEmail
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRoles;
+    use HasFactory, Notifiable, HasRoles, HasUuids;
 
     /**
      * The attributes that are mass assignable.
@@ -53,8 +54,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Resident::class);
     }
 
-    public function admins()
+    public function faculties()
     {
-        return $this->hasMany(Admin::class);
+        return $this->belongsToMany(AdminFaculty::class, 'admin_faculty', 'user_id', 'faculty_id');
     }
 }

@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('report_statuses', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('report_id')->constrained();
+            $table->uuid('id')->primary();
+            $table->uuid('report_id');
             $table->string('image')->nullable();
             $table->enum('status', ['delivered', 'in_process', 'completed', 'rejected']);
             $table->longText('description');
             $table->timestamps();
+
+            $table->foreign('report_id')->references('id')->on('reports')->cascadeOnDelete();
         });
     }
 

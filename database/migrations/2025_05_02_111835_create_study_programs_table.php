@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('report_categories', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('image');
+        Schema::create('study_programs', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->string('name')->unique();
+            $table->uuid('faculty_id');
             $table->timestamps();
+
+            $table->foreign('faculty_id')->references('id')->on('faculties')->cascadeOnDelete();
         });
     }
 
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('report_categories');
+        Schema::dropIfExists('study_programs');
     }
 };

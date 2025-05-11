@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Model;
 
 class Faculty extends Model
 {
+    use HasUuids;
+
     public function studyPrograms()
     {
         return $this->hasMany(StudyProgram::class);
@@ -13,6 +16,6 @@ class Faculty extends Model
 
     public function admins()
     {
-        return $this->hasMany(Admin::class);
+        return $this->belongsToMany(AdminFaculty::class, 'admin_faculty', 'faculty_id', 'user_id');
     }
 }

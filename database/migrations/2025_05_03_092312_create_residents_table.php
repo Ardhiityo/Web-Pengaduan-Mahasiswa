@@ -12,19 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('residents', function (Blueprint $table) {
-            $table->id();
-            $table->integer('nim')
-                ->unique()
-                ->nullable();
-            $table->foreignId('user_id')
-                ->constrained()
-                ->unique();
-            $table->foreignId('study_program_id')
-                ->nullable()
-                ->constrained();
-            $table->string('avatar')
-                ->nullable();
+            $table->uuid('id')->primary();
+            $table->string('nim')->unique()->nullable();
+            $table->uuid('user_id');
+            $table->uuid('study_program_id')->nulalable();
+            $table->string('avatar')->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
+            $table->foreign('study_program_id')->references('id')->on('study_programs')->cascadeOnDelete();
         });
     }
 
