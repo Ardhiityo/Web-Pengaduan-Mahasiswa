@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Report extends Model
 {
-
     use HasUuids;
-
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $fillable = [
         'code',
         'resident_id',

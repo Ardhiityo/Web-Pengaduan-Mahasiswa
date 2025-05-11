@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('admin_faculty', function (Blueprint $table) {
             $table->uuid('user_id');
             $table->uuid('faculty_id');
-            $table->primary(['user_id', 'faculty_id']);
             $table->timestamps();
+
+            $table->primary(['user_id', 'faculty_id']);
 
             $table->foreign('user_id')->references('id')->on('users')->cascadeOnDelete();
             $table->foreign('faculty_id')->references('id')->on('faculties')->cascadeOnDelete();

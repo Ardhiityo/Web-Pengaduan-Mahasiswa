@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Faculty extends Model
 {
     use HasUuids;
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     public function studyPrograms()
     {
@@ -16,6 +18,6 @@ class Faculty extends Model
 
     public function admins()
     {
-        return $this->belongsToMany(AdminFaculty::class, 'admin_faculty', 'faculty_id', 'user_id');
+        return $this->belongsToMany(User::class, 'admin_faculty', 'faculty_id', 'user_id');
     }
 }

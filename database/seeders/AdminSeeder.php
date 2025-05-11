@@ -15,7 +15,7 @@ class AdminSeeder extends Seeder
     {
         //1
         $user = User::create([
-            'name' => 'Admin FIK',
+            'name' => 'Lisa',
             'email' => 'admin@fik.com',
             'password' => 11111111
         ]);
@@ -24,13 +24,11 @@ class AdminSeeder extends Seeder
 
         $faculty = Faculty::where('name', 'Fakultas Ilmu Komputer')->first();
 
-        $user->admins()->create([
-            'faculty_id' => $faculty->id,
-        ]);
+        $user->faculties()->attach($faculty->id);
 
         //2
         $user = User::create([
-            'name' => 'Admin FEB',
+            'name' => '',
             'email' => 'admin@feb.com',
             'password' => 11111111
         ]);
@@ -39,8 +37,6 @@ class AdminSeeder extends Seeder
 
         $faculty = Faculty::where('name', 'Fakultas Ekonomi Bisnis')->first();
 
-        $user->admins()->create([
-            'faculty_id' => $faculty->id,
-        ]);
+        $user->faculties()->attach($faculty->id);
     }
 }

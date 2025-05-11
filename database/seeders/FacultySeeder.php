@@ -13,13 +13,17 @@ class FacultySeeder extends Seeder
      */
     public function run(): void
     {
-        Faculty::insert([
+        $faculties = [
             [
                 'name' => 'Fakultas Ilmu Komputer',
             ],
             [
                 'name' => 'Fakultas Ekonomi Bisnis',
             ]
-        ]);
+        ];
+
+        foreach ($faculties as $faculty) {
+            Faculty::create($faculty);
+        }
     }
 }

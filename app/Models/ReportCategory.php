@@ -9,7 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class ReportCategory extends Model
 {
     use HasUuids;
-
+    public $incrementing = false;
+    protected $keyType = 'string';
     protected $fillable = [
         'name',
         'image'

@@ -8,5 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 class Permission extends Model
 {
     use HasUuids;
-    protected $primaryKey = 'uuid';
+    protected $primaryKey = 'id';
+    public $incrementing = false;
+    protected $keyType = 'string';
 }

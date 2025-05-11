@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class AdminFaculty extends Pivot
 {
+    protected $keyType = 'string';
+
     protected $fillable = [
         'user_id',
         'faculty_id',
