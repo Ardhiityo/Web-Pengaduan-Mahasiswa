@@ -51,8 +51,8 @@
                         <label class="input-group-text" for="faculty_id">Fakultas</label>
                     </div>
                     <select class="custom-select
-                    @error('title') is-invalid @enderror" id="faculty_id"
-                        name="faculty_id">
+                    @error('faculty_id') is-invalid @enderror"
+                        id="faculty_id" name="faculty_id">
                         <option value="">Pilih...</option>
                         @foreach ($faculties as $faculty)
                             <option value="{{ $faculty->id }}" {{ $faculty->id == old('faculty_id') ? 'selected' : '' }}>

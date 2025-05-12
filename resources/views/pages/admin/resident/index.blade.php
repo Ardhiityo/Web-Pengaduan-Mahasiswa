@@ -40,15 +40,13 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.resident.show', Crypt::encrypt($resident->id)) }}"
+                                    <a href="{{ route('admin.resident.show', ['resident' => $resident->id]) }}"
                                         class="my-1 btn btn-sm btn-info">
                                         Show
                                     </a>
-
-                                    <a href="{{ route('admin.resident.edit', Crypt::encrypt($resident->id)) }}"
+                                    <a href="{{ route('admin.resident.edit', ['resident' => $resident->id]) }}"
                                         class="my-1 btn btn-sm btn-warning">Edit</a>
-
-                                    <form action="{{ route('admin.resident.destroy', Crypt::encrypt($resident->id)) }}"
+                                    <form action="{{ route('admin.resident.destroy', ['resident' => $resident->id]) }}"
                                         method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')

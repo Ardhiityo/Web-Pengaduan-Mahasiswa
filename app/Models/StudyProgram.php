@@ -9,6 +9,7 @@ class StudyProgram extends Model
 {
     use HasUuids;
     public $incrementing = false;
+
     protected $keyType = 'string';
 
     public function faculty()
@@ -18,7 +19,7 @@ class StudyProgram extends Model
 
     public function residents()
     {
-        return $this->hasMany(Resident::class);
+        return $this->hasOne(Resident::class);
     }
 
     public function reports()

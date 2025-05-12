@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Resident\StoreResidentRequest;
 use App\Http\Requests\Resident\UpdateResidentRequest;
-use App\Services\Interfaces\DecryptParameterRepositoryInterface;
 use App\Services\Interfaces\ResidentRepositoryInterface;
 use App\Services\Interfaces\StudyProgramRepositoryInterface;
-use Illuminate\Http\Request;
+use App\Services\Interfaces\DecryptParameterRepositoryInterface;
 
 class ResidentController extends Controller
 {
@@ -45,48 +45,22 @@ class ResidentController extends Controller
 
     public function show(string $id)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $id,
-                message: 'Ups, Mahasiswa tidak ditemukan!',
-                route: 'admin.resident.index'
-            );
-
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $resident = $this->residentRepository->getResidentById(id: $decrypt);
+        $resident = $this->residentRepository->getResidentById(id: $id);
 
         return view('pages.admin.resident.show', compact('resident'));
     }
 
     public function edit(string $id)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $id,
-                message: 'Ups, Mahasiswa tidak ditemukan!',
-                route: 'admin.resident.index'
-            );
+        $resident = $this->residentRepository->getResidentById(id: $id);
+        $studyPrograms = $this->studyProgramRepository->getAllStudyPrograms();
 
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $resident = $this->residentRepository->getResidentById(id: $decrypt);
-
-        return view('pages.admin.resident.edit', compact('resident'));
+        return view('pages.admin.resident.edit', compact('resident', 'studyPrograms'));
     }
 
     public function update(UpdateResidentRequest $request, string $id)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $id,
-                message: 'Ups, Mahasiswa tidak ditemukan!',
-                route: 'admin.resident.index'
-            );
-
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $this->residentRepository->updateResident(data: $request->validated(), id: $decrypt);
+        $this->residentRepository->updateResident($id, $request->validated());
 
         toast(title: 'Data mahasiswa sukses diupdate', type: 'success')
             ->timerProgressBar();

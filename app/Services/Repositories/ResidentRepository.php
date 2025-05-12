@@ -5,9 +5,11 @@ namespace App\Services\Repositories;
 use App\Models\User;
 use App\Models\Admin;
 use App\Models\Resident;
+use App\Models\StudyProgram;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Services\Interfaces\ResidentRepositoryInterface;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ResidentRepository implements ResidentRepositoryInterface
 {
@@ -16,23 +18,32 @@ class ResidentRepository implements ResidentRepositoryInterface
         $user = Auth::user();
 
         if ($user->hasRole('admin')) {
-            $admin = Admin::with('faculty')->where('user_id', $user->id)->first();
-            $studyProgramId = $admin->faculty->studyPrograms->pluck('id')->toArray();
+            $facultyIds = $user->faculties()->pluck('faculty_id');
+            $studyProgramIds = StudyProgram::whereIn('faculty_id', $facultyIds)->pluck('id');
 
             return Resident::with('studyProgram')
-                ->whereIn('study_program_id', $studyProgramId)
-                ->select('nim', 'user_id', 'study_program_id', 'avatar')
+                ->whereIn('study_program_id', $studyProgramIds)
+                ->select('id', 'nim', 'user_id', 'study_program_id', 'avatar')
                 ->get();
         } else if ($user->hasRole('superadmin')) {
             return Resident::with('studyProgram')
-                ->select('nim', 'user_id', 'study_program_id', 'avatar')
+                ->select('id', 'nim', 'user_id', 'study_program_id', 'avatar')
                 ->get();
         }
     }
 
-    public function getResidentById(int $id)
+    public function getResidentById(string $id)
     {
-        return Resident::findOrFail($id);
+        try {
+            return Resident::with([
+                'user' => fn(Builder $query) => $query->select('id', 'name', 'email', 'password'),
+                'studyProgram' => fn(Builder $query) => $query->select('id', 'name')
+            ])
+                ->select('id', 'nim', 'user_id', 'study_program_id', 'avatar')
+                ->findOrFail($id);
+        } catch (\Throwable $th) {
+            return abort(404);
+        }
     }
 
     public function createResident(array $data)
@@ -46,14 +57,16 @@ class ResidentRepository implements ResidentRepositoryInterface
         return $user;
     }
 
-    public function updateResident(array $data, int $id)
+    public function updateResident(string $id, array $data)
     {
         $resident = $this->getResidentById($id);
 
+        $data['password'] ?? $data['password'] = $resident->user->password;
+
         $resident->user()->update([
             'name' => $data['name'],
-            'password' => isset($data['password']) ?
-                $data['password'] : $resident->user->password
+            'email' => $data['email'],
+            'password' => $data['password'],
         ]);
 
         if (isset($data['avatar'])) {
@@ -65,7 +78,7 @@ class ResidentRepository implements ResidentRepositoryInterface
             $data['avatar'] = $data['avatar']->store('assets/avatar', 'public');
         }
 
-        return $resident->update($data);
+        $resident->update($data);
     }
 
     public function deleteResident(int $id)

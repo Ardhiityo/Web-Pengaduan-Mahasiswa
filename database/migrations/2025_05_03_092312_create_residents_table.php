@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('residents', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('nim')->unique()->nullable();
-            $table->uuid('user_id');
+            $table->uuid('user_id')->unique();
             $table->uuid('study_program_id')->nulalable();
             $table->string('avatar')->nullable();
             $table->timestamps();
