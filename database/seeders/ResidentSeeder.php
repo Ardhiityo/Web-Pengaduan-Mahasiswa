@@ -20,7 +20,7 @@ class ResidentSeeder extends Seeder
         $extension = pathinfo($publicPath, PATHINFO_EXTENSION);
 
         // New path in storage
-        $storedPath = 'assets/resident/' . Uuid::uuid4() . ".$extension";
+        $storedPath = 'assets/avatar/' . Uuid::uuid4() . ".$extension";
         if (file_exists($publicPath)) {
             Storage::disk('public')->put($storedPath, file_get_contents($publicPath));
         }

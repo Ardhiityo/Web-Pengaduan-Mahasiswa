@@ -15,7 +15,7 @@ class StoreResidentRequest extends FormRequest
         $extension = pathinfo($publicPath, PATHINFO_EXTENSION);
 
         // New path in storage
-        $storedPath = 'assets/resident/' . Uuid::uuid4() . ".$extension";
+        $storedPath = 'assets/avatar/' . Uuid::uuid4() . ".$extension";
 
         // Copy file to storage
         if (file_exists($publicPath)) {

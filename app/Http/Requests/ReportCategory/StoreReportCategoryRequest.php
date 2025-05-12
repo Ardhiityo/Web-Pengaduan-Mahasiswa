@@ -2,19 +2,10 @@
 
 namespace App\Http\Requests\ReportCategory;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreReportCategoryRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return Auth::user() != null;
-    }
-
     /**
      * Get the validation rules that apply to the request.
      *

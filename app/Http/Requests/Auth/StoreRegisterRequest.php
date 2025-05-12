@@ -4,6 +4,7 @@ namespace App\Http\Requests\Auth;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Http\FormRequest;
+use Ramsey\Uuid\Uuid;
 
 class StoreRegisterRequest extends FormRequest
 {
@@ -14,7 +15,7 @@ class StoreRegisterRequest extends FormRequest
         $extension = pathinfo($publicPath, PATHINFO_EXTENSION);
 
         // New path in storage
-        $storedPath = 'assets/avatar/' . uniqid('profile-default-') . ".$extension";
+        $storedPath = 'assets/avatar/' . Uuid::uuid4() . ".$extension";
 
         // Copy file to storage
         if (file_exists($publicPath)) {

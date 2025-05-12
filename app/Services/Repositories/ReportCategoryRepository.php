@@ -12,48 +12,44 @@ class ReportCategoryRepository implements ReportCategoryRepositoryInterface
     {
         return ReportCategory::select('id', 'name', 'image')->get();
     }
-    public function getReportCategoryById(int $id)
+    public function getReportCategoryById(string $id)
     {
-        return ReportCategory::find($id);
+        try {
+            return ReportCategory::findOrFail($id);
+        } catch (\Throwable $th) {
+            return abort(404);
+        }
     }
 
     public function createReportCategory(array $data)
     {
-        $data['image'] = $data['image']->store('assets/report-category', 'public');
+        $data['image'] = $data['image']->store('assets/category', 'public');
 
         return ReportCategory::create($data);
     }
 
-    public function updateReportCategory(array $data, int $id)
+    public function updateReportCategory(string $id, array $data)
     {
         $reportCategory = $this->getReportCategoryById($id);
 
         if (isset($data['image'])) {
-            if (!is_null($reportCategory->image)) {
+            if ($reportCategory->image) {
                 Storage::disk('public')->delete($reportCategory->image);
             }
-            $data['image'] = $data['image']->store('assets/report-category', 'public');
-        }
-
-        if (!isset($data['name'])) {
-            $data['name'] = $reportCategory->name;
+            $data['image'] = $data['image']->store('assets/category', 'public');
         }
 
         return $reportCategory->update($data);
     }
 
-    public function deleteReportCategory(int $id)
+    public function deleteReportCategory(string $id)
     {
         $reportCategory = $this->getReportCategoryById($id);
-        if ($reportCategory->reports()->count() >= 1) {
-            return false;
-        } else {
-            if (!is_null($reportCategory->image)) {
-                Storage::disk('public')->delete($reportCategory->image);
-            }
-            $reportCategory->delete();
 
-            return true;
+        if ($reportCategory->image) {
+            Storage::disk('public')->delete($reportCategory->image);
         }
+
+        return $reportCategory->delete();
     }
 }

@@ -16,18 +16,20 @@
                 @csrf
                 <div class="form-group">
                     <label for="name">Nama Kategori</label>
-                    <input type="text" class="form-control
-                    @error('name') is-invalid @enderror"
-                        id="name" name="name" value="{{ old('name') }}">
+                    <input type="text" required
+                        class="form-control
+                    @error('name') is-invalid @enderror" id="name"
+                        name="name" value="{{ old('name') }}">
                     @error('name')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
                 <div class="form-group">
                     <label for="image">Icon</label>
-                    <input type="file" class="form-control
-                    @error('image') is-invalid @enderror"
-                        id="image" name="image" value="{{ old('image') }}">
+                    <input type="file" required
+                        class="form-control
+                    @error('image') is-invalid @enderror" id="image"
+                        name="image" value="{{ old('image') }}">
                     @error('image')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

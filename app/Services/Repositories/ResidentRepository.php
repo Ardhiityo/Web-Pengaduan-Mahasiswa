@@ -70,7 +70,7 @@ class ResidentRepository implements ResidentRepositoryInterface
 
         if (isset($data['avatar'])) {
             //delete old photo profile
-            if (Storage::disk('public')->exists($resident->avatar)) {
+            if ($resident->avatar) {
                 Storage::disk('public')->delete($resident->avatar);
             }
             //save new photo profile
