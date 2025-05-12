@@ -50,8 +50,13 @@ class FacultyController extends Controller
         //
     }
 
-    public function destroy($id)
+    public function destroy(string $id)
     {
-        //
+        $this->facultyRepository->deleteFacultyById($id);
+
+        toast(title: 'Data fakultas sukses dihapus', type: 'success')
+            ->timerProgressBar();
+
+        return redirect()->route('admin.faculty.index');
     }
 }

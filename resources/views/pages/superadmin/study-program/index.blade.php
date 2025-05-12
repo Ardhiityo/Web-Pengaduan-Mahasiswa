@@ -1,53 +1,40 @@
 @extends('layouts.admin')
 
-@section('title', 'Detail Fakultas')
-
+@section('title', 'Data Admin')
 
 @section('content')
-    <a href="{{ route('admin.faculty.index') }}" class="mb-3 btn btn-danger">Kembali</a>
+    <a href="{{ route('admin.faculty.create') }}" class="mb-3 btn btn-primary">Tambah Data</a>
 
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
-            <h6 class="m-0 font-weight-bold text-primary">Detail Fakultas</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Data Fakultas
+            </h6>
         </div>
         <div class="card-body">
-            <table class="table table-bordered">
-                <tr>
-                    <td>Nama</td>
-                    <td>{{ $faculty->name }}</td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
-    <div class="mb-4 shadow card">
-        <div class="py-3 card-header">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Studi Program</h6>
-        </div>
-        <div class="card-body">
-            <a href="{{ route('admin.study-program.create', ['faculty' => $faculty->id]) }}" class="mb-3 btn btn-primary">
-                Tambah Studi Program
-            </a>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
+                            <th>Studi Program</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($faculty->studyPrograms as $studyProgram)
+                        @foreach ($faculties as $faculty)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $studyProgram->name }}</td>
+                                <td>{{ $faculty->name }}</td>
+                                <td>
+                                    {{ $faculty->studyPrograms->isEmpty() ? '-' : $faculty->studyPrograms->pluck('name')->implode(', ') }}
+                                </td>
                                 <td>
                                     <a href="{{ route('admin.faculty.show', ['faculty' => $faculty->id]) }}"
-                                        class="my-1 btn btn-sm btn-info">Show</a>
+                                        class="my-1 btn btn-info btn-sm">Show</a>
 
                                     <a href="{{ route('admin.faculty.edit', ['faculty' => $faculty->id]) }}"
-                                        class="my-1 btn btn-sm btn-warning">Edit</a>
+                                        class="my-1 btn btn-warning btn-sm">Edit</a>
 
                                     <form action="{{ route('admin.faculty.destroy', ['faculty' => $faculty->id]) }}"
                                         method="POST" class="d-inline">

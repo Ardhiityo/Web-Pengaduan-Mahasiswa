@@ -19,6 +19,7 @@ use App\Http\Controllers\Superadmin\ReportCategoryController;
 use App\Http\Controllers\User\FaqController as UserFaqController;
 use App\Http\Controllers\User\ReportController as UserReportController;
 use App\Http\Controllers\Admin\ProfileController as AdminProfileController;
+use App\Http\Controllers\Superadmin\StudyProgramController;
 
 // Auth with google
 Route::controller(AuthGoogleController::class)->group(function () {
@@ -144,6 +145,11 @@ Route::prefix('admin')
             ->name('admin-faculty.store');
         Route::delete('/admin-faculty/{admin}/destroy/{faculty}', [AdminFacultyController::class, 'destroy'])
             ->name('admin-faculty.destroy');
+        // Study Program
+        Route::get('/faculty/{faculty}/study-program/create', [StudyProgramController::class, 'create'])
+            ->name('study-program.create');
+        Route::post('/faculty/{faculty}/study-program/create', [StudyProgramController::class, 'store'])
+            ->name('study-program.store');
     });
 
 Route::fallback(function () {

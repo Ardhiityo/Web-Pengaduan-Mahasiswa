@@ -8,4 +8,5 @@ interface FacultyRepositoryInterface
     public function getFacultyById($id);
     public function createFaculty(array $data);
     public function getFacultiesByAdminId(array $data);
+    public function deleteFacultyById(string $id);
 }

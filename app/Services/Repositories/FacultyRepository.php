@@ -47,4 +47,9 @@ class FacultyRepository implements FacultyRepositoryInterface
             return abort(404, 'Admin not found');
         }
     }
+
+    public function deleteFacultyById(string $id)
+    {
+        return $this->getFacultyById($id)->delete();
+    }
 }

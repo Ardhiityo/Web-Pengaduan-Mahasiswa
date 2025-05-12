@@ -25,7 +25,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Daftar Studi Program</h6>
         </div>
         <div class="card-body">
-            <a href="{{ route('admin.study-program.create', ['faculty' => $faculty->id]) }}" class="mb-3 btn btn-primary">
+            <a href="{{ route('admin.faculty.create') }}" class="mb-3 btn btn-primary">
                 Tambah Studi Program
             </a>
             <div class="table-responsive">
