@@ -8,4 +8,5 @@ interface StudyProgramRepositoryInterface
     public function getStudyProgramById($id);
     public function createStudyProgram(array $data);
     public function deleteStudyProgramById($id);
+    public function updateStudyProgramById($id, array $data);
 }

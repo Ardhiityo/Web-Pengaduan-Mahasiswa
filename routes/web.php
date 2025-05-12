@@ -152,6 +152,8 @@ Route::prefix('admin')
             ->name('study-program.store');
         Route::get('/faculty/{faculty}/study-program/{study_program}/edit', [StudyProgramController::class, 'edit'])
             ->name('study-program.edit');
+        Route::patch('/faculty/{faculty}/study-program/{study_program}', [StudyProgramController::class, 'update'])
+            ->name('study-program.update');
         Route::delete('/faculty/{faculty}/study-program/{study_program}', [StudyProgramController::class, 'destroy'])
             ->name('study-program.destroy');
     });

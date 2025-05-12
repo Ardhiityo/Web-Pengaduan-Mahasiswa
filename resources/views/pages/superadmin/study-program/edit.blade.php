@@ -10,13 +10,17 @@
             <h6 class="m-0 font-weight-bold text-primary">Edit Data</h6>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.study-program.store', ['faculty' => request('faculty')]) }}" method="POST">
+            <form
+                action="{{ route('admin.study-program.update', ['faculty' => request('faculty'), 'study_program' => $studyProgram->id]) }}"
+                method="POST">
                 @csrf
+                @method('PATCH')
                 <div class="form-group">
                     <label for="name">Nama Program Studi</label>
                     <input type="text" class="form-control
                 @error('name') is-invalid @enderror"
-                        id="name" name="name" value="{{ old('name') }}" required minlength="3">
+                        id="name" name="name" value="{{ old('name', $studyProgram->name) }}" required
+                        minlength="3">
                     @error('name')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

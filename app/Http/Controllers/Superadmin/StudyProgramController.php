@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Superadmin\StudyProgram\StoreStudyProgramRequest;
 use App\Services\Interfaces\StudyProgramRepositoryInterface;
+use App\Http\Requests\Superadmin\StudyProgram\StoreStudyProgramRequest;
+use App\Http\Requests\Superadmin\StudyProgram\UpdateStudyProgramRequest;
 
 class StudyProgramController extends Controller
 {
@@ -32,6 +33,16 @@ class StudyProgramController extends Controller
         $studyProgram = $this->studyProgramRepository->getStudyProgramById($studyProgramId);
 
         return view('pages.superadmin.study-program.edit', compact('studyProgram'));
+    }
+
+    public function update(UpdateStudyProgramRequest $request, $facultyId, $studyProgramId)
+    {
+        $this->studyProgramRepository->updateStudyProgramById($studyProgramId, $request->validated());
+
+        toast(title: 'Data program studi sukses diubah', type: 'success')
+            ->timerProgressBar();
+
+        return redirect()->route('admin.faculty.show', ['faculty' => $facultyId]);
     }
 
     public function destroy($facultyId, $studyProgramId)
