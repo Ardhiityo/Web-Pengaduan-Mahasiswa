@@ -3,11 +3,9 @@
 @section('title', 'Detail Kemajuan Laporan')
 
 @section('content')
-    <!-- Page Heading -->
-    <a href="{{ route('admin.report.show', Crypt::encrypt($reportStatus->report->id)) }}"
+    <a href="{{ route('admin.report.show', ['report' => $reportStatus->report->id]) }}"
         class="mb-3 btn btn-danger">Kembali</a>
 
-    <!-- DataTales Example -->
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
             <h6 class="m-0 font-weight-bold text-primary">Detail kemajuan Laporan {{ $reportStatus->report->code }}</h6>

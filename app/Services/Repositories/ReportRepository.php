@@ -50,23 +50,10 @@ class ReportRepository implements ReportRepositoryInterface
         }
     }
 
-    public function getReportById(int $id)
+    public function getReportById(string $id)
     {
-        return Report::select(
-            'id',
-            'code',
-            'title',
-            'description',
-            'address',
-            'image',
-            'longitude',
-            'latitude',
-            'description',
-            'resident_id',
-            'report_category_id',
-            'study_program_id'
-        )->find($id)
-            ->load([
+        try {
+            return Report::with([
                 'studyProgram' => function (Builder $query) {
                     $query->select('id', 'name');
                 },
@@ -76,7 +63,23 @@ class ReportRepository implements ReportRepositoryInterface
                         $query->select('id', 'name');
                     }])->select('id', 'user_id', 'nim');
                 },
-            ]);
+            ])->select(
+                'id',
+                'code',
+                'title',
+                'description',
+                'address',
+                'image',
+                'longitude',
+                'latitude',
+                'description',
+                'resident_id',
+                'report_category_id',
+                'study_program_id'
+            )->findOrFail($id);
+        } catch (\Throwable $th) {
+            return abort(404);
+        }
     }
 
     public function getReportsByCategory(string $category)

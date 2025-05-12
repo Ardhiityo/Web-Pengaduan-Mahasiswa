@@ -15,9 +15,13 @@ class ReportStatusRepository implements ReportStatusRepositoryInterface
         return ReportStatus::all();
     }
 
-    public function getReportStatusById(int $id)
+    public function getReportStatusById(string $id)
     {
-        return ReportStatus::findOrFail($id);
+        try {
+            return ReportStatus::findOrFail($id);
+        } catch (\Throwable $th) {
+            return abort(404);
+        }
     }
 
     public function getReportStatusByResident(string $status)

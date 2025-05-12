@@ -50,16 +50,7 @@ class ReportStatusController extends Controller
 
     public function show(string $reportStatusId)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $reportStatusId,
-                message: 'Ups, Kemajuan laporan tidak ditemukan!',
-                route: 'admin.report.index'
-            );
-
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $reportStatus = $this->reportStatusRepository->getReportStatusById(id: $decrypt);
+        $reportStatus = $this->reportStatusRepository->getReportStatusById(id: $reportStatusId);
 
         return view('pages.admin.report-status.show', compact('reportStatus'));
     }

@@ -50,16 +50,7 @@ class ReportController extends Controller
 
     public function show(string $id)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $id,
-                message: 'Ups, Laporan tidak ditemukan!',
-                route: 'admin.report.index'
-            );
-
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $report = $this->reportRepository->getReportById($decrypt);
+        $report = $this->reportRepository->getReportById($id);
 
         return view('pages.admin.report.show', compact('report'));
     }

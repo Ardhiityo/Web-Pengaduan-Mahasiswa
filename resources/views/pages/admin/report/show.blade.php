@@ -22,7 +22,7 @@
                     <td>{{ $report->resident->user->name }}</td>
                 </tr>
                 <tr>
-                    <td>Nim</td>
+                    <td>NIM</td>
                     <td>{{ $report->resident->nim }}</td>
                 </tr>
                 <tr>
@@ -74,7 +74,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Status Laporan</h6>
         </div>
         <div class="card-body">
-            <a href="{{ route('admin.report-status.create', Crypt::encrypt($report->id)) }}" class="mb-3 btn btn-primary">
+            <a href="{{ route('admin.report-status.create', ['reportId' => $report->id]) }}" class="mb-3 btn btn-primary">
                 Tambah Kemajuan Laporan
             </a>
             <div class="table-responsive">
@@ -103,14 +103,14 @@
                                 <td>{{ $reportStatus->status }}</td>
                                 <td>{{ $reportStatus->description }}</td>
                                 <td>
-                                    <a href="{{ route('admin.report-status.show', Crypt::encrypt($reportStatus->id)) }}"
+                                    <a href="{{ route('admin.report-status.show', ['report_status' => $reportStatus->id]) }}"
                                         class="my-1 btn btn-sm btn-info">Show</a>
 
-                                    <a href="{{ route('admin.report-status.edit', Crypt::encrypt($reportStatus->id)) }}"
+                                    <a href="{{ route('admin.report-status.edit', ['report_status' => $reportStatus->id]) }}"
                                         class="my-1 btn btn-sm btn-warning">Edit</a>
 
                                     <form
-                                        action="{{ route('admin.report-status.destroy', Crypt::encrypt($reportStatus->id)) }}"
+                                        action="{{ route('admin.report-status.destroy', ['report_status' => $reportStatus->id]) }}"
                                         method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')

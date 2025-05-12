@@ -35,13 +35,13 @@
                                 <td>{{ $report->studyProgram->name }}</td>
                                 <td>
 
-                                    <a href="{{ route('admin.report.show', Crypt::encrypt($report->id)) }}"
+                                    <a href="{{ route('admin.report.show', ['report' => $report->id]) }}"
                                         class="my-1 btn btn-sm btn-info">Show</a>
 
-                                    <a href="{{ route('admin.report.edit', Crypt::encrypt($report->id)) }}"
+                                    <a href="{{ route('admin.report.edit', ['report' => $report->id]) }}"
                                         class="my-1 btn btn-sm btn-warning">Edit</a>
 
-                                    <form action="{{ route('admin.report.destroy', Crypt::encrypt($report->id)) }}"
+                                    <form action="{{ route('admin.report.destroy', ['report' => $report->id]) }}"
                                         method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
