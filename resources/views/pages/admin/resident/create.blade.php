@@ -38,9 +38,10 @@
 
                 <div class="form-group">
                     <label for="nim">NIM</label>
-                    <input type="text" class="form-control
-                    @error('nim') is-invalid @enderror"
-                        id="nim" name="nim" value="{{ old('nim') }}" required>
+                    <input type="text"
+                        class="form-control required
+                    @error('nim') is-invalid @enderror" id="nim"
+                        name="nim" value="{{ old('nim') }}" required>
                     @error('nim')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -69,12 +70,20 @@
                 <div class="form-group">
                     <label for="password">Password</label>
                     <input required type="password"
-                        class="form-control
-                    @error('password') is-invalid @enderror" id="password"
-                        name="password">
+                        class="form-control required
+                    @error('password') is-invalid @enderror"
+                        id="password" name="password">
                     @error('password')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
+                </div>
+
+                <div class="form-group">
+                    <label for="password_confirmation">Konfirmasi Password</label>
+                    <input required type="password"
+                        class="form-control
+                    @error('password') is-invalid @enderror"
+                        id="password_confirmation" name="password_confirmation">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

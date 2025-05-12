@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Resident\StoreResidentRequest;
 use App\Http\Requests\Resident\UpdateResidentRequest;
 use App\Services\Interfaces\ResidentRepositoryInterface;
@@ -70,16 +68,7 @@ class ResidentController extends Controller
 
     public function destroy(string $id)
     {
-        $decrypt = $this->decryptParameterRepository->getData(id: $id, message: 'Ups, Mahasiswa tidak ditemukan!', route: 'admin.resident.index');
-
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        if (!$this->residentRepository->deleteResident($decrypt)) {
-            toast(title: 'Gagal dihapus! Pastikan data mahasiswa yang hendak dihapus tidak memiliki laporan', type: 'error')
-                ->timerProgressBar();
-
-            return redirect()->route('admin.resident.index');
-        }
+        $this->residentRepository->deleteResident($id);
 
         toast(title: 'Data mahasiswa sukses dihapus', type: 'success')
             ->timerProgressBar();

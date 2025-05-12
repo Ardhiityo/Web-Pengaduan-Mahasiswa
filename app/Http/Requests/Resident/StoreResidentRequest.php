@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests\Resident;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Http\FormRequest;
+use Ramsey\Uuid\Uuid;
 
 class StoreResidentRequest extends FormRequest
 {
@@ -15,7 +15,7 @@ class StoreResidentRequest extends FormRequest
         $extension = pathinfo($publicPath, PATHINFO_EXTENSION);
 
         // New path in storage
-        $storedPath = 'assets/resident/' . uniqid() . ".$extension";
+        $storedPath = 'assets/resident/' . Uuid::uuid4() . ".$extension";
 
         // Copy file to storage
         if (file_exists($publicPath)) {
@@ -24,14 +24,6 @@ class StoreResidentRequest extends FormRequest
             // Change avatar input with a new path in storage
             $this->merge(['avatar' => $storedPath]);
         }
-    }
-
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return Auth::user() != null;
     }
 
     /**
@@ -46,28 +38,35 @@ class StoreResidentRequest extends FormRequest
             'nim' => ['required', 'digits_between:8,10', 'numeric', 'unique:residents,nim'],
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'email' => ['required', 'email', 'unique:users', 'max:255'],
-            'password' => ['required', 'min:8', 'max:255'],
-            'avatar' => ['nullable']
+            'password' => ['required', 'min:8', 'max:255', 'confirmed'],
+            'avatar' => ['nullable'],
         ];
     }
 
     public function messages()
     {
         return [
-            'email.required' => 'Email wajib di isi',
-            'email.max' => 'Email max 255 karakter',
-            'email.unique' => 'Email sudah terdaftar',
-            'password.required' => 'Password wajib di isi',
-            'password.max' => 'Password max 255 karakter',
-            'password.min' => 'Password harus memiliki minimal 8 karakter',
             'name.required' => 'Nama wajib di isi',
-            'name.max' => 'Nama max 30 karakter',
+            'name.max' => 'Nama maksimal 30 karakter',
+            'name.string' => 'Nama harus berupa teks',
+
             'nim.required' => 'NIM wajib di isi',
             'nim.numeric' => 'NIM harus berupa angka',
-            'study_program_id.required' => 'Program studi wajib di isi',
-            'study_program_id.exists' => 'Program studi tidak valid',
             'nim.unique' => 'NIM sudah terdaftar',
             'nim.digits_between' => 'NIM harus memiliki panjang antara 8-10 digit',
+
+            'study_program_id.required' => 'Program studi wajib di isi',
+            'study_program_id.exists' => 'Program studi tidak valid',
+
+            'email.required' => 'Email wajib di isi',
+            'email.email' => 'Format email tidak valid',
+            'email.unique' => 'Email sudah terdaftar',
+            'email.max' => 'Email maksimal 255 karakter',
+
+            'password.required' => 'Password wajib di isi',
+            'password.min' => 'Password minimal 8 karakter',
+            'password.max' => 'Password maksimal 255 karakter',
+            'password.confirmed' => 'Konfirmasi password tidak sesuai'
         ];
     }
 }

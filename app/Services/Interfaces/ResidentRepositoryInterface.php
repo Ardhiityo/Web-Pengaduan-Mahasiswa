@@ -8,5 +8,5 @@ interface ResidentRepositoryInterface
     public function getResidentById(string $id);
     public function createResident(array $data);
     public function updateResident(string $id, array $data);
-    public function deleteResident(int $id);
+    public function deleteResident(string $id);
 }

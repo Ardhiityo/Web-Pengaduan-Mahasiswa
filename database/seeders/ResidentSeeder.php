@@ -7,25 +7,33 @@ use App\Models\User;
 use App\Models\Resident;
 use App\Models\StudyProgram;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Ramsey\Uuid\Uuid;
 
 class ResidentSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
+
+    public function generateAvatar()
     {
         // Path file in public
         $publicPath = public_path('assets/app/images/avatar.png');
         $extension = pathinfo($publicPath, PATHINFO_EXTENSION);
 
         // New path in storage
-        $storedPath = 'assets/resident/' . uniqid() . ".$extension";
+        $storedPath = 'assets/resident/' . Uuid::uuid4() . ".$extension";
         if (file_exists($publicPath)) {
             Storage::disk('public')->put($storedPath, file_get_contents($publicPath));
         }
+
+        return $storedPath;
+    }
+
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+
 
         $faker = Factory::create();
 
@@ -41,7 +49,7 @@ class ResidentSeeder extends Seeder
 
         Resident::create([
             'user_id' => $user->id,
-            'avatar' => $storedPath,
+            'avatar' => $this->generateAvatar(),
             'study_program_id' => $studyProgram->id,
             'nim' => 22040004,
         ]);
@@ -58,7 +66,7 @@ class ResidentSeeder extends Seeder
 
         Resident::create([
             'user_id' => $user->id,
-            'avatar' => $storedPath,
+            'avatar' => $this->generateAvatar(),
             'study_program_id' => $studyProgram->id,
             'nim' => 22040005,
         ]);

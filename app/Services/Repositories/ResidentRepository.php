@@ -3,7 +3,6 @@
 namespace App\Services\Repositories;
 
 use App\Models\User;
-use App\Models\Admin;
 use App\Models\Resident;
 use App\Models\StudyProgram;
 use Illuminate\Support\Facades\Auth;
@@ -81,18 +80,14 @@ class ResidentRepository implements ResidentRepositoryInterface
         $resident->update($data);
     }
 
-    public function deleteResident(int $id)
+    public function deleteResident(string $id)
     {
         $resident = $this->getResidentById($id);
-        if ($resident->reports()->count() >= 1) {
-            return false;
-        } else {
-            if (!is_null($resident->avatar)) {
-                Storage::disk('public')->delete($resident->avatar);
-            }
-            $resident->delete();
-            $resident->user()->delete();
-            return true;
+
+        if ($resident->avatar) {
+            Storage::disk('public')->delete($resident->avatar);
         }
+
+        return $resident->user->delete();
     }
 }
