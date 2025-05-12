@@ -150,6 +150,10 @@ Route::prefix('admin')
             ->name('study-program.create');
         Route::post('/faculty/{faculty}/study-program/create', [StudyProgramController::class, 'store'])
             ->name('study-program.store');
+        Route::get('/faculty/{faculty}/study-program/{study_program}/edit', [StudyProgramController::class, 'edit'])
+            ->name('study-program.edit');
+        Route::delete('/faculty/{faculty}/study-program/{study_program}', [StudyProgramController::class, 'destroy'])
+            ->name('study-program.destroy');
     });
 
 Route::fallback(function () {

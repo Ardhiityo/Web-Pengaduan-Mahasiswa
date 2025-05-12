@@ -26,7 +26,7 @@
         </div>
         <div class="card-body">
             <a href="{{ route('admin.study-program.create', ['faculty' => $faculty->id]) }}" class="mb-3 btn btn-primary">
-                Tambah Studi Program
+                Tambah Program Studi
             </a>
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -43,16 +43,13 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $studyProgram->name }}</td>
                                 <td>
-                                    <a href="{{ route('admin.faculty.show', ['faculty' => $faculty->id]) }}"
-                                        class="my-1 btn btn-sm btn-info">Show</a>
-
-                                    <a href="{{ route('admin.faculty.edit', ['faculty' => $faculty->id]) }}"
+                                    <a href="{{ route('admin.study-program.edit', ['faculty' => $faculty->id, 'study_program' => $studyProgram->id]) }}"
                                         class="my-1 btn btn-sm btn-warning">Edit</a>
-
-                                    <form action="{{ route('admin.faculty.destroy', ['faculty' => $faculty->id]) }}"
+                                    <form
+                                        action="{{ route('admin.study-program.destroy', ['faculty' => $faculty->id, 'study_program' => $studyProgram->id]) }}"
                                         method="POST" class="d-inline">
-                                        @csrf
                                         @method('DELETE')
+                                        @csrf
                                         <button type="submit" class="my-1 btn btn-sm btn-danger">Delete</button>
                                     </form>
                                 </td>

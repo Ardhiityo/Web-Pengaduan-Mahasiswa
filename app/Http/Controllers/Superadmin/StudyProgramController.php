@@ -21,9 +21,26 @@ class StudyProgramController extends Controller
 
         $this->studyProgramRepository->createStudyProgram($data);
 
-        toast(title: 'Data studi program sukses ditambahkan', type: 'success')
+        toast(title: 'Data program studi sukses ditambahkan', type: 'success')
             ->timerProgressBar();
 
         return redirect()->route('admin.faculty.show', ['faculty' => $data['faculty_id']]);
+    }
+
+    public function edit($facultyId, $studyProgramId)
+    {
+        $studyProgram = $this->studyProgramRepository->getStudyProgramById($studyProgramId);
+
+        return view('pages.superadmin.study-program.edit', compact('studyProgram'));
+    }
+
+    public function destroy($facultyId, $studyProgramId)
+    {
+        $this->studyProgramRepository->deleteStudyProgramById($studyProgramId);
+
+        toast(title: 'Data program studi sukses dihapus', type: 'success')
+            ->timerProgressBar();
+
+        return redirect()->route('admin.faculty.show', ['faculty' => $facultyId]);
     }
 }

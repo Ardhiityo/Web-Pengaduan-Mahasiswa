@@ -10,11 +10,13 @@ class FacultyRepository implements FacultyRepositoryInterface
 {
     public function getAllFaculties()
     {
-        return Faculty::with([
-            'studyPrograms' => function ($query) {
-                $query->select('id', 'name');
-            },
-        ])->select('id', 'name')->get();
+        return Faculty::with(
+            [
+                'studyPrograms' => function ($query) {
+                    $query->select('id', 'name', 'faculty_id');
+                },
+            ]
+        )->select('id', 'name')->get();
     }
 
     public function getFacultyById($id)
@@ -23,7 +25,7 @@ class FacultyRepository implements FacultyRepositoryInterface
             return Faculty::with(
                 [
                     'studyPrograms' => function ($query) {
-                        $query->select('id', 'name');
+                        $query->select('id', 'name', 'faculty_id');
                     },
                 ]
             )

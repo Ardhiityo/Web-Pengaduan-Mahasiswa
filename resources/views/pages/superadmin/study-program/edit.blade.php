@@ -1,25 +1,22 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Data Admin')
+@section('title', 'Edit Data Program Studi')
 
 @section('content')
-    <!-- Page Heading -->
-    <a href="{{ route('admin.admin.index') }}" class="mb-3 btn btn-danger">Kembali</a>
+    <a href="{{ route('admin.faculty.show', ['faculty' => request('faculty')]) }}" class="mb-3 btn btn-danger">Kembali</a>
 
-    <!-- DataTales Example -->
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
             <h6 class="m-0 font-weight-bold text-primary">Edit Data</h6>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.faculty.store') }}" method="POST">
-                @method('PUT')
+            <form action="{{ route('admin.study-program.store', ['faculty' => request('faculty')]) }}" method="POST">
                 @csrf
                 <div class="form-group">
-                    <label for="name">Nama Fakultas</label>
+                    <label for="name">Nama Program Studi</label>
                     <input type="text" class="form-control
-                    @error('name') is-invalid @enderror"
-                        id="name" name="name" value="{{ old('name', $faculty->name) }}" required minlength="3">
+                @error('name') is-invalid @enderror"
+                        id="name" name="name" value="{{ old('name') }}" required minlength="3">
                     @error('name')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror

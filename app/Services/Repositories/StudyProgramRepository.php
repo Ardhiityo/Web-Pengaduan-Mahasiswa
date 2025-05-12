@@ -12,8 +12,18 @@ class StudyProgramRepository implements StudyProgramRepositoryInterface
         return StudyProgram::select('id', 'name')->get();
     }
 
+    public function getStudyProgramById($id)
+    {
+        //
+    }
+
     public function createStudyProgram(array $data)
     {
         return StudyProgram::create($data);
+    }
+
+    public function deleteStudyProgramById($id)
+    {
+        return StudyProgram::destroy($id);
     }
 }
