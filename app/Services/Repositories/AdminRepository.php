@@ -3,7 +3,6 @@
 namespace App\Services\Repositories;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use App\Services\Interfaces\AdminRepositoryInterface;
 

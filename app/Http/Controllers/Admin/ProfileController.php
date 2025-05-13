@@ -15,7 +15,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        return view('pages.admin.edit-profile', compact('user'));
+        return view('pages.admin.profile.edit-profile', compact('user'));
     }
 
     public function update(UpdateAdminRequest $request)

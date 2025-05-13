@@ -15,7 +15,7 @@ class StoreResidentRequest extends FormRequest
         $extension = pathinfo($publicPath, PATHINFO_EXTENSION);
 
         // New path in storage
-        $storedPath = 'assets/avatar/' . Uuid::uuid4() . ".$extension";
+        $storedPath = 'assets/resident/' . Uuid::uuid4() . ".$extension";
 
         // Copy file to storage
         if (file_exists($publicPath)) {
@@ -39,7 +39,7 @@ class StoreResidentRequest extends FormRequest
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'email' => ['required', 'email', 'unique:users', 'max:255'],
             'password' => ['required', 'min:8', 'max:255', 'confirmed'],
-            'avatar' => ['nullable'],
+            'avatar' => ['nullable', 'mimetypes:image/jpeg,image/png,image/jpg'],
         ];
     }
 
@@ -66,7 +66,9 @@ class StoreResidentRequest extends FormRequest
             'password.required' => 'Password wajib di isi',
             'password.min' => 'Password minimal 8 karakter',
             'password.max' => 'Password maksimal 255 karakter',
-            'password.confirmed' => 'Konfirmasi password tidak sesuai'
+            'password.confirmed' => 'Konfirmasi password tidak sesuai',
+
+            'avatar.mimetypes' => 'Foto profil harus berformat jpeg, jpg, atau png'
         ];
     }
 }
