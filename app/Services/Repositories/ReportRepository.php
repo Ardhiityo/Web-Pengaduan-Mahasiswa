@@ -129,17 +129,7 @@ class ReportRepository implements ReportRepositoryInterface
     {
         $report = $this->getReportById($id);
 
-        if ($report->reportStatuses->count()) {
-            $reportStatuses = ReportStatus::where('report_id', $report->id)->get();
-            foreach ($reportStatuses as $reportStatus) {
-                if (!is_null($reportStatus->image)) {
-                    Storage::disk('public')->delete($reportStatus->image);
-                }
-            }
-        }
-        $report->reportStatuses()->delete();
-
-        if (!is_null($report->image)) {
+        if ($report->image) {
             Storage::disk('public')->delete($report->image);
         }
 

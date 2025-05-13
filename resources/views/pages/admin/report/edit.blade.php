@@ -10,7 +10,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Edit Data</h6>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.report.update', Crypt::encrypt($report->id)) }}" method="POST"
+            <form action="{{ route('admin.report.update', ['report' => $report->id]) }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 @method('PATCH')
@@ -88,6 +88,25 @@
                     @error('image') is-invalid @enderror"
                         id="image" name="image" value="{{ old('image') }}">
                     @error('image')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="my-4 input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="status">Program Studi</label>
+                    </div>
+                    <select class="custom-select
+                    @error('study_program_id') is-invalid @enderror"
+                        required id="study_program_id" name="study_program_id">
+                        <option value="">Pilih...</option>
+                        @foreach ($studyPrograms as $studyProgram)
+                            <option value="{{ $studyProgram->id }}"
+                                {{ old('study_program_id', $studyProgram->id) == $studyProgram->id ? 'selected' : '' }}>
+                                {{ $studyProgram->name }}</option>
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('study_program_id')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>

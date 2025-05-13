@@ -67,7 +67,9 @@ class ReportController extends Controller
 
         $reportCategories = $this->reportCategoryRepository->getAllReportCategories();
 
-        return view('pages.admin.report.edit', compact('report', 'residents', 'reportCategories'));
+        $studyPrograms = $this->studyProgramRepository->getAllStudyPrograms();
+
+        return view('pages.admin.report.edit', compact('report', 'residents', 'reportCategories', 'studyPrograms'));
     }
 
     public function update(UpdateReportRequest $request, string $id)
@@ -82,16 +84,7 @@ class ReportController extends Controller
 
     public function destroy(string $id)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $id,
-                message: 'Ups, Laporan tidak ditemukan!',
-                route: 'admin.report.index'
-            );
-
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $this->reportRepository->deleteReport($decrypt);
+        $this->reportRepository->deleteReport($id);
 
         toast(title: 'Data laporan sukses dihapus', type: 'success')
             ->timerProgressBar();
