@@ -6,9 +6,10 @@ use App\Models\User;
 use App\Models\Resident;
 use App\Models\StudyProgram;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use App\Services\Interfaces\ResidentRepositoryInterface;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use App\Services\Interfaces\ResidentRepositoryInterface;
 
 class ResidentRepository implements ResidentRepositoryInterface
 {
@@ -65,7 +66,7 @@ class ResidentRepository implements ResidentRepositoryInterface
     {
         $resident = $this->getResidentById($id);
 
-        $data['password'] ?? $data['password'] = $resident->user->password;
+        is_null($data['password']) ? $data['password'] = $resident->user->password : $data['password'] = Hash::make($data['password']);
 
         $resident->user()->update([
             'name' => $data['name'],

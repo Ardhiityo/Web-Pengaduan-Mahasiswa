@@ -7,10 +7,16 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Resident\UpdateResidentRequest;
 use App\Services\Interfaces\ResidentRepositoryInterface;
 use App\Services\Interfaces\ReportStatusRepositoryInterface;
+use App\Services\Interfaces\StudyProgramRepositoryInterface;
 
 class ProfileController extends Controller
 {
-    public function __construct(private ReportStatusRepositoryInterface $reportStatusRepository, private ResidentRepositoryInterface $residentRepository) {}
+    public function __construct(
+        private ReportStatusRepositoryInterface $reportStatusRepository,
+        private ResidentRepositoryInterface $residentRepository,
+        private StudyProgramRepositoryInterface $studyProgramRepository
+    ) {}
+
     public function index()
     {
         $reportActive = $this->reportStatusRepository->getActiveReportStatusByResident();
@@ -22,12 +28,18 @@ class ProfileController extends Controller
     public function edit()
     {
         $resident = $this->residentRepository->getResidentById(Auth::user()->resident->id);
-        return view('pages.app.edit-profile', compact('resident'));
+        $studyPrograms = $this->studyProgramRepository->getAllStudyPrograms();
+
+        return view('pages.app.edit-profile', compact('resident', 'studyPrograms'));
     }
 
     public function update(UpdateResidentRequest $request)
     {
-        $this->residentRepository->updateResident($request->validated(), Auth::user()->resident->id);
+        $data = $request->validated();
+        $residentId = Auth::user()->resident->id;
+
+        $this->residentRepository->updateResident($residentId, $data);
+
         return redirect()->route('profile');
     }
 }

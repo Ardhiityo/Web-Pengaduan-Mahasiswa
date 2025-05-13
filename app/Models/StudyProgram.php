@@ -20,7 +20,7 @@ class StudyProgram extends Model
 
     public function faculty()
     {
-        return $this->belongsTo(StudyProgram::class);
+        return $this->belongsTo(Faculty::class);
     }
 
     public function residents()

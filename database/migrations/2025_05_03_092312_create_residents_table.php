@@ -15,7 +15,7 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->string('nim')->unique()->nullable();
             $table->uuid('user_id')->unique();
-            $table->uuid('study_program_id')->nulalable();
+            $table->uuid('study_program_id')->nullable();
             $table->string('avatar')->nullable();
             $table->timestamps();
 

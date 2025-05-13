@@ -4,6 +4,7 @@ namespace App\Http\Requests\Resident;
 
 use App\Models\Resident;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateResidentRequest extends FormRequest
@@ -15,7 +16,11 @@ class UpdateResidentRequest extends FormRequest
      */
     public function rules(): array
     {
-        $userId = Resident::find($this->route('resident'))->user_id;
+        if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin')) {
+            $userId = Resident::find($this->route('resident'))->user_id;
+        } else if (Auth::user()->hasRole('resident')) {
+            $userId = Auth::user()->id;
+        }
 
         return [
             'name' => ['required', 'string', 'max:30'],
