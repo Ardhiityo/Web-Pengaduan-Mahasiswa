@@ -7,14 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreReportRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     */
-    public function authorize(): bool
-    {
-        return Auth::user() != null;
-    }
-
     protected function prepareForValidation()
     {
         $user = Auth::user();
@@ -32,6 +24,7 @@ class StoreReportRequest extends FormRequest
     {
         return [
             'resident_id' => ['required', 'exists:residents,id'],
+            'study_program_id' => ['required', 'exists:study_programs,id'],
             'report_category_id' => ['required', 'exists:report_categories,id'],
             'title' => ['required', 'max:30', 'min:3'],
             'description' => ['required', 'max:255', 'min:5'],

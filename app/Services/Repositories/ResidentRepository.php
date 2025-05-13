@@ -20,7 +20,12 @@ class ResidentRepository implements ResidentRepositoryInterface
             $facultyIds = $user->faculties()->pluck('faculty_id');
             $studyProgramIds = StudyProgram::whereIn('faculty_id', $facultyIds)->pluck('id');
 
-            return Resident::with('studyProgram')
+            return Resident::with([
+                'studyProgram' => fn(Builder $query) => $query
+                    ->with('faculty', fn(Builder $query) => $query->select('id', 'name'))
+                    ->select('id', 'name', 'faculty_id'),
+                'user' => fn(Builder $query) => $query->select('id', 'name', 'email')
+            ])
                 ->whereIn('study_program_id', $studyProgramIds)
                 ->select('id', 'nim', 'user_id', 'study_program_id', 'avatar')
                 ->get();

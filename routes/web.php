@@ -123,7 +123,7 @@ Route::prefix('admin')
         Route::resource('report-status', ReportStatusController::class)
             ->except('create');
 
-        Route::get('/report-status/{reportId}/create', [ReportStatusController::class, 'create'])->name('report-status.create');
+        Route::get('/report/{report}/report-status/create', [ReportStatusController::class, 'create'])->name('report-status.create');
     });
 
 Route::prefix('admin')

@@ -3,10 +3,8 @@
 @section('title', 'Detail Data Laporan')
 
 @section('content')
-    <!-- Page Heading -->
     <a href="{{ route('admin.report.index') }}" class="mb-3 btn btn-danger">Kembali</a>
 
-    <!-- DataTales Example -->
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
             <h6 class="m-0 font-weight-bold text-primary">Detail Laporan</h6>
@@ -74,7 +72,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Status Laporan</h6>
         </div>
         <div class="card-body">
-            <a href="{{ route('admin.report-status.create', ['reportId' => $report->id]) }}" class="mb-3 btn btn-primary">
+            <a href="{{ route('admin.report-status.create', ['report' => $report->id]) }}" class="mb-3 btn btn-primary">
                 Tambah Kemajuan Laporan
             </a>
             <div class="table-responsive">
@@ -100,7 +98,13 @@
                                         -
                                     @endif
                                 </td>
-                                <td>{{ $reportStatus->status }}</td>
+                                <td>
+                                    @if ($reportStatus->status === 'in_process')
+                                        In process
+                                    @else
+                                        {{ $reportStatus->status }}
+                                    @endif
+                                </td>
                                 <td>{{ $reportStatus->description }}</td>
                                 <td>
                                     <a href="{{ route('admin.report-status.show', ['report_status' => $reportStatus->id]) }}"

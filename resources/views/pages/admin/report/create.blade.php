@@ -3,10 +3,8 @@
 @section('title', 'Tambah Data Laporan')
 
 @section('content')
-    <!-- Page Heading -->
     <a href="{{ route('admin.report.index') }}" class="mb-3 btn btn-danger">Kembali</a>
 
-    <!-- DataTales Example -->
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
             <h6 class="m-0 font-weight-bold text-primary">Tambah Data</h6>
@@ -74,6 +72,25 @@
                     @error('image') is-invalid @enderror"
                         id="image" name="image" value="{{ old('image') }}">
                     @error('image')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+                <div class="my-4 input-group">
+                    <div class="input-group-prepend">
+                        <label class="input-group-text" for="status">Program Studi</label>
+                    </div>
+                    <select class="custom-select
+                    @error('study_program_id') is-invalid @enderror"
+                        required id="study_program_id" name="study_program_id">
+                        <option value="">Pilih...</option>
+                        @foreach ($studyPrograms as $studyProgram)
+                            <option value="{{ $studyProgram->id }}"
+                                {{ old('study_program_id') == $studyProgram->id ? 'selected' : '' }}>
+                                {{ $studyProgram->name }}</option>
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('study_program_id')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>

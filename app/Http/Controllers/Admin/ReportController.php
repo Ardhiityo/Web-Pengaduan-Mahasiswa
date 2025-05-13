@@ -11,6 +11,7 @@ use App\Services\Interfaces\ResidentRepositoryInterface;
 use App\Services\Interfaces\ReportStatusRepositoryInterface;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
 use App\Services\Interfaces\DecryptParameterRepositoryInterface;
+use App\Services\Interfaces\StudyProgramRepositoryInterface;
 
 class ReportController extends Controller
 {
@@ -19,7 +20,8 @@ class ReportController extends Controller
         private ResidentRepositoryInterface $residentRepository,
         private ReportCategoryRepositoryInterface $reportCategoryRepository,
         private ReportStatusRepositoryInterface $reportStatusRepository,
-        private DecryptParameterRepositoryInterface $decryptParameterRepository
+        private DecryptParameterRepositoryInterface $decryptParameterRepository,
+        private StudyProgramRepositoryInterface $studyProgramRepository
     ) {}
 
     public function index()
@@ -35,7 +37,9 @@ class ReportController extends Controller
 
         $reportCategories = $this->reportCategoryRepository->getAllReportCategories();
 
-        return view('pages.admin.report.create', compact('residents', 'reportCategories'));
+        $studyPrograms = $this->studyProgramRepository->getAllStudyPrograms();
+
+        return view('pages.admin.report.create', compact('residents', 'reportCategories', 'studyPrograms'));
     }
 
     public function store(StoreReportRequest $request)
@@ -57,16 +61,7 @@ class ReportController extends Controller
 
     public function edit(string $id)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $id,
-                message: 'Ups, Laporan tidak ditemukan!',
-                route: 'admin.report.index'
-            );
-
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $report = $this->reportRepository->getReportById($decrypt);
+        $report = $this->reportRepository->getReportById($id);
 
         $residents = $this->residentRepository->getAllResidents();
 
@@ -77,16 +72,7 @@ class ReportController extends Controller
 
     public function update(UpdateReportRequest $request, string $id)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $id,
-                message: 'Ups, Laporan tidak ditemukan!',
-                route: 'admin.report.index'
-            );
-
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $this->reportRepository->updateReport(data: $request->validated(), id: $decrypt);
+        $this->reportRepository->updateReport($id, $request->validated());
 
         toast(title: 'Data laporan sukses diupdate', type: 'success')
             ->timerProgressBar();

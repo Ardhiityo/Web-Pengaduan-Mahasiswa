@@ -49,7 +49,7 @@ class ReportStatusRepository implements ReportStatusRepositoryInterface
         return ReportStatus::create($data);
     }
 
-    public function updateReportStatus(array $data, int $id)
+    public function updateReportStatus(string $id, array $data)
     {
         $reportStatus = $this->getReportStatusById($id);
 
@@ -63,7 +63,7 @@ class ReportStatusRepository implements ReportStatusRepositoryInterface
         return $reportStatus->update($data);
     }
 
-    public function deleteReportStatus(int $id)
+    public function deleteReportStatus(string $id)
     {
         $reportStatus = $this->getReportStatusById($id);
 

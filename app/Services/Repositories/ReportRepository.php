@@ -111,12 +111,12 @@ class ReportRepository implements ReportRepositoryInterface
         return $report;
     }
 
-    public function updateReport(array $data, int $id)
+    public function updateReport(string $id, array $data)
     {
         $report = $this->getReportById($id);
 
         if (isset($data['image'])) {
-            if (!is_null($report->image)) {
+            if ($report->image) {
                 Storage::disk('public')->delete($report->image);
             }
             $data['image'] = $data['image']->store('assets/report', 'public');
@@ -125,7 +125,7 @@ class ReportRepository implements ReportRepositoryInterface
         return $report->update($data);
     }
 
-    public function deleteReport(int $id)
+    public function deleteReport(string $id)
     {
         $report = $this->getReportById($id);
 
