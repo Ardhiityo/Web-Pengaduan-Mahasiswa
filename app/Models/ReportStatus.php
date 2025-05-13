@@ -10,8 +10,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ReportStatus extends Model
 {
     use HasUuids;
+
     public $incrementing = false;
+
     protected $keyType = 'string';
+
     protected $fillable = [
         'report_id',
         'image',

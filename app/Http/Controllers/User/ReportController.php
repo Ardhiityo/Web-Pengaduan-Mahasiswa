@@ -7,7 +7,6 @@ use App\Jobs\ProcessNotification;
 use App\Services\TelegramService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Report\StoreReportRequest;
 use App\Services\Interfaces\ReportRepositoryInterface;
 use App\Services\Interfaces\ResidentRepositoryInterface;
@@ -32,7 +31,8 @@ class ReportController extends Controller
     {
         if ($category = $request->query('category')) {
             if ($reportCategory = $this->reportRepository->getReportsByCategory(category: $category)) {
-                $totalReports = $reportCategory->reports->count();
+                $reports = $reportCategory;
+                $totalReports = $reportCategory->count();
             } else {
                 return redirect()->route('home');
             }
@@ -40,17 +40,12 @@ class ReportController extends Controller
             $reports = $this->reportRepository->getAllReports();
             $totalReports = $reports->count();
         }
-
         return view('pages.app.report.index', compact('reports', 'totalReports'));
     }
 
     public function show($reportId)
     {
-        $decrypt = $this->decryptParameterRepository->getData(id: $reportId, message: 'Ups, FAQ tidak ditemukan!', route: 'admin.report-category.index');
-
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        if ($report = $this->reportRepository->getReportById(id: $decrypt)) {
+        if ($report = $this->reportRepository->getReportById(id: $reportId)) {
             return view('pages.app.report.show', compact('report'));
         }
 

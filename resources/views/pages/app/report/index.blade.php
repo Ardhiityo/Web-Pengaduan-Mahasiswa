@@ -2,7 +2,7 @@
 @section('title', 'Laporan ' . request()->query('category'))
 
 @section('content')
-    <div class="py-3" id="reports">
+    <div class="" id="reports">
         <div class="d-flex justify-content-between align-items-center">
             <p class="text-muted">{{ $totalReports }} Daftar Pengaduan</p>
         </div>
@@ -15,7 +15,7 @@
 
             @foreach ($reports as $report)
                 <div class="border-0 shadow-none card card-report">
-                    <a href="{{ route('report.show', Crypt::encrypt($report->id)) }}" class="text-decoration-none text-dark">
+                    <a href="{{ route('report.show', ['reportId' => $report->id]) }}" class="text-decoration-none text-dark">
                         <div class="p-0 card-body">
                             <div class="mb-2 card-report-image position-relative">
                                 <img src="{{ asset('storage/' . $report->image) }}" alt="image">
@@ -45,7 +45,7 @@
                             </div>
 
                             <div class="mb-2 d-flex justify-content-between align-items-end">
-                                <div class="d-flex align-items-center ">
+                                <div class="d-flex align-items-center">
                                     <i class="fa-solid fa-location-dot icon me-2"></i>
                                     <p class="text-dark city">
                                         {{ $report->address }}

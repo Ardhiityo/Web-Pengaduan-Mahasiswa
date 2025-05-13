@@ -13,7 +13,7 @@
         Elegan!
     </h4>
 
-    <div class="gap-4 py-3 overflow-auto d-flex align-items-center justify-content-between" id="category"
+    <div class="overflow-auto gap-4 py-3 d-flex align-items-center justify-content-between" id="category"
         style="white-space: nowrap;">
         @foreach ($reportCategories as $reportCategory)
             <a href="{{ route('report.index', ['category' => $reportCategory->name]) }}" class="category d-inline-block">
@@ -36,7 +36,7 @@
         <div class="gap-3 mt-3 d-flex flex-column">
             @forelse ($latestReports as $report)
                 <div class="border-0 shadow-none card card-report">
-                    <a href="{{ route('report.show', Crypt::encrypt($report->id)) }}"
+                    <a href="{{ route('report.show', ['reportId' => $report->id]) }}"
                         class="text-decoration-none text-dark">
                         <div class="p-0 card-body">
                             <div class="mb-2 card-report-image position-relative">
@@ -67,7 +67,7 @@
                             </div>
 
                             <div class="mb-2 d-flex justify-content-between align-items-end">
-                                <div class="d-flex align-items-center ">
+                                <div class="d-flex align-items-center">
                                     <i class="fa-solid fa-location-dot icon me-2"></i>
                                     <p class="text-dark city">
                                         {{ \Illuminate\Support\Str::words($report->address, 2, '...') }}

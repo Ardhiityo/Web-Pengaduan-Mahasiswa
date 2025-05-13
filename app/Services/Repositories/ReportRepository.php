@@ -3,7 +3,6 @@
 namespace App\Services\Repositories;
 
 use App\Models\Report;
-use App\Models\ReportStatus;
 use App\Models\ReportCategory;
 use App\Models\StudyProgram;
 use Symfony\Component\Uid\Ulid;
@@ -84,9 +83,14 @@ class ReportRepository implements ReportRepositoryInterface
 
     public function getReportsByCategory(string $category)
     {
-        return ReportCategory::with('reports', 'reportStatuses')
-            ->where('name', $category)
-            ->first();
+        try {
+            $reportCategory = ReportCategory::where('name', $category)->firstOrFail();
+
+            return Report::where('report_category_id', $reportCategory->id)
+                ->get();
+        } catch (\Throwable $th) {
+            return abort(404);
+        }
     }
 
     public function latestReports()
