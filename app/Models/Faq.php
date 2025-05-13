@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 class Faq extends Model
 {
     use HasUuids;
+
     protected $keyType = 'string';
 
     protected $fillable = [

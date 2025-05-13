@@ -40,48 +40,21 @@ class FaqController extends Controller
 
     public function show(string $faqId)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $faqId,
-                message: 'Ups, FAQ tidak ditemukan!',
-                route: 'admin.faq.index'
-            );
-
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $faq = $this->faqRepository->getFaqById(faqId: $decrypt);
+        $faq = $this->faqRepository->getFaqById(faqId: $faqId);
 
         return view('pages.admin.faq.show', compact('faq'));
     }
 
     public function edit($faqId)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $faqId,
-                message: 'Ups, FAQ tidak ditemukan!',
-                route: 'admin.faq.index'
-            );
-
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $faq = $this->faqRepository->getFaqById(faqId: $decrypt);
+        $faq = $this->faqRepository->getFaqById(faqId: $faqId);
 
         return view('pages.admin.faq.edit', compact('faq'));
     }
 
-    public function update($faqId, UpdateFaqRequest $request)
+    public function update(UpdateFaqRequest $request, $faqId)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $faqId,
-                message: 'Ups, FAQ tidak ditemukan!',
-                route: 'admin.faq.index'
-            );
-
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $this->faqRepository->updateFaq(faqId: $decrypt, data: $request->validated());
+        $this->faqRepository->updateFaq(faqId: $faqId, data: $request->validated());
 
         toast(title: 'Data FAQ sukses diupdate', type: 'success')
             ->timerProgressBar();
@@ -91,16 +64,7 @@ class FaqController extends Controller
 
     public function destroy($faqId)
     {
-        $decrypt = $this->decryptParameterRepository
-            ->getData(
-                id: $faqId,
-                message: 'Ups, FAQ tidak ditemukan!',
-                route: 'admin.faq.index'
-            );
-
-        if ($decrypt instanceof RedirectResponse) return $decrypt;
-
-        $this->faqRepository->deleteFaq(faqId: $decrypt);
+        $this->faqRepository->deleteFaq(faqId: $faqId);
 
         toast(title: 'Data FAQ sukses dihapus', type: 'success')
             ->timerProgressBar();

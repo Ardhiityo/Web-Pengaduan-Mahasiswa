@@ -12,8 +12,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Edit Data</h6>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.faq.update', Crypt::encrypt($faq->id)) }}" method="POST"
-                enctype="multipart/form-data">
+            <form action="{{ route('admin.faq.update', ['faq' => $faq->id]) }}" method="POST" enctype="multipart/form-data">
                 @method('PUT')
                 @csrf
                 <div class="form-group">

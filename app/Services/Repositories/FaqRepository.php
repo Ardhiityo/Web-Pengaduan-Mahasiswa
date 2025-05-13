@@ -11,21 +11,29 @@ class FaqRepository implements FaqRepositoryInterface
     {
         return Faq::select('id', 'title', 'description')->get();
     }
-    public function getFaqById(int $faqId)
+
+    public function getFaqById(string $faqId)
     {
-        return Faq::find($faqId);
+        try {
+            return Faq::findOrFail($faqId);
+        } catch (\Throwable $th) {
+            return abort(404);
+        }
     }
+
     public function createFaq($data)
     {
         return Faq::create($data);
     }
-    public function updateFaq(int $faqId, $data)
+
+    public function updateFaq(string $faqId, $data)
     {
-        $faq = Faq::find($faqId);
+        $faq = $this->getFaqById($faqId);
 
         return $faq->update($data);
     }
-    public function deleteFaq(int $faqId)
+
+    public function deleteFaq(string $faqId)
     {
         return Faq::destroy($faqId);
     }

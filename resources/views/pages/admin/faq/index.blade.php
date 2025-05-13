@@ -28,13 +28,13 @@
                                 <td>{{ $faq->title }}</td>
                                 <td>{{ $faq->description }}</td>
                                 <td>
-                                    <a href="{{ route('admin.faq.show', Crypt::encrypt($faq->id)) }}"
+                                    <a href="{{ route('admin.faq.show', ['faq' => $faq->id]) }}"
                                         class="my-1 btn btn-info btn-sm">Show</a>
 
-                                    <a href="{{ route('admin.faq.edit', Crypt::encrypt($faq->id)) }}"
+                                    <a href="{{ route('admin.faq.edit', ['faq' => $faq->id]) }}"
                                         class="my-1 btn btn-warning btn-sm">Edit</a>
 
-                                    <form action="{{ route('admin.faq.destroy', Crypt::encrypt($faq->id)) }}" method="POST"
+                                    <form action="{{ route('admin.faq.destroy', ['faq' => $faq->id]) }}" method="POST"
                                         class="d-inline">
                                         @csrf
                                         @method('DELETE')
