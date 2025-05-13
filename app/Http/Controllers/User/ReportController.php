@@ -6,10 +6,13 @@ use Illuminate\Http\Request;
 use App\Jobs\ProcessNotification;
 use App\Services\TelegramService;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Report\StoreReportRequest;
 use App\Services\Interfaces\ReportRepositoryInterface;
+use App\Services\Interfaces\ResidentRepositoryInterface;
 use App\Services\Interfaces\ReportStatusRepositoryInterface;
+use App\Services\Interfaces\StudyProgramRepositoryInterface;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
 use App\Services\Interfaces\DecryptParameterRepositoryInterface;
 
@@ -20,7 +23,9 @@ class ReportController extends Controller
         private ReportCategoryRepositoryInterface $reportCategoryRepository,
         private ReportStatusRepositoryInterface $reportStatusRepository,
         private DecryptParameterRepositoryInterface $decryptParameterRepository,
-        private TelegramService $telegramService
+        private TelegramService $telegramService,
+        private StudyProgramRepositoryInterface $studyProgramRepository,
+        private ResidentRepositoryInterface $residentRepository,
     ) {}
 
     public function index(Request $request)
@@ -65,14 +70,15 @@ class ReportController extends Controller
     public function create()
     {
         $reportCategories = $this->reportCategoryRepository->getAllReportCategories();
+        $studyPrograms = $this->studyProgramRepository->getAllStudyPrograms();
+        $resident = $this->residentRepository->getResidentById(Auth::user()->resident->id);
 
-        return view('pages.app.report.create', compact('reportCategories'));
+        return view('pages.app.report.create', compact('reportCategories', 'studyPrograms', 'resident'));
     }
 
     public function store(StoreReportRequest $request)
     {
         $report = $this->reportRepository->createReport(data: $request->validated());
-
         ProcessNotification::dispatch($report);
 
         return redirect()->route('report.success');

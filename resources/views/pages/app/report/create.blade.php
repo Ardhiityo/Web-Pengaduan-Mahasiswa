@@ -10,13 +10,11 @@
         secepatnya
 
     <form action="{{ route('report.take.create-report.store') }}" method="POST" class="mt-4" enctype="multipart/form-data">
-
         @csrf
-
         <div class="mb-3">
             <label for="title" class="form-label">Judul Laporan</label>
             <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title"
-                value="{{ old('title') }}">
+                required value="{{ old('title') }}">
             @error('title')
                 <div class="invalid-feedback">
                     {{ $message }}
@@ -26,7 +24,7 @@
 
         <div class="mb-3">
             <label for="report_category_id" class="form-label">Kategori Laporan</label>
-            <select class="form-select @error('report_category_id') is-invalid @enderror" id="report_category_id"
+            <select required class="form-select @error('report_category_id') is-invalid @enderror" id="report_category_id"
                 name="report_category_id">
                 <option value="">Pilih...</option>
                 @foreach ($reportCategories as $reportCategory)
@@ -44,9 +42,28 @@
         </div>
 
         <div class="mb-3">
+            <label for="study_program_id" class="form-label">Kepada Program Studi</label>
+            <select required class="form-select @error('report_category_id') is-invalid @enderror" id="study_program_ids"
+                name="study_program_id">
+                <option value="">Pilih...</option>
+                @foreach ($studyPrograms as $studyProgram)
+                    <option value="{{ $studyProgram->id }}"
+                        {{ old('study_program_id', $resident->study_program_id) == $studyProgram->id ? 'selected' : '' }}>
+                        {{ $studyProgram->name }}
+                    </option>
+                @endforeach
+            </select>
+            @error('study_program_id')
+                <div class="invalid-feedback">
+                    {{ $message }}
+                </div>
+            @enderror
+        </div>
+
+        <div class="mb-3">
             <label for="image" class="form-label">Bukti Laporan</label>
-            <input type="file" class="form-control @error('image') is-invalid @enderror" id="image" name="image"
-                style="display: none;" value="{{ old('image') }}">
+            <input required type="file" class="form-control @error('image') is-invalid @enderror" id="image"
+                name="image" style="display: none;" value="{{ old('image') }}">
             <img alt="image" id="image-preview" class="mb-3 border img-fluid rounded-2">
             @error('image')
                 <div class="invalid-feedback">
@@ -57,7 +74,7 @@
 
         <div class="mb-3">
             <label for="description" class="form-label">Ceritakan Laporan Kamu</label>
-            <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description"
+            <textarea required class="form-control @error('description') is-invalid @enderror" id="description" name="description"
                 rows="5">{{ old('description') }}</textarea>
             @error('description')
                 <div class="invalid-feedback">
@@ -95,7 +112,8 @@
 
         <div class="mb-3">
             <label for="address" class="form-label">Alamat Lengkap</label>
-            <textarea class="form-control @error('address') is-invalid @enderror" id="address" name="address" rows="3">{{ old('address') }}</textarea>
+            <textarea required class="form-control @error('address') is-invalid @enderror" id="address" name="address"
+                rows="3">{{ old('address') }}</textarea>
             @error('address')
                 <div class="invalid-feedback">
                     {{ $message }}
