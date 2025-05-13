@@ -18,8 +18,8 @@ class ReportRepository implements ReportRepositoryInterface
     {
         $user = Auth::user();
         if ($user->hasRole('admin')) {
-            $admin = $user->admins()->first();
-            $studyProgramId = StudyProgram::where('faculty_id', $admin->faculty_id)
+            $adminFacultyIds = $user->faculties()->pluck('id');
+            $studyProgramIds = StudyProgram::whereIn('faculty_id', $adminFacultyIds)
                 ->pluck('id')->toArray();
 
             return Report::with([
@@ -30,7 +30,7 @@ class ReportRepository implements ReportRepositoryInterface
                 },
                 'reportCategory' => fn(Builder $query) => $query->select('id', 'name'),
                 'studyProgram' =>  fn(Builder $query) => $query->select('id', 'name'),
-            ])->whereIn('study_program_id', $studyProgramId)
+            ])->whereIn('study_program_id', $studyProgramIds)
                 ->oldest()
                 ->select('id', 'code', 'title', 'resident_id', 'report_category_id', 'study_program_id')
                 ->get();

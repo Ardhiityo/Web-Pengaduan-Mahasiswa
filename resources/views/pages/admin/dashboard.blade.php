@@ -3,7 +3,6 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <!-- Page Heading -->
     <div class="mb-4 d-sm-flex align-items-center justify-content-between">
         <h1 class="mb-0 text-gray-800 h3">Dashboard</h1>
     </div>
@@ -25,28 +24,64 @@
             </div>
         </div>
 
-        @role('superadmin')
-            <div class="mb-4 col-xl-3 col-md-6">
-                <div class="py-2 shadow card border-left-primary h-100">
-                    <div class="card-body">
-                        <div class="row no-gutters align-items-center">
-                            <div class="mr-2 col">
-                                <div class="mb-1 text-xs font-weight-bold text-dark text-uppercase">Total Admin
-                                </div>
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col-auto">
-                                        <div class="mr-3 mb-0 text-gray-800 h5 font-weight-bold">{{ $totalAdmins }}</div>
-                                    </div>
+        <div class="mb-4 col-xl-3 col-md-6">
+            <div class="py-2 shadow card border-left-primary h-100">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="mr-2 col">
+                            <div class="mb-1 text-xs font-weight-bold text-dark text-uppercase">Total Admin
+                            </div>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-auto">
+                                    <div class="mr-3 mb-0 text-gray-800 h5 font-weight-bold">{{ $totalAdmins }}</div>
                                 </div>
                             </div>
-                            <div class="col-auto">
-                                <i class="text-gray-300 fas fa-user fa-2x"></i>
-                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="text-gray-300 fas fa-users fa-2x"></i>
                         </div>
                     </div>
                 </div>
             </div>
-        @endrole
+        </div>
+
+        <div class="mb-4 col-xl-3 col-md-6">
+            <div class="py-2 shadow card border-left-primary h-100">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="mr-2 col">
+                            <div class="mb-1 text-xs font-weight-bold text-dark text-uppercase">
+                                Total Fakultas</div>
+                            <div class="mb-0 text-gray-800 h5 font-weight-bold">{{ $totalFaculties }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="text-gray-300 fas fa-building fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-4 col-xl-3 col-md-6">
+            <div class="py-2 shadow card border-left-primary h-100">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="mr-2 col">
+                            <div class="mb-1 text-xs font-weight-bold text-dark text-uppercase">Total Program Studi
+                            </div>
+                            <div class="row no-gutters align-items-center">
+                                <div class="col-auto">
+                                    <div class="mr-3 mb-0 text-gray-800 h5 font-weight-bold">{{ $totalStudyPrograms }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="text-gray-300 fas fa-graduation-cap fa-2x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div class="mb-4 col-xl-3 col-md-6">
             <div class="py-2 shadow card border-left-primary h-100">
