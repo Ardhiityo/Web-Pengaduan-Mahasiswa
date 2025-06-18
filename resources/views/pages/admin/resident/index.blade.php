@@ -16,7 +16,7 @@
                         <tr>
                             <th>No</th>
                             <th>Nama </th>
-                            <th>Nim</th>
+                            <th>NIM</th>
                             <th>Email</th>
                             <th>Program Studi</th>
                             <th>Foto profil</th>
@@ -28,9 +28,9 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $resident->user->name }}</td>
-                                <td>{{ $resident->nim }}</td>
+                                <td>{{ $resident->nim ?? '-' }}</td>
                                 <td>{{ $resident->user->email }}</td>
-                                <td>{{ $resident->studyProgram->name }}</td>
+                                <td>{{ $resident->studyProgram->name ?? '-' }}</td>
                                 <td>
                                     @if ($resident->avatar)
                                         <img src="{{ asset('storage/' . $resident->avatar) }}" alt="avatar"

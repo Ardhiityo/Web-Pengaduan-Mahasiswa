@@ -23,11 +23,11 @@
                 </tr>
                 <tr>
                     <td>NIM</td>
-                    <td>{{ $resident->nim ?? '' }}</td>
+                    <td>{{ $resident->nim ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td>Program Studi</td>
-                    <td>{{ $resident->studyProgram->name }}</td>
+                    <td>{{ $resident->studyProgram->name ?? '-' }}</td>
                 </tr>
                 <tr>
                     <td>Foto profil</td>
