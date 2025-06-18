@@ -5,6 +5,7 @@ namespace Tests\Feature\Admin;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Resident;
+use App\Models\StudyProgram;
 use Database\Seeders\AdminSeeder;
 use Database\Seeders\DatabaseSeeder;
 use Database\Seeders\ResidentSeeder;
@@ -17,7 +18,7 @@ class ResidentControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
@@ -30,13 +31,13 @@ class ResidentControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $user = User::where('email', 'hello@test.com')->first();
 
-        $this->get('/admin/resident/' . Crypt::encrypt($user->resident->id) . '/edit')
+        $this->get('/admin/resident/' . $user->resident->id . '/edit')
             ->assertSeeText('Nama Mahasiswa')
             ->assertSeeText('Email')
             ->assertSeeText('Password')
@@ -47,14 +48,19 @@ class ResidentControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
+
+        $studyProgramId = StudyProgram::first()->id;
 
         $this->post('/admin/resident', [
             'name' => 'testing',
             'email' => 'test@test.com',
-            'password' => 'rahasia123'
+            'password' => 'rahasia123',
+            'password_confirmation' => 'rahasia123',
+            'study_program_id' => $studyProgramId,
+            'nim' => 22041029
         ])
             ->assertRedirect(url('/admin/resident'))
             ->assertStatus(302);
@@ -66,13 +72,13 @@ class ResidentControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $user = User::where('email', 'hello@test.com')->first();
 
-        $this->get('/admin/resident/' . Crypt::encrypt($user->resident->id))
+        $this->get('/admin/resident/' . $user->resident->id)
             ->assertSeeText($user->name)
             ->assertSeeText($user->email)
             ->assertStatus(200);
@@ -82,16 +88,19 @@ class ResidentControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $user = User::where('email', 'hello@test.com')->first();
 
-        $this->patch('/admin/resident/' . Crypt::encrypt($user->resident->id), [
+        $this->patch('/admin/resident/' . $user->resident->id, [
             'name' => 'updated',
+            'email' => $user->email,
             'password' => 'rahasia123',
-            'password_confirmation' => 'rahasia123'
+            'password_confirmation' => 'rahasia123',
+            'study_program_id' => $user->resident->study_program_id,
+            'nim' => $user->resident->nim
         ])
             ->assertRedirect(url('/admin/resident'))
             ->assertStatus(302);
@@ -101,9 +110,9 @@ class ResidentControllerTest extends TestCase
 
     public function testResidentDestroy()
     {
-        $this->seed([AdminSeeder::class, ResidentSeeder::class]);
+        $this->seed([DatabaseSeeder::class]);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
         self::assertNotNull($user);
 
         Auth::login($user);
@@ -112,7 +121,7 @@ class ResidentControllerTest extends TestCase
         $user = User::where('email', 'hello@test.com')->first();
         self::assertNotNull($user);
 
-        $this->delete('/admin/resident/' . Crypt::encrypt($user->resident->id))
+        $this->delete('/admin/resident/' . $user->resident->id)
             ->assertRedirect(url('/admin/resident'))
             ->assertStatus(302);
 

@@ -17,15 +17,29 @@ class UpdateResidentRequest extends FormRequest
     public function rules(): array
     {
         if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin')) {
-            $userId = Resident::find($this->route('resident'))->user_id;
+            $user = Resident::find($this->route('resident'));
+            $userId = $user->user_id;
+            $residentId = $user->id;
         } else if (Auth::user()->hasRole('resident')) {
+            $user = Auth::user();
             $userId = Auth::user()->id;
+            $residentId = $user->resident->id;
         }
 
         return [
             'name' => ['required', 'string', 'max:30'],
-            'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($userId)],
-            'nim' => ['required', 'numeric', 'digits_between:8,10', Rule::unique('residents', 'nim')->ignore(Auth::user()->id)],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('users', 'email')->ignore($userId)
+            ],
+            'nim' => [
+                'required',
+                'numeric',
+                'digits_between:8,10',
+                Rule::unique('residents', 'nim')->ignore($residentId)
+            ],
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'password' => ['nullable', 'min:8', 'confirmed', 'max:255'],
             'avatar' => ['mimes:jpg,png']

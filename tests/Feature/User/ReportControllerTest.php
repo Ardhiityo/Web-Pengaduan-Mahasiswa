@@ -3,17 +3,12 @@
 namespace Tests\Feature\User;
 
 use App\Models\Report;
-use Faker\Factory;
+use App\Models\StudyProgram;
 use Tests\TestCase;
 use App\Models\User;
-use App\Models\ReportCategory;
-use Database\Seeders\AdminSeeder;
 use Illuminate\Http\UploadedFile;
 use Database\Seeders\DatabaseSeeder;
-use Database\Seeders\ResidentSeeder;
 use Illuminate\Support\Facades\Auth;
-use Database\Seeders\ReportCategorySeeder;
-use Database\Seeders\ReportSeeder;
 
 class ReportControllerTest extends TestCase
 {
@@ -48,7 +43,7 @@ class ReportControllerTest extends TestCase
 
     public function testReportViewTakeCreate()
     {
-        $this->seed([AdminSeeder::class, ResidentSeeder::class, ReportCategorySeeder::class, ReportSeeder::class]);
+        $this->seed([DatabaseSeeder::class]);
 
         $user = User::where('email', 'hello@test.com')->first();
         self::assertNotNull($user);
@@ -62,11 +57,14 @@ class ReportControllerTest extends TestCase
         $report = Report::first();
         self::assertNotNull($report->id);
 
+        $studyProgramId = StudyProgram::first()->id;
+
         $this->post('/reports/take/create-report', [
             'report_category_id' => $report->report_category_id,
             'title' => $report->title,
             'description' => $report->description,
             'image' => $file,
+            'study_program_id' => $studyProgramId,
             'latitude' => $report->latitude,
             'longitude' => $report->longitude,
             'address' => $report->address

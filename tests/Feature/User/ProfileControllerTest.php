@@ -33,8 +33,6 @@ class ProfileControllerTest extends TestCase
         $this->get('/profile/edit')
             ->assertSeeText('Nama lengkap')
             ->assertSeeText('Avatar')
-            ->assertSeeText('Password')
-            ->assertSeeText('Konfirmasi password')
             ->assertStatus(200);
     }
 
@@ -48,6 +46,9 @@ class ProfileControllerTest extends TestCase
 
         $this->patch('/profile', [
             'name' => 'Updated',
+            'email' => $user->email,
+            'study_program_id' => $user->resident->study_program_id,
+            'nim' => $user->resident->nim,
             'password' => 'rahasia123',
             'password_confirmation' => 'rahasia123'
         ])

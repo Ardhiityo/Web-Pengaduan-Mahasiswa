@@ -6,7 +6,6 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Report;
 use App\Models\ReportStatus;
-use Illuminate\Support\Facades\Log;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -17,13 +16,13 @@ class ReportStatusControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $report = Report::first();
 
-        $this->get('/admin/report/' . Crypt::encrypt($report->id))
+        $this->get('/admin/report/' . $report->id)
             ->assertSeeText('No')
             ->assertSeeText('Bukti kemajuan laporan')
             ->assertSeeText('Status laporan')
@@ -36,13 +35,13 @@ class ReportStatusControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $report = Report::first();
 
-        $this->get('/admin/report-status/' . Crypt::encrypt($report->id) . '/create')
+        $this->get('/admin/report/' . $report->id . '/report-status/create')
             ->assertSeeText('Tambah Data Kemajuan Laporan')
             ->assertStatus(200);
     }
@@ -51,7 +50,7 @@ class ReportStatusControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
@@ -71,13 +70,13 @@ class ReportStatusControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $reportStatus = ReportStatus::first();
 
-        $this->get('/admin/report-status/' . Crypt::encrypt($reportStatus->id))
+        $this->get('/admin/report-status/' . $reportStatus->id)
             ->assertSeeText($reportStatus->status)
             ->assertSeeText($reportStatus->description)
             ->assertStatus(200);
@@ -87,13 +86,13 @@ class ReportStatusControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $reportStatus = ReportStatus::first();
 
-        $this->get('/admin/report-status/' . Crypt::encrypt($reportStatus->id) . '/edit')
+        $this->get('/admin/report-status/' . $reportStatus->id . '/edit')
             ->assertSeeText('Edit Data Kemajuan Laporan ' . $reportStatus->report->code)
             ->assertStatus(200);
     }
@@ -101,8 +100,7 @@ class ReportStatusControllerTest extends TestCase
     public function testReportStatusUpdate()
     {
         $this->seed(DatabaseSeeder::class);
-
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
@@ -122,7 +120,8 @@ class ReportStatusControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::where('email', 'admin@test.com')->first();
+        $user = User::role('superadmin')->first();
+
         self::assertNotNull($user);
 
         Auth::login($user);
@@ -131,7 +130,7 @@ class ReportStatusControllerTest extends TestCase
         $reportStatus = ReportStatus::first();
         self::assertNotNull($reportStatus);
 
-        $this->delete('/admin/report-status/' . Crypt::encrypt($reportStatus->id))
+        $this->delete('/admin/report-status/' . $reportStatus->id)
             ->assertStatus(302);
 
         self::assertNull(ReportStatus::find($reportStatus->id));

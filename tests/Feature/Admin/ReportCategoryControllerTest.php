@@ -9,8 +9,9 @@ use Database\Seeders\AdminSeeder;
 use Illuminate\Http\UploadedFile;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 use Database\Seeders\ReportCategorySeeder;
+use Database\Seeders\RolePermissionSeeder;
+use Database\Seeders\SuperAdminSeeder;
 
 class ReportCategoryControllerTest extends TestCase
 {
@@ -18,7 +19,7 @@ class ReportCategoryControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
@@ -31,7 +32,7 @@ class ReportCategoryControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
@@ -45,7 +46,7 @@ class ReportCategoryControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
@@ -63,13 +64,13 @@ class ReportCategoryControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $reportCategory = ReportCategory::first();
 
-        $this->get('/admin/report-category/' . Crypt::encrypt($reportCategory->id))
+        $this->get('/admin/report-category/' . $reportCategory->id)
             ->assertSeeText($reportCategory->name)
             ->assertSeeText('Nama')
             ->assertSeeText('Ikon')
@@ -80,13 +81,13 @@ class ReportCategoryControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $reportCategory = ReportCategory::first();
 
-        $this->get('/admin/report-category/' . Crypt::encrypt($reportCategory->id) . '/edit')
+        $this->get('/admin/report-category/' . $reportCategory->id . '/edit')
             ->assertSeeText('Nama Kategori')
             ->assertSeeText('Ikon Lama')
             ->assertSeeText('Ikon Baru')
@@ -97,7 +98,7 @@ class ReportCategoryControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
@@ -105,7 +106,7 @@ class ReportCategoryControllerTest extends TestCase
 
         $file = UploadedFile::fake()->image('icon.jpg');
 
-        $this->put('/admin/report-category/' . Crypt::encrypt($reportCategory->id), [
+        $this->put('/admin/report-category/' . $reportCategory->id, [
             'name' => 'update',
             'image' => $file
         ])
@@ -120,16 +121,16 @@ class ReportCategoryControllerTest extends TestCase
 
     public function testReportCategoryDestroy()
     {
-        $this->seed([AdminSeeder::class, ReportCategorySeeder::class]);
+        $this->seed([RolePermissionSeeder::class, SuperAdminSeeder::class, ReportCategorySeeder::class]);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $reportCategory = ReportCategory::first();
 
-        $this->delete('/admin/report-category/' . Crypt::encrypt($reportCategory->id))
-            ->assertRedirect(url('/admin/report-category'))
+        $this->delete('/admin/report-category/' . $reportCategory->id)
+            ->assertRedirect('/admin/report-category')
             ->assertStatus(302);
 
         self::assertNull(ReportCategory::find($reportCategory->id));

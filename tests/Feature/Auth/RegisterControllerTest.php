@@ -23,6 +23,8 @@ class RegisterControllerTest extends TestCase
 
     public function testRegisterSuccess()
     {
+        $this->seed(DatabaseSeeder::class);
+
         $this->post('/register', [
             'email' => 'test@gmail.com',
             'name' => 'test',
@@ -30,7 +32,7 @@ class RegisterControllerTest extends TestCase
             'password_confirmation' => 'rahasia123'
         ])
             ->assertSessionHas('success')
-            ->assertRedirect(url('/login'))
+            ->assertRedirect('/login')
             ->assertStatus(302);
     }
 

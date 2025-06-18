@@ -5,10 +5,8 @@ namespace Tests\Feature\Admin;
 use App\Models\Faq;
 use Tests\TestCase;
 use App\Models\User;
-use Illuminate\Support\Facades\Log;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Crypt;
 
 class FAQControllerTest extends TestCase
 {
@@ -16,7 +14,7 @@ class FAQControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
@@ -29,7 +27,7 @@ class FAQControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
@@ -43,7 +41,7 @@ class FAQControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
@@ -71,13 +69,13 @@ class FAQControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $faq = Faq::first();
 
-        $this->get('/admin/faq/' . Crypt::encrypt($faq->id))
+        $this->get('/admin/faq/' . $faq->id)
             ->assertSeeText('Judul')
             ->assertSeeText('Deskripsi')
             ->assertSeeText($faq->title)
@@ -89,15 +87,13 @@ class FAQControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $faq = Faq::first();
 
-        Log::info(Crypt::encrypt($faq->id));
-
-        $this->get('/admin/faq/' . Crypt::encrypt($faq->id) . '/edit')
+        $this->get('/admin/faq/' . $faq->id . '/edit')
             ->assertSeeText('Judul FAQ')
             ->assertSeeText('Deskripsi')
             ->assertStatus(200);
@@ -107,13 +103,13 @@ class FAQControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $faq = Faq::first();
 
-        $this->put('/admin/faq/' . Crypt::encrypt($faq->id), [
+        $this->put('/admin/faq/' . $faq->id, [
             'title' => 'update',
             'description' => 'updated'
         ])
@@ -132,11 +128,11 @@ class FAQControllerTest extends TestCase
 
         $faq = Faq::first();
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
-        $this->delete('/admin/faq/' . Crypt::encrypt($faq->id))
+        $this->delete('/admin/faq/' . $faq->id)
             ->assertRedirect('/admin/faq')
             ->assertStatus(302);
 

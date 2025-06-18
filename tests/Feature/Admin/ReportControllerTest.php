@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Report;
 use App\Models\ReportCategory;
+use App\Models\StudyProgram;
 use Illuminate\Http\UploadedFile;
 use Database\Seeders\DatabaseSeeder;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +44,7 @@ class ReportControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
@@ -52,6 +53,7 @@ class ReportControllerTest extends TestCase
         $file = UploadedFile::fake()->image('icon.jpg');
 
         $reportCategory = ReportCategory::first();
+        $studyProgramId = StudyProgram::first()->id;
 
         $this->post('/admin/report', [
             'resident_id' => $user->resident->id,
@@ -59,6 +61,7 @@ class ReportControllerTest extends TestCase
             'title' => 'testing',
             'description' => 'testing',
             'image' => $file,
+            'study_program_id' => $studyProgramId,
             'latitude' => '123',
             'longitude' => '123',
             'address' => 'test'
@@ -75,13 +78,13 @@ class ReportControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $report = Report::first();
 
-        $this->get('/admin/report/' . Crypt::encrypt($report->id))
+        $this->get('/admin/report/' . $report->id)
             ->assertSeeText('Detail Laporan')
             ->assertStatus(200);
     }
@@ -90,13 +93,13 @@ class ReportControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $report = Report::first();
 
-        $this->get('/admin/report/' . Crypt::encrypt($report->id) . '/edit')
+        $this->get('/admin/report/' . $report->id . '/edit')
             ->assertSeeText('Edit Data')
             ->assertStatus(200);
     }
@@ -105,7 +108,7 @@ class ReportControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
@@ -115,9 +118,12 @@ class ReportControllerTest extends TestCase
 
         $report = Report::first();
 
-        $this->put('/admin/report/' . Crypt::encrypt($report->id), [
+        $studyProgramId = StudyProgram::first()->id;
+
+        $this->put('/admin/report/' . $report->id, [
             'resident_id' => $user->resident->id,
             'report_category_id' => $reportCategory->id,
+            'study_program_id' => $studyProgramId,
             'title' => 'updated',
             'description' => 'updated',
             'latitude' => '123',
@@ -136,13 +142,13 @@ class ReportControllerTest extends TestCase
     {
         $this->seed(DatabaseSeeder::class);
 
-        $user = User::first();
+        $user = User::role('superadmin')->first();
 
         Auth::login($user);
 
         $report = Report::first();
 
-        $this->delete('/admin/report/' . Crypt::encrypt($report->id))
+        $this->delete('/admin/report/' . $report->id)
             ->assertRedirect(url('/admin/report'))
             ->assertStatus(302);
     }
