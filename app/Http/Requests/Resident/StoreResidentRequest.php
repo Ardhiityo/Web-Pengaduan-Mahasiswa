@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests\Resident;
 
+use Ramsey\Uuid\Uuid;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Http\FormRequest;
-use Ramsey\Uuid\Uuid;
 
 class StoreResidentRequest extends FormRequest
 {
@@ -39,7 +41,7 @@ class StoreResidentRequest extends FormRequest
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'email' => ['required', 'email', 'unique:users', 'max:255'],
             'password' => ['required', 'min:8', 'max:255', 'confirmed'],
-            'avatar' => ['nullable', 'mimetypes:image/jpeg,image/png,image/jpg'],
+            'avatar' => ['nullable'],
         ];
     }
 
@@ -67,8 +69,6 @@ class StoreResidentRequest extends FormRequest
             'password.min' => 'Password minimal 8 karakter',
             'password.max' => 'Password maksimal 255 karakter',
             'password.confirmed' => 'Konfirmasi password tidak sesuai',
-
-            'avatar.mimetypes' => 'Foto profil harus berformat jpeg, jpg, atau png'
         ];
     }
 }
