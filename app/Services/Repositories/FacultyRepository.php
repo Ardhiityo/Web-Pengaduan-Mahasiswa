@@ -36,6 +36,11 @@ class FacultyRepository implements FacultyRepositoryInterface
         }
     }
 
+    public function updateFacultyById($id, $data)
+    {
+        $this->getFacultyById($id)->update($data);
+    }
+
     public function createFaculty(array $data)
     {
         return Faculty::create($data);

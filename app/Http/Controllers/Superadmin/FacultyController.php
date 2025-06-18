@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Superadmin\Faculty\StoreFacultyRequest;
+use App\Http\Requests\Superadmin\Faculty\UpdateFacultyRequest;
 use App\Services\Interfaces\FacultyRepositoryInterface;
 use Illuminate\Http\Request;
 
@@ -42,12 +43,19 @@ class FacultyController extends Controller
 
     public function edit($id)
     {
-        //
+        $faculty = $this->facultyRepository->getFacultyById($id);
+
+        return view('pages.superadmin.faculty.edit', compact('faculty'));
     }
 
-    public function update(Request $request, $id)
+    public function update(UpdateFacultyRequest $request, $id)
     {
-        //
+        $this->facultyRepository->updateFacultyById($id, $request->validated());
+
+        toast(title: 'Data fakultas sukses diubah', type: 'success')
+            ->timerProgressBar();
+
+        return redirect()->route('admin.faculty.index');
     }
 
     public function destroy(string $id)

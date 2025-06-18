@@ -12,7 +12,7 @@
             <h6 class="m-0 font-weight-bold text-primary">Edit Data</h6>
         </div>
         <div class="card-body">
-            <form action="{{ route('admin.faculty.store') }}" method="POST">
+            <form action="{{ route('admin.faculty.update', ['faculty' => $faculty->id]) }}" method="POST">
                 @method('PUT')
                 @csrf
                 <div class="form-group">
