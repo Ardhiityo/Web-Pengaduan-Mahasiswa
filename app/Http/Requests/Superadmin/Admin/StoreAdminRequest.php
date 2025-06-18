@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Superadmin;
+namespace App\Http\Requests\Superadmin\Admin;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;

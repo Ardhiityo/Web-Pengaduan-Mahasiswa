@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Superadmin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Superadmin\StoreAdminRequest;
 use App\Services\Interfaces\AdminRepositoryInterface;
 use App\Services\Interfaces\FacultyRepositoryInterface;
+use App\Http\Requests\Superadmin\Admin\StoreAdminRequest;
 use App\Services\Repositories\DecryptParameterRepository;
 use App\Http\Requests\Superadmin\Admin\UpdateAdminRequest;
 
