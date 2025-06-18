@@ -7,6 +7,9 @@
         <div class="text-center">
             <h4>Setelan akun</h4>
             <p>Harap bijak dalam penggunaan akunmu.</p>
+            @if (session('notes'))
+                <p class="mt-2 text-danger">{{ session('notes') }}</p>
+            @endif
         </div>
         <form action="{{ route('profile.update') }}" class="mt-5" method="POST" enctype="multipart/form-data">
             @method('PATCH')

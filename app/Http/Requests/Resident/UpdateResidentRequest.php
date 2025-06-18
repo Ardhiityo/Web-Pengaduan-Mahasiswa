@@ -25,7 +25,7 @@ class UpdateResidentRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:30'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users', 'email')->ignore($userId)],
-            'nim' => ['required', 'numeric', 'digits_between:8,10'],
+            'nim' => ['required', 'numeric', 'digits_between:8,10', Rule::unique('residents', 'nim')->ignore(Auth::user()->id)],
             'study_program_id' => ['required', 'exists:study_programs,id'],
             'password' => ['nullable', 'min:8', 'confirmed', 'max:255'],
             'avatar' => ['mimes:jpg,png']
@@ -47,6 +47,7 @@ class UpdateResidentRequest extends FormRequest
             'nim.required' => 'NIM wajib di isi',
             'nim.numeric' => 'NIM harus berupa angka',
             'nim.digits_between' => 'NIM memiliki 8-10 digit',
+            'nim.unique' => 'NIM telah digunakan mahasiswa lain.',
 
             'study_program_id.required' => 'Program studi wajib di pilih',
             'study_program_id.exists' => 'Program studi tidak valid',

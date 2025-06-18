@@ -21,7 +21,7 @@
             <i class="fas fa-comments"></i>
             FAQ
         </a>
-        <a href="{{ route('profile') }}" class="{{ request()->routeIs('profile') ? 'active' : '' }}">
+        <a href="{{ route('profile') }}" class="{{ request()->is('profile*') ? 'active' : '' }}">
             <i class="fas fa-user"></i>
             Profil
         </a>

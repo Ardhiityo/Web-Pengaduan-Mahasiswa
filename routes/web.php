@@ -59,16 +59,18 @@ Route::middleware(['auth', 'role:resident', 'verified'])
         //Report
         Route::controller(UserReportController::class)->group(function () {
             Route::prefix('reports')->group(function () {
-                Route::get('/take',  'take')
-                    ->name('report.take');
-                Route::get('/take/preview',  'preview')
-                    ->name('report.take.preview');
-                Route::get('/take/create-report',  'create')
-                    ->name('report.take.create-report');
-                Route::post('/take/create-report',  'store')
-                    ->name('report.take.create-report.store');
-                Route::get('/reports-success',  'success')
-                    ->name('report.success');
+                Route::middleware('check_study_program')->group(function () {
+                    Route::get('/take',  'take')
+                        ->name('report.take');
+                    Route::get('/take/preview',  'preview')
+                        ->name('report.take.preview');
+                    Route::get('/take/create-report',  'create')
+                        ->name('report.take.create-report');
+                    Route::post('/take/create-report',  'store')
+                        ->name('report.take.create-report.store');
+                    Route::get('/reports-success',  'success')
+                        ->name('report.success');
+                });
                 Route::get('/myreports',  'myReport')
                     ->name('myreport');
             });

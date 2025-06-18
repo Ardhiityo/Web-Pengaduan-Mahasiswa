@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use App\Http\Middleware\CheckLoginMiddleware;
 use App\Http\Middleware\CheckIsResidentMiddleware;
+use App\Http\Middleware\CheckStudyProgramMiddleware;
 use Spatie\Permission\Middleware\RoleMiddleware;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -20,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'check_is_resident' => CheckIsResidentMiddleware::class,
             'check_login' => CheckLoginMiddleware::class,
+            'check_study_program' => CheckStudyProgramMiddleware::class,
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,
             'role_or_permission' => RoleOrPermissionMiddleware::class,
