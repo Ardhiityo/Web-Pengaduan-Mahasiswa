@@ -3,14 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\Report\StoreReportRequest;
 use App\Http\Requests\Report\UpdateReportRequest;
 use App\Services\Interfaces\ReportRepositoryInterface;
 use App\Services\Interfaces\ResidentRepositoryInterface;
-use App\Services\Interfaces\ReportStatusRepositoryInterface;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
-use App\Services\Interfaces\DecryptParameterRepositoryInterface;
 use App\Services\Interfaces\StudyProgramRepositoryInterface;
 
 class ReportController extends Controller
@@ -19,8 +16,6 @@ class ReportController extends Controller
         private ReportRepositoryInterface $reportRepository,
         private ResidentRepositoryInterface $residentRepository,
         private ReportCategoryRepositoryInterface $reportCategoryRepository,
-        private ReportStatusRepositoryInterface $reportStatusRepository,
-        private DecryptParameterRepositoryInterface $decryptParameterRepository,
         private StudyProgramRepositoryInterface $studyProgramRepository
     ) {}
 

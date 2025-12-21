@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Faker\Factory;
 use App\Models\User;
 use App\Models\Resident;
 use App\Models\StudyProgram;
@@ -33,15 +32,11 @@ class ResidentSeeder extends Seeder
      */
     public function run(): void
     {
-
-
-        $faker = Factory::create();
-
         //1
         $studyProgram = StudyProgram::where('name', 'Teknik Informatika')->first();
 
         $user = User::create([
-            'name' => $faker->name(),
+            'name' => fake()->name(),
             'email' => 'hello@test.com',
             'password' => 11111111,
             'email_verified_at' => now()
@@ -58,7 +53,7 @@ class ResidentSeeder extends Seeder
         $studyProgram = StudyProgram::where('name', 'Manajemen')->first();
 
         $user = User::create([
-            'name' => $faker->name(),
+            'name' => fake()->name(),
             'email' => 'allo@test.com',
             'password' => 11111111,
             'email_verified_at' => now()

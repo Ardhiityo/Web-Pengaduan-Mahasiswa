@@ -4,7 +4,6 @@ namespace App\Http\Controllers\User;
 
 use Illuminate\Http\Request;
 use App\Jobs\ProcessNotification;
-use App\Services\TelegramService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Report\StoreReportRequest;
@@ -13,7 +12,6 @@ use App\Services\Interfaces\ResidentRepositoryInterface;
 use App\Services\Interfaces\ReportStatusRepositoryInterface;
 use App\Services\Interfaces\StudyProgramRepositoryInterface;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
-use App\Services\Interfaces\DecryptParameterRepositoryInterface;
 
 class ReportController extends Controller
 {
@@ -21,8 +19,6 @@ class ReportController extends Controller
         private ReportRepositoryInterface $reportRepository,
         private ReportCategoryRepositoryInterface $reportCategoryRepository,
         private ReportStatusRepositoryInterface $reportStatusRepository,
-        private DecryptParameterRepositoryInterface $decryptParameterRepository,
-        private TelegramService $telegramService,
         private StudyProgramRepositoryInterface $studyProgramRepository,
         private ResidentRepositoryInterface $residentRepository,
     ) {}

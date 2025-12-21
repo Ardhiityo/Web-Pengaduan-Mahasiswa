@@ -16,6 +16,17 @@ class ReportRepository implements ReportRepositoryInterface
     public function getAllReports()
     {
         $user = Auth::user();
+
+        if (is_null($user)) {
+            return collect([]);
+        }
+
+        if ($user->hasRole('resident')) {
+            if (Report::where('resident_id', $user->resident->id)->count() === 0) {
+                return collect([]);
+            }
+        }
+
         if ($user->hasRole('admin')) {
             $adminFacultyIds = $user->faculties()->pluck('id');
             $studyProgramIds = StudyProgram::whereIn('faculty_id', $adminFacultyIds)
