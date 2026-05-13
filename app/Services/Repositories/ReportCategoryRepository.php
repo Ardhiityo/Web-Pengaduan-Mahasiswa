@@ -8,9 +8,14 @@ use App\Services\Interfaces\ReportCategoryRepositoryInterface;
 
 class ReportCategoryRepository implements ReportCategoryRepositoryInterface
 {
-    public function getAllReportCategories()
+    public function getAllReportCategories(int $per_page = 0, string $search = '')
     {
-        return ReportCategory::select('id', 'name', 'image')->get();
+        $query = ReportCategory::select('id', 'name', 'image')
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%');
+            });
+
+        return $per_page > 0 ? $query->paginate(perPage: $per_page) : $query->get();
     }
     public function getReportCategoryById(string $id)
     {

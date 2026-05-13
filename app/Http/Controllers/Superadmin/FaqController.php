@@ -7,6 +7,7 @@ use App\Http\Requests\Faq\StoreFaqRequest;
 use App\Http\Requests\Faq\UpdateFaqRequest;
 use App\Services\Interfaces\FaqRepositoryInterface;
 use App\Services\Interfaces\DecryptParameterRepositoryInterface;
+use Illuminate\Http\Request;
 
 class FaqController extends Controller
 {
@@ -15,9 +16,12 @@ class FaqController extends Controller
         private DecryptParameterRepositoryInterface $decryptParameterRepository
     ) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        $faqs = $this->faqRepository->getAllFaqs();
+        $per_page = (int) $request->query('per_page', 10);
+        $search = $request->query('search', '');
+
+        $faqs = $this->faqRepository->getAllFaqs($per_page, $search);
 
         return view('pages.admin.faq.index', compact('faqs'));
     }

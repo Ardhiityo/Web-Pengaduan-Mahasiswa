@@ -17,17 +17,22 @@ class AdminRepository implements AdminRepositoryInterface
         return $admin->update($data);
     }
 
-    public function getAllAdmins()
+    public function getAllAdmins(int $per_page = 0, string $search = '')
     {
-        return User::role('admin')
-            ->select('id', 'name', 'email')  // tambahkan id karena diperlukan untuk relasi
+        $query = User::role('admin')
+            ->select('id', 'name', 'email')
             ->with([
                 'faculties' => function (Builder $query) {
                     $query->select('faculties.id', 'faculties.name', 'admin_faculty.user_id')
-                        ->withPivot(['user_id']);  // jika perlu data dari tabel pivot
+                        ->withPivot(['user_id']);
                 }
             ])
-            ->get();
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%');
+            });
+
+        return $per_page > 0 ? $query->paginate(perPage: $per_page) : $query->get();
     }
 
     public function createAdmin(array $data)

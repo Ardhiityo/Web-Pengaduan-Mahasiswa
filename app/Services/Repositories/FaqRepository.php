@@ -7,9 +7,15 @@ use App\Services\Interfaces\FaqRepositoryInterface;
 
 class FaqRepository implements FaqRepositoryInterface
 {
-    public function getAllFaqs()
+    public function getAllFaqs(int $per_page = 0, string $search = '')
     {
-        return Faq::select('id', 'title', 'description')->get();
+        $query = Faq::select('id', 'title', 'description')
+            ->when($search, function ($query) use ($search) {
+                $query->where('title', 'like', '%' . $search . '%')
+                    ->orWhere('description', 'like', '%' . $search . '%');
+            });
+
+        return $per_page > 0 ? $query->paginate(perPage: $per_page) : $query->get();
     }
 
     public function getFaqById(string $faqId)

@@ -7,6 +7,7 @@ use App\Services\Interfaces\ReportCategoryRepositoryInterface;
 use App\Http\Requests\ReportCategory\StoreReportCategoryRequest;
 use App\Services\Interfaces\DecryptParameterRepositoryInterface;
 use App\Http\Requests\ReportCategory\UpdateReportCategoryRequest;
+use Illuminate\Http\Request;
 
 class ReportCategoryController extends Controller
 {
@@ -15,9 +16,12 @@ class ReportCategoryController extends Controller
         private DecryptParameterRepositoryInterface $decryptParameterRepository
     ) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        $reportCategories = $this->reportCategoryRepository->getAllReportCategories();
+        $per_page = (int) $request->query('per_page', 10);
+        $search = $request->query('search', '');
+
+        $reportCategories = $this->reportCategoryRepository->getAllReportCategories($per_page, $search);
 
         return view('pages.admin.category.index', compact('reportCategories'));
     }

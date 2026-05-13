@@ -10,6 +10,8 @@ use App\Services\Interfaces\ResidentRepositoryInterface;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
 use App\Services\Interfaces\StudyProgramRepositoryInterface;
 
+use Illuminate\Http\Request;
+
 class ReportController extends Controller
 {
     public function __construct(
@@ -19,9 +21,12 @@ class ReportController extends Controller
         private StudyProgramRepositoryInterface $studyProgramRepository
     ) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        $reports = $this->reportRepository->getAllReports();
+        $per_page = (int) $request->query('per_page', 10);
+        $search = $request->query('search', '');
+
+        $reports = $this->reportRepository->getAllReports($per_page, $search);
 
         return view('pages.admin.report.index', compact('reports'));
     }

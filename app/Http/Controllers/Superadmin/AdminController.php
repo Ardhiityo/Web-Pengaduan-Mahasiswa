@@ -9,6 +9,8 @@ use App\Http\Requests\Superadmin\Admin\StoreAdminRequest;
 use App\Services\Repositories\DecryptParameterRepository;
 use App\Http\Requests\Superadmin\Admin\UpdateAdminRequest;
 
+use Illuminate\Http\Request;
+
 class AdminController extends Controller
 {
 
@@ -18,9 +20,12 @@ class AdminController extends Controller
         private DecryptParameterRepository $decryptParameterRepository
     ) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        $admins = $this->adminRepository->getAllAdmins();
+        $per_page = (int) $request->query('per_page', 10);
+        $search = $request->query('search', '');
+
+        $admins = $this->adminRepository->getAllAdmins($per_page, $search);
 
         return view('pages.superadmin.admin.index', compact('admins'));
     }

@@ -4,7 +4,7 @@ namespace App\Services\Interfaces;
 
 interface FacultyRepositoryInterface
 {
-    public function getAllFaculties();
+    public function getAllFaculties(int $per_page = 0, string $search = '');
     public function getFacultyById($id);
     public function updateFacultyById($id, $data);
     public function createFaculty(array $data);

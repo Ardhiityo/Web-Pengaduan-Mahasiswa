@@ -12,7 +12,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="facultiesTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -51,3 +51,37 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function () {
+            const table = $('#facultiesTable').DataTable({
+                pageLength: {{ request('per_page', 10) }},
+                search: {
+                    search: '{{ request('search') }}'
+                }
+            });
+
+            // change per page
+            table.on('length.dt', function () {
+                const perPage = table.page.len();
+                const search = table.search();
+                window.location.href =
+                    `?per_page=${perPage}&search=${search}`;
+            });
+
+            // debounce search
+            let timeout = null;
+
+            $('#facultiesTable_filter input').on('keyup', function () {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    const perPage = table.page.len();
+                    const search = this.value;
+                    window.location.href =
+                        `?per_page=${perPage}&search=${search}`;
+                }, 1000);
+            });
+        });
+    </script>
+@endpush

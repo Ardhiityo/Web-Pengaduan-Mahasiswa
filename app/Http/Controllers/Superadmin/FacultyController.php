@@ -12,9 +12,12 @@ class FacultyController extends Controller
 {
     public function __construct(private FacultyRepositoryInterface $facultyRepository) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        $faculties = $this->facultyRepository->getAllFaculties();
+        $per_page = (int) $request->query('per_page', 10);
+        $search = $request->query('search', '');
+
+        $faculties = $this->facultyRepository->getAllFaculties($per_page, $search);
 
         return view('pages.superadmin.faculty.index', compact('faculties'));
     }

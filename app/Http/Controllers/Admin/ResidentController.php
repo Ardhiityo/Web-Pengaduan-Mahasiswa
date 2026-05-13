@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Resident\StoreResidentRequest;
 use App\Http\Requests\Resident\UpdateResidentRequest;
+use App\Services\Interfaces\DecryptParameterRepositoryInterface;
 use App\Services\Interfaces\ResidentRepositoryInterface;
 use App\Services\Interfaces\StudyProgramRepositoryInterface;
-use App\Services\Interfaces\DecryptParameterRepositoryInterface;
+use Illuminate\Http\Request;
 
 class ResidentController extends Controller
 {
@@ -18,9 +18,12 @@ class ResidentController extends Controller
         private StudyProgramRepositoryInterface $studyProgramRepository
     ) {}
 
-    public function index()
+    public function index(Request $request)
     {
-        $residents = $this->residentRepository->getAllResidents();
+        $per_page = (int) $request->query('per_page', 10);
+        $search = $request->query('search', '');
+
+        $residents = $this->residentRepository->getAllResidents($per_page, $search);
 
         return view('pages.admin.resident.index', compact('residents'));
     }

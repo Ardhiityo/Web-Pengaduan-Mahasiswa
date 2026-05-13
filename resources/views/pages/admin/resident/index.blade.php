@@ -11,7 +11,7 @@
         </div>
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-bordered" id="residentsTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th>No</th>
@@ -33,8 +33,7 @@
                                 <td>{{ $resident->studyProgram->name ?? '-' }}</td>
                                 <td>
                                     @if ($resident->avatar)
-                                        <img src="{{ asset('storage/' . $resident->avatar) }}" alt="avatar"
-                                            width="100">
+                                        <img src="{{ asset('storage/'.$resident->avatar) }}" alt="avatar" width="100">
                                     @else
                                         -
                                     @endif
@@ -61,3 +60,37 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script>
+        $(document).ready(function () {
+            const table = $('#residentsTable').DataTable({
+                pageLength: {{ request('per_page', 10) }},
+                search: {
+                    search: '{{ request('search') }}'
+                }
+            });
+
+            // change per page
+            table.on('length.dt', function () {
+                const perPage = table.page.len();
+                const search = table.search();
+                window.location.href =
+                    `?per_page=${perPage}&search=${search}`;
+            });
+
+            // debounce search
+            let timeout = null;
+
+            $('#residentsTable_filter input').on('keyup', function () {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => {
+                    const perPage = table.page.len();
+                    const search = this.value;
+                    window.location.href =
+                        `?per_page=${perPage}&search=${search}`;
+                }, 1000);
+            });
+        });
+    </script>
+@endpush

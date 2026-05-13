@@ -4,7 +4,7 @@ namespace App\Services\Interfaces;
 
 interface ReportRepositoryInterface
 {
-    public function getAllReports();
+    public function getAllReports(int $per_page = 0, string $search = '');
     public function latestReports();
     public function getReportsByCategory(string $category);
     public function getReportById(string $id);
