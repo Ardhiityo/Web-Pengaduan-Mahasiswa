@@ -24,10 +24,8 @@
                     @enderror
                 </div>
                 <div class="mb-3 input-group">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="resident_id">Pelapor</label>
-                    </div>
-                    <select class="custom-select
+                    <label class="input-group-text" for="resident_id">Pelapor</label>
+                    <select class="form-select
                     @error('title') is-invalid @enderror" id="resident_id"
                         name="resident_id">
                         <option selected>Pilih...</option>
@@ -43,10 +41,8 @@
                     @enderror
                 </div>
                 <div class="mb-3 input-group">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="report_category_id">Kategori laporan</label>
-                    </div>
-                    <select class="custom-select
+                    <label class="input-group-text" for="report_category_id">Kategori laporan</label>
+                    <select class="form-select
                     @error('title') is-invalid @enderror"
                         id="report_category_id" name="report_category_id">
                         <option selected>Pilih...</option>
@@ -92,10 +88,8 @@
                     @enderror
                 </div>
                 <div class="my-4 input-group">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="status">Program Studi</label>
-                    </div>
-                    <select class="custom-select
+                    <label class="input-group-text" for="status">Program Studi</label>
+                    <select class="form-select
                     @error('study_program_id') is-invalid @enderror"
                         required id="study_program_id" name="study_program_id">
                         <option value="">Pilih...</option>

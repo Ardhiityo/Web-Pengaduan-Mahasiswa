@@ -48,10 +48,8 @@
                 </div>
 
                 <div class="my-4 input-group">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="status">Prodi</label>
-                    </div>
-                    <select class="custom-select
+                    <label class="input-group-text" for="status">Prodi</label>
+                    <select class="form-select
                     @error('study_program_id') is-invalid @enderror"
                         required id="study_program_id" name="study_program_id">
                         <option value="">Pilih...</option>

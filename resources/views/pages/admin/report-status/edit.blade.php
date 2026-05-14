@@ -16,10 +16,8 @@
                 @method('PUT')
                 <input type="hidden" name="report_id" value="{{ $reportStatus->report->id }}">
                 <div class="mb-3 input-group">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="status">Status Kemajuan Laporan</label>
-                    </div>
-                    <select class="custom-select
+                    <label class="input-group-text" for="status">Status Kemajuan Laporan</label>
+                    <select class="form-select
                     @error('status') is-invalid @enderror" id="status"
                         name="status">
                         <option value="">Pilih...</option>

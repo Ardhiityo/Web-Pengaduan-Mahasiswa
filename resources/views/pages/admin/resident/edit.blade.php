@@ -45,10 +45,8 @@
                     @enderror
                 </div>
                 <div class="mb-3 input-group">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="faculty_id">Program Studi</label>
-                    </div>
-                    <select class="custom-select
+                    <label class="input-group-text" for="faculty_id">Program Studi</label>
+                    <select class="form-select
                     @error('study_program_id') is-invalid @enderror"
                         id="study_program_id" name="study_program_id" required>
                         <option value="">Pilih...</option>

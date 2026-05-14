@@ -47,10 +47,8 @@
                         minlength="5">
                 </div>
                 <div class="mb-3 input-group">
-                    <div class="input-group-prepend">
-                        <label class="input-group-text" for="faculty_id">Fakultas</label>
-                    </div>
-                    <select class="custom-select
+                    <label class="input-group-text" for="faculty_id">Fakultas</label>
+                    <select class="form-select
                     @error('faculty_id') is-invalid @enderror"
                         id="faculty_id" name="faculty_id">
                         <option value="">Pilih...</option>

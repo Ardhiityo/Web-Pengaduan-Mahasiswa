@@ -11,7 +11,7 @@
             <div class="py-2 shadow card border-left-primary h-100">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
-                        <div class="mr-2 col">
+                        <div class="me-2 col">
                             <div class="mb-1 text-xs font-weight-bold text-dark text-uppercase">
                                 Total Mahasiswa</div>
                             <div class="mb-0 text-gray-800 h5 font-weight-bold">{{ $totalResidents }}</div>
@@ -28,12 +28,12 @@
             <div class="py-2 shadow card border-left-primary h-100">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
-                        <div class="mr-2 col">
+                        <div class="me-2 col">
                             <div class="mb-1 text-xs font-weight-bold text-dark text-uppercase">Total Admin
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="mr-3 mb-0 text-gray-800 h5 font-weight-bold">{{ $totalAdmins }}</div>
+                                    <div class="me-3 mb-0 text-gray-800 h5 font-weight-bold">{{ $totalAdmins }}</div>
                                 </div>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
             <div class="py-2 shadow card border-left-primary h-100">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
-                        <div class="mr-2 col">
+                        <div class="me-2 col">
                             <div class="mb-1 text-xs font-weight-bold text-dark text-uppercase">
                                 Total Fakultas</div>
                             <div class="mb-0 text-gray-800 h5 font-weight-bold">{{ $totalFaculties }}</div>
@@ -66,12 +66,12 @@
             <div class="py-2 shadow card border-left-primary h-100">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
-                        <div class="mr-2 col">
+                        <div class="me-2 col">
                             <div class="mb-1 text-xs font-weight-bold text-dark text-uppercase">Total Program Studi
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="mr-3 mb-0 text-gray-800 h5 font-weight-bold">{{ $totalStudyPrograms }}</div>
+                                    <div class="me-3 mb-0 text-gray-800 h5 font-weight-bold">{{ $totalStudyPrograms }}</div>
                                 </div>
                             </div>
                         </div>
@@ -87,7 +87,7 @@
             <div class="py-2 shadow card border-left-primary h-100">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
-                        <div class="mr-2 col">
+                        <div class="me-2 col">
                             <div class="mb-1 text-xs font-weight-bold text-dark text-uppercase">
                                 Total kategori</div>
                             <div class="mb-0 text-gray-800 h5 font-weight-bold">{{ $totalReportCategories }}</div>
@@ -104,12 +104,12 @@
             <div class="py-2 shadow card border-left-primary h-100">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
-                        <div class="mr-2 col">
+                        <div class="me-2 col">
                             <div class="mb-1 text-xs font-weight-bold text-dark text-uppercase">Total Laporan
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="mr-3 mb-0 text-gray-800 h5 font-weight-bold">{{ $totalReports }}</div>
+                                    <div class="me-3 mb-0 text-gray-800 h5 font-weight-bold">{{ $totalReports }}</div>
                                 </div>
                             </div>
                         </div>
@@ -125,12 +125,12 @@
             <div class="py-2 shadow card border-left-primary h-100">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
-                        <div class="mr-2 col">
+                        <div class="me-2 col">
                             <div class="mb-1 text-xs font-weight-bold text-dark text-uppercase">Total FAQ
                             </div>
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
-                                    <div class="mr-3 mb-0 text-gray-800 h5 font-weight-bold">{{ $totalFAQs }}</div>
+                                    <div class="me-3 mb-0 text-gray-800 h5 font-weight-bold">{{ $totalFAQs }}</div>
                                 </div>
                             </div>
                         </div>
@@ -143,3 +143,4 @@
         </div>
     </div>
 @endsection
+
