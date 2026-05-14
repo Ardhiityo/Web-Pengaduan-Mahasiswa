@@ -9,6 +9,7 @@ use App\Services\Interfaces\DecryptParameterRepositoryInterface;
 use App\Services\Interfaces\ResidentRepositoryInterface;
 use App\Services\Interfaces\StudyProgramRepositoryInterface;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class ResidentController extends Controller
 {
@@ -20,12 +21,44 @@ class ResidentController extends Controller
 
     public function index(Request $request)
     {
-        $per_page = (int) $request->query('per_page', 10);
-        $search = $request->query('search', '');
+        if ($request->ajax()) {
+            $query = $this->residentRepository->getAllResidents();
 
-        $residents = $this->residentRepository->getAllResidents($per_page, $search);
+            return DataTables::eloquent($query)
+                ->addIndexColumn()
+                ->addColumn('name', fn($row) => $row->user->name)
+                ->addColumn('email', fn($row) => $row->user->email)
+                ->addColumn('study_program', fn($row) => $row->studyProgram->name ?? '-')
+                ->addColumn('avatar', function ($row) {
+                    if ($row->avatar) {
+                        return '<img src="' . asset('storage/' . $row->avatar) . '" alt="avatar" width="60">';
+                    }
+                    return '-';
+                })
+                ->addColumn('action', function ($row) {
+                    return '
+                        <a href="' . route('admin.resident.show', $row->id) . '" class="my-1 btn btn-sm btn-info">Show</a>
+                        <a href="' . route('admin.resident.edit', $row->id) . '" class="my-1 btn btn-sm btn-warning">Edit</a>
+                        <form action="' . route('admin.resident.destroy', $row->id) . '" method="POST" class="d-inline">
+                            ' . csrf_field() . method_field('DELETE') . '
+                            <button type="submit" class="my-1 btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    ';
+                })
+                ->filterColumn('name', fn($query, $keyword) =>
+                    $query->whereHas('user', fn($q) => $q->where('name', 'like', "%{$keyword}%"))
+                )
+                ->filterColumn('email', fn($query, $keyword) =>
+                    $query->whereHas('user', fn($q) => $q->where('email', 'like', "%{$keyword}%"))
+                )
+                ->filterColumn('study_program', fn($query, $keyword) =>
+                    $query->whereHas('studyProgram', fn($q) => $q->where('name', 'like', "%{$keyword}%"))
+                )
+                ->rawColumns(['avatar', 'action'])
+                ->make(true);
+        }
 
-        return view('pages.admin.resident.index', compact('residents'));
+        return view('pages.admin.resident.index');
     }
 
     public function create()

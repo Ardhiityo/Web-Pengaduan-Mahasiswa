@@ -7,8 +7,7 @@
 
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Data Admin
-            </h6>
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Data Admin</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -22,32 +21,6 @@
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($admins as $admin)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $admin->name }}</td>
-                                <td>{{ $admin->email }}</td>
-                                <td>
-                                    {{ $admin->faculties->pluck('name')->implode(', ') }}
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.admin.show', ['admin' => $admin->id]) }}"
-                                        class="my-1 btn btn-info btn-sm">Show</a>
-
-                                    <a href="{{ route('admin.admin.edit', ['admin' => $admin->id]) }}"
-                                        class="my-1 btn btn-warning btn-sm">Edit</a>
-
-                                    <form action="{{ route('admin.admin.destroy', ['admin' => $admin->id]) }}"
-                                        method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="my-1 btn btn-sm btn-danger">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
                 </table>
             </div>
         </div>
@@ -57,32 +30,17 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
-            const table = $('#adminsTable').DataTable({
-                pageLength: {{ request('per_page', 10) }},
-                search: {
-                    search: '{{ request('search') }}'
-                }
-            });
-
-            // change per page
-            table.on('length.dt', function () {
-                const perPage = table.page.len();
-                const search = table.search();
-                window.location.href =
-                    `?per_page=${perPage}&search=${search}`;
-            });
-
-            // debounce search
-            let timeout = null;
-
-            $('#adminsTable_filter input').on('keyup', function () {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    const perPage = table.page.len();
-                    const search = this.value;
-                    window.location.href =
-                        `?per_page=${perPage}&search=${search}`;
-                }, 1000);
+            $('#adminsTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('admin.admin.index') }}',
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'name',      name: 'name' },
+                    { data: 'email',     name: 'email' },
+                    { data: 'faculties', name: 'faculties' },
+                    { data: 'action',    name: 'action', orderable: false, searchable: false },
+                ],
             });
         });
     </script>

@@ -8,21 +8,13 @@ use App\Services\Interfaces\FacultyRepositoryInterface;
 
 class FacultyRepository implements FacultyRepositoryInterface
 {
-    public function getAllFaculties(int $per_page = 0, string $search = '')
+    public function getAllFaculties()
     {
-        $query = Faculty::with(
-            [
-                'studyPrograms' => function ($query) {
-                    $query->select('id', 'name', 'faculty_id');
-                },
-            ]
-        )
-            ->select('id', 'name')
-            ->when($search, function ($query) use ($search) {
-                $query->where('name', 'like', '%' . $search . '%');
-            });
-
-        return $per_page > 0 ? $query->paginate(perPage: $per_page) : $query->get();
+        return Faculty::with([
+            'studyPrograms' => function ($query) {
+                $query->select('id', 'name', 'faculty_id');
+            },
+        ])->select('id', 'name');
     }
 
     public function getFacultyById($id)

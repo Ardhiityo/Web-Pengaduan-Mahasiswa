@@ -3,8 +3,7 @@
 @section('title', 'Data Kategori')
 
 @section('content')
-    <a href="{{ route('admin.report-category.create') }}" class="mb-3 btn btn-primary">
-        Tambah Data</a>
+    <a href="{{ route('admin.report-category.create') }}" class="mb-3 btn btn-primary">Tambah Data</a>
 
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
@@ -16,42 +15,11 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Kategori </th>
+                            <th>Kategori</th>
                             <th>Ikon</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($reportCategories as $reportCategory)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $reportCategory->name }}</td>
-                                <td>
-                                    @if ($reportCategory->image)
-                                        <img src="{{ asset('storage/' . $reportCategory->image) }}" alt="image"
-                                            width="100">
-                                    @else
-                                        -
-                                    @endif
-                                </td>
-                                <td>
-                                    <a href="{{ route('admin.report-category.show', ['report_category' => $reportCategory->id]) }}"
-                                        class="my-1 btn btn-sm btn-info">Show</a>
-
-                                    <a href="{{ route('admin.report-category.edit', ['report_category' => $reportCategory->id]) }}"
-                                        class="my-1 btn btn-sm btn-warning">Edit</a>
-
-                                    <form
-                                        action="{{ route('admin.report-category.destroy', ['report_category' => $reportCategory->id]) }}"
-                                        method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="my-1 btn btn-sm btn-danger">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
                 </table>
             </div>
         </div>
@@ -61,32 +29,16 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
-            const table = $('#categoriesTable').DataTable({
-                pageLength: {{ request('per_page', 10) }},
-                search: {
-                    search: '{{ request('search') }}'
-                }
-            });
-
-            // change per page
-            table.on('length.dt', function () {
-                const perPage = table.page.len();
-                const search = table.search();
-                window.location.href =
-                    `?per_page=${perPage}&search=${search}`;
-            });
-
-            // debounce search
-            let timeout = null;
-
-            $('#categoriesTable_filter input').on('keyup', function () {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    const perPage = table.page.len();
-                    const search = this.value;
-                    window.location.href =
-                        `?per_page=${perPage}&search=${search}`;
-                }, 1000);
+            $('#categoriesTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('admin.report-category.index') }}',
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'name',        name: 'name' },
+                    { data: 'image',       name: 'image', orderable: false, searchable: false },
+                    { data: 'action',      name: 'action', orderable: false, searchable: false },
+                ],
             });
         });
     </script>

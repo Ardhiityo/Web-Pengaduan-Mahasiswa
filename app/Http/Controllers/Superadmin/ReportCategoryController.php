@@ -8,6 +8,7 @@ use App\Http\Requests\ReportCategory\StoreReportCategoryRequest;
 use App\Services\Interfaces\DecryptParameterRepositoryInterface;
 use App\Http\Requests\ReportCategory\UpdateReportCategoryRequest;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class ReportCategoryController extends Controller
 {
@@ -18,12 +19,32 @@ class ReportCategoryController extends Controller
 
     public function index(Request $request)
     {
-        $per_page = (int) $request->query('per_page', 10);
-        $search = $request->query('search', '');
+        if ($request->ajax()) {
+            $query = $this->reportCategoryRepository->getAllReportCategories();
 
-        $reportCategories = $this->reportCategoryRepository->getAllReportCategories($per_page, $search);
+            return DataTables::eloquent($query)
+                ->addIndexColumn()
+                ->addColumn('image', function ($row) {
+                    if ($row->image) {
+                        return '<img src="' . asset('storage/' . $row->image) . '" alt="image" width="60">';
+                    }
+                    return '-';
+                })
+                ->addColumn('action', function ($row) {
+                    return '
+                        <a href="' . route('admin.report-category.show', $row->id) . '" class="my-1 btn btn-sm btn-info">Show</a>
+                        <a href="' . route('admin.report-category.edit', $row->id) . '" class="my-1 btn btn-sm btn-warning">Edit</a>
+                        <form action="' . route('admin.report-category.destroy', $row->id) . '" method="POST" class="d-inline">
+                            ' . csrf_field() . method_field('DELETE') . '
+                            <button type="submit" class="my-1 btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    ';
+                })
+                ->rawColumns(['image', 'action'])
+                ->make(true);
+        }
 
-        return view('pages.admin.category.index', compact('reportCategories'));
+        return view('pages.admin.category.index');
     }
 
     public function create()

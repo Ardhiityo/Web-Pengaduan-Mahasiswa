@@ -9,8 +9,8 @@ use App\Services\Interfaces\ReportRepositoryInterface;
 use App\Services\Interfaces\ResidentRepositoryInterface;
 use App\Services\Interfaces\ReportCategoryRepositoryInterface;
 use App\Services\Interfaces\StudyProgramRepositoryInterface;
-
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class ReportController extends Controller
 {
@@ -23,12 +23,38 @@ class ReportController extends Controller
 
     public function index(Request $request)
     {
-        $per_page = (int) $request->query('per_page', 10);
-        $search = $request->query('search', '');
+        if ($request->ajax()) {
+            $query = $this->reportRepository->getAllReports();
 
-        $reports = $this->reportRepository->getAllReports($per_page, $search);
+            return DataTables::eloquent($query)
+                ->addIndexColumn()
+                ->addColumn('resident_name', fn($row) => $row->resident->user->name ?? '-')
+                ->addColumn('category_name', fn($row) => $row->reportCategory->name ?? '-')
+                ->addColumn('study_program_name', fn($row) => $row->studyProgram->name ?? '-')
+                ->addColumn('action', function ($row) {
+                    return '
+                        <a href="' . route('admin.report.show', $row->id) . '" class="my-1 btn btn-sm btn-info">Show</a>
+                        <a href="' . route('admin.report.edit', $row->id) . '" class="my-1 btn btn-sm btn-warning">Edit</a>
+                        <form action="' . route('admin.report.destroy', $row->id) . '" method="POST" class="d-inline">
+                            ' . csrf_field() . method_field('DELETE') . '
+                            <button type="submit" class="my-1 btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    ';
+                })
+                ->filterColumn('resident_name', fn($query, $keyword) =>
+                    $query->whereHas('resident.user', fn($q) => $q->where('name', 'like', "%{$keyword}%"))
+                )
+                ->filterColumn('category_name', fn($query, $keyword) =>
+                    $query->whereHas('reportCategory', fn($q) => $q->where('name', 'like', "%{$keyword}%"))
+                )
+                ->filterColumn('study_program_name', fn($query, $keyword) =>
+                    $query->whereHas('studyProgram', fn($q) => $q->where('name', 'like', "%{$keyword}%"))
+                )
+                ->rawColumns(['action'])
+                ->make(true);
+        }
 
-        return view('pages.admin.report.index', compact('reports'));
+        return view('pages.admin.report.index');
     }
 
     public function create()

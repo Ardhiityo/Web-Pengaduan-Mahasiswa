@@ -7,8 +7,7 @@
 
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Data FAQ
-            </h6>
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Data FAQ</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -21,29 +20,6 @@
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($faqs as $faq)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $faq->title }}</td>
-                                <td>{{ $faq->description }}</td>
-                                <td>
-                                    <a href="{{ route('admin.faq.show', ['faq' => $faq->id]) }}"
-                                        class="my-1 btn btn-info btn-sm">Show</a>
-
-                                    <a href="{{ route('admin.faq.edit', ['faq' => $faq->id]) }}"
-                                        class="my-1 btn btn-warning btn-sm">Edit</a>
-
-                                    <form action="{{ route('admin.faq.destroy', ['faq' => $faq->id]) }}" method="POST"
-                                        class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="my-1 btn btn-sm btn-danger">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
                 </table>
             </div>
         </div>
@@ -53,32 +29,16 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
-            const table = $('#faqsTable').DataTable({
-                pageLength: {{ request('per_page', 10) }},
-                search: {
-                    search: '{{ request('search') }}'
-                }
-            });
-
-            // change per page
-            table.on('length.dt', function () {
-                const perPage = table.page.len();
-                const search = table.search();
-                window.location.href =
-                    `?per_page=${perPage}&search=${search}`;
-            });
-
-            // debounce search
-            let timeout = null;
-
-            $('#faqsTable_filter input').on('keyup', function () {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    const perPage = table.page.len();
-                    const search = this.value;
-                    window.location.href =
-                        `?per_page=${perPage}&search=${search}`;
-                }, 1000);
+            $('#faqsTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('admin.faq.index') }}',
+                columns: [
+                    { data: 'DT_RowIndex', name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'title',       name: 'title' },
+                    { data: 'description', name: 'description' },
+                    { data: 'action',      name: 'action', orderable: false, searchable: false },
+                ],
             });
         });
     </script>

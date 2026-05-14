@@ -13,12 +13,12 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class ReportRepository implements ReportRepositoryInterface
 {
-    public function getAllReports(int $per_page = 0, string $search = '')
+    public function getAllReports()
     {
         $user = Auth::user();
 
         if (is_null($user)) {
-            return collect([]);
+            return Report::whereRaw('1 = 0'); // empty query
         }
 
         if ($user->hasRole('admin')) {
@@ -26,42 +26,29 @@ class ReportRepository implements ReportRepositoryInterface
             $studyProgramIds = StudyProgram::whereIn('faculty_id', $adminFacultyIds)
                 ->pluck('id')->toArray();
 
-            $query = Report::with([
+            return Report::with([
                 'resident' => function (Builder $query) {
                     $query->with(['user' => function (Builder $query) {
                         $query->select('id', 'name');
                     }])->select('id', 'user_id');
                 },
                 'reportCategory' => fn(Builder $query) => $query->select('id', 'name'),
-                'studyProgram' =>  fn(Builder $query) => $query->select('id', 'name'),
+                'studyProgram'   => fn(Builder $query) => $query->select('id', 'name'),
             ])->whereIn('study_program_id', $studyProgramIds)
-                ->when($search, function ($query) use ($search) {
-                    $query->where('title', 'like', '%' . $search . '%')
-                        ->orWhere('code', 'like', '%' . $search . '%');
-                })
                 ->oldest()
                 ->select('id', 'code', 'title', 'resident_id', 'report_category_id', 'study_program_id');
-
-            return $per_page > 0 ? $query->paginate(perPage: $per_page) : $query->get();
-        } else if ($user->hasRole('superadmin')) {
-            $query = Report::with([
-                'resident' => function (Builder $query) {
-                    $query->with(['user' => function (Builder $query) {
-                        $query->select('id', 'name');
-                    }])->select('id', 'user_id');
-                },
-                'reportCategory' => fn(Builder $query) => $query->select('id', 'name'),
-                'studyProgram' =>  fn(Builder $query) => $query->select('id', 'name'),
-            ])
-                ->when($search, function ($query) use ($search) {
-                    $query->where('title', 'like', '%' . $search . '%')
-                        ->orWhere('code', 'like', '%' . $search . '%');
-                })
-                ->oldest()
-                ->select('id', 'code', 'title', 'resident_id', 'report_category_id', 'study_program_id');
-
-            return $per_page > 0 ? $query->paginate(perPage: $per_page) : $query->get();
         }
+
+        return Report::with([
+            'resident' => function (Builder $query) {
+                $query->with(['user' => function (Builder $query) {
+                    $query->select('id', 'name');
+                }])->select('id', 'user_id');
+            },
+            'reportCategory' => fn(Builder $query) => $query->select('id', 'name'),
+            'studyProgram'   => fn(Builder $query) => $query->select('id', 'name'),
+        ])->oldest()
+            ->select('id', 'code', 'title', 'resident_id', 'report_category_id', 'study_program_id');
     }
 
     public function getReportById(string $id)

@@ -13,37 +13,27 @@ use Illuminate\Support\Facades\Storage;
 
 class ResidentRepository implements ResidentRepositoryInterface
 {
-    public function getAllResidents(int $per_page = 0, string $search = '')
+    public function getAllResidents()
     {
         $user = Auth::user();
         if ($user->hasRole('admin')) {
             $facultyIds = $user->faculties()->pluck('faculty_id');
             $studyProgramIds = StudyProgram::whereIn('faculty_id', $facultyIds)->pluck('id');
 
-            $query = Resident::with([
+            return Resident::with([
                 'studyProgram' => fn (Builder $query) => $query
                     ->with('faculty', fn (Builder $query) => $query->select('id', 'name'))
                     ->select('id', 'name', 'faculty_id'),
                 'user' => fn (Builder $query) => $query->select('id', 'name', 'email'),
             ])
                 ->whereIn('study_program_id', $studyProgramIds)
-                ->when($search, function ($query) use ($search) {
-                    $query->where('nim', 'like', '%'.$search.'%')
-                        ->orWhereHas('user', fn ($query) => $query->where('name', 'like', '%'.$search.'%'));
-                })
                 ->select('id', 'nim', 'user_id', 'study_program_id', 'avatar');
-
-            return $per_page > 0 ? $query->paginate(perPage: $per_page) : $query->get();
-        } elseif ($user->hasRole('superadmin')) {
-            $query = Resident::with('studyProgram')
-                ->when($search, function ($query) use ($search) {
-                    $query->where('nim', 'like', '%'.$search.'%')
-                        ->orWhereHas('user', fn ($query) => $query->where('name', 'like', '%'.$search.'%'));
-                })
-                ->select('id', 'nim', 'user_id', 'study_program_id', 'avatar');
-
-            return $per_page > 0 ? $query->paginate(perPage: $per_page) : $query->get();
         }
+
+        return Resident::with([
+            'studyProgram' => fn (Builder $query) => $query->select('id', 'name', 'faculty_id'),
+            'user' => fn (Builder $query) => $query->select('id', 'name', 'email'),
+        ])->select('id', 'nim', 'user_id', 'study_program_id', 'avatar');
     }
 
     public function getResidentById(string $id)

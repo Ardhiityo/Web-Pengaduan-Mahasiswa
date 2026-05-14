@@ -8,8 +8,8 @@ use App\Services\Interfaces\FacultyRepositoryInterface;
 use App\Http\Requests\Superadmin\Admin\StoreAdminRequest;
 use App\Services\Repositories\DecryptParameterRepository;
 use App\Http\Requests\Superadmin\Admin\UpdateAdminRequest;
-
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class AdminController extends Controller
 {
@@ -22,12 +22,30 @@ class AdminController extends Controller
 
     public function index(Request $request)
     {
-        $per_page = (int) $request->query('per_page', 10);
-        $search = $request->query('search', '');
+        if ($request->ajax()) {
+            $query = $this->adminRepository->getAllAdmins();
 
-        $admins = $this->adminRepository->getAllAdmins($per_page, $search);
+            return DataTables::eloquent($query)
+                ->addIndexColumn()
+                ->addColumn('faculties', fn($row) => $row->faculties->pluck('name')->implode(', ') ?: '-')
+                ->addColumn('action', function ($row) {
+                    return '
+                        <a href="' . route('admin.admin.show', $row->id) . '" class="my-1 btn btn-info btn-sm">Show</a>
+                        <a href="' . route('admin.admin.edit', $row->id) . '" class="my-1 btn btn-warning btn-sm">Edit</a>
+                        <form action="' . route('admin.admin.destroy', $row->id) . '" method="POST" class="d-inline">
+                            ' . csrf_field() . method_field('DELETE') . '
+                            <button type="submit" class="my-1 btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    ';
+                })
+                ->filterColumn('faculties', fn($query, $keyword) =>
+                    $query->whereHas('faculties', fn($q) => $q->where('name', 'like', "%{$keyword}%"))
+                )
+                ->rawColumns(['action'])
+                ->make(true);
+        }
 
-        return view('pages.superadmin.admin.index', compact('admins'));
+        return view('pages.superadmin.admin.index');
     }
 
     public function create()

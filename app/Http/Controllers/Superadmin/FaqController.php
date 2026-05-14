@@ -8,6 +8,7 @@ use App\Http\Requests\Faq\UpdateFaqRequest;
 use App\Services\Interfaces\FaqRepositoryInterface;
 use App\Services\Interfaces\DecryptParameterRepositoryInterface;
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
 
 class FaqController extends Controller
 {
@@ -18,12 +19,26 @@ class FaqController extends Controller
 
     public function index(Request $request)
     {
-        $per_page = (int) $request->query('per_page', 10);
-        $search = $request->query('search', '');
+        if ($request->ajax()) {
+            $query = $this->faqRepository->getAllFaqs();
 
-        $faqs = $this->faqRepository->getAllFaqs($per_page, $search);
+            return DataTables::eloquent($query)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    return '
+                        <a href="' . route('admin.faq.show', $row->id) . '" class="my-1 btn btn-info btn-sm">Show</a>
+                        <a href="' . route('admin.faq.edit', $row->id) . '" class="my-1 btn btn-warning btn-sm">Edit</a>
+                        <form action="' . route('admin.faq.destroy', $row->id) . '" method="POST" class="d-inline">
+                            ' . csrf_field() . method_field('DELETE') . '
+                            <button type="submit" class="my-1 btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    ';
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
 
-        return view('pages.admin.faq.index', compact('faqs'));
+        return view('pages.admin.faq.index');
     }
 
     public function create()

@@ -7,8 +7,7 @@
 
     <div class="mb-4 shadow card">
         <div class="py-3 card-header">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Data Laporan
-            </h6>
+            <h6 class="m-0 font-weight-bold text-primary">Daftar Data Laporan</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -24,34 +23,6 @@
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        @foreach ($reports as $report)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $report->code }}</td>
-                                <td>{{ $report->title }}</td>
-                                <td>{{ $report->resident->user->name }}</td>
-                                <td>{{ $report->reportCategory->name }}</td>
-                                <td>{{ $report->studyProgram->name }}</td>
-                                <td>
-
-                                    <a href="{{ route('admin.report.show', ['report' => $report->id]) }}"
-                                        class="my-1 btn btn-sm btn-info">Show</a>
-
-                                    <a href="{{ route('admin.report.edit', ['report' => $report->id]) }}"
-                                        class="my-1 btn btn-sm btn-warning">Edit</a>
-
-                                    <form action="{{ route('admin.report.destroy', ['report' => $report->id]) }}"
-                                        method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="my-1 btn btn-sm btn-danger">Delete</button>
-                                    </form>
-
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
                 </table>
             </div>
         </div>
@@ -61,32 +32,19 @@
 @push('scripts')
     <script>
         $(document).ready(function () {
-            const table = $('#reportsTable').DataTable({
-                pageLength: {{ request('per_page', 10) }},
-                search: {
-                    search: '{{ request('search') }}'
-                }
-            });
-
-            // change per page
-            table.on('length.dt', function () {
-                const perPage = table.page.len();
-                const search = table.search();
-                window.location.href =
-                    `?per_page=${perPage}&search=${search}`;
-            });
-
-            // debounce search
-            let timeout = null;
-
-            $('#reportsTable_filter input').on('keyup', function () {
-                clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    const perPage = table.page.len();
-                    const search = this.value;
-                    window.location.href =
-                        `?per_page=${perPage}&search=${search}`;
-                }, 1000);
+            $('#reportsTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('admin.report.index') }}',
+                columns: [
+                    { data: 'DT_RowIndex',       name: 'DT_RowIndex', orderable: false, searchable: false },
+                    { data: 'code',              name: 'code' },
+                    { data: 'title',             name: 'title' },
+                    { data: 'resident_name',     name: 'resident_name' },
+                    { data: 'category_name',     name: 'category_name' },
+                    { data: 'study_program_name', name: 'study_program_name' },
+                    { data: 'action',            name: 'action', orderable: false, searchable: false },
+                ],
             });
         });
     </script>
