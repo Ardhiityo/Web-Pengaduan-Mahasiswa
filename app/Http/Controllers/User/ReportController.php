@@ -70,7 +70,7 @@ class ReportController extends Controller
     public function store(StoreReportRequest $request)
     {
         $report = $this->reportRepository->createReport(data: $request->validated());
-        ProcessNotification::dispatch($report);
+        // ProcessNotification::dispatch($report);
 
         return redirect()->route('report.success');
     }

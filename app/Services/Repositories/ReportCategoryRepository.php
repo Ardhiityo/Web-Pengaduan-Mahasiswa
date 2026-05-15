@@ -12,6 +12,7 @@ class ReportCategoryRepository implements ReportCategoryRepositoryInterface
     {
         return ReportCategory::select('id', 'name', 'image');
     }
+    
     public function getReportCategoryById(string $id)
     {
         try {

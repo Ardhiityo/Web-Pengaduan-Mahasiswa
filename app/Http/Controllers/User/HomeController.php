@@ -15,7 +15,7 @@ class HomeController extends Controller
 
     public function index()
     {
-        $reportCategories = $this->reportCategoryRepository->getAllReportCategories();
+        $reportCategories = $this->reportCategoryRepository->getAllReportCategories()->get();
         $latestReports = $this->reportRepository->latestReports();
 
         return view('pages.app.home', compact('latestReports', 'reportCategories'));
