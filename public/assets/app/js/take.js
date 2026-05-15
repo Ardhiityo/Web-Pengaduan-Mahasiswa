@@ -59,6 +59,15 @@ if (video) {
             alert('Browser kamu tidak mendukung akses kamera. Gunakan Chrome, Firefox, atau Safari versi terbaru.');
         }
     } else {
+        // Cek jumlah kamera, tampilkan tombol flip hanya jika ada > 1
+        navigator.mediaDevices.enumerateDevices().then(function (devices) {
+            const cameras = devices.filter(d => d.kind === 'videoinput');
+            const flipBtn = document.getElementById('btn-flip');
+            if (flipBtn && cameras.length > 1) {
+                flipBtn.classList.remove('d-none');
+            }
+        });
+
         startCamera(currentFacingMode);
     }
 }

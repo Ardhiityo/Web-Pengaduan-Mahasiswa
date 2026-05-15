@@ -6,7 +6,7 @@
             Browsermu tidak mendukung bro, upgrade donk!
         </video>
         <div class="bottom-0 mt-3 d-flex justify-content-center gap-3 position-absolute">
-            <button class="mb-3 btn btn-secondary" onclick="flipCamera()" title="Ganti kamera">
+            <button class="mb-3 btn btn-secondary d-none" id="btn-flip" onclick="flipCamera()" title="Ganti kamera">
                 <i class="fas fa-sync-alt"></i>
             </button>
             <button class="mb-3 btn btn-primary btn-snap" onclick="takeSnapshot()">
