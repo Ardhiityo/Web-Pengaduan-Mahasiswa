@@ -59,9 +59,9 @@ class ReportController extends Controller
 
     public function create()
     {
-        $residents = $this->residentRepository->getAllResidents();
+        $residents = $this->residentRepository->getAllResidents()->get();
 
-        $reportCategories = $this->reportCategoryRepository->getAllReportCategories();
+        $reportCategories = $this->reportCategoryRepository->getAllReportCategories()->get();
 
         $studyPrograms = $this->studyProgramRepository->getAllStudyPrograms();
 
@@ -89,9 +89,9 @@ class ReportController extends Controller
     {
         $report = $this->reportRepository->getReportById($id);
 
-        $residents = $this->residentRepository->getAllResidents();
+        $residents = $this->residentRepository->getAllResidents()->get();
 
-        $reportCategories = $this->reportCategoryRepository->getAllReportCategories();
+        $reportCategories = $this->reportCategoryRepository->getAllReportCategories()->get();
 
         $studyPrograms = $this->studyProgramRepository->getAllStudyPrograms();
 

@@ -50,7 +50,7 @@ class AdminController extends Controller
 
     public function create()
     {
-        $faculties = $this->facultyRepository->getAllFaculties();
+        $faculties = $this->facultyRepository->getAllFaculties()->get();
 
         return view('pages.superadmin.admin.create', compact('faculties'));
     }
@@ -76,7 +76,7 @@ class AdminController extends Controller
     {
         $admin = $this->adminRepository->getAdminById($id);
 
-        $faculties = $this->facultyRepository->getAllFaculties();
+        $faculties = $this->facultyRepository->getAllFaculties()->get();
 
         return view('pages.superadmin.admin.edit', compact('admin', 'faculties'));
     }

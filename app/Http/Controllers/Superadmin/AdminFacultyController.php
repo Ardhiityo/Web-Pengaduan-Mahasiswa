@@ -16,7 +16,7 @@ class AdminFacultyController extends Controller
 
     public function create(string $adminId)
     {
-        $faculties = $this->facultyRepository->getAllFaculties();
+        $faculties = $this->facultyRepository->getAllFaculties()->get();
 
         return view("pages.superadmin.admin-faculty.create", compact("faculties", 'adminId'));
     }

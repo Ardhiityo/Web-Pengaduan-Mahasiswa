@@ -21,7 +21,7 @@
     </script>
 
     @yield('scripts')
-    <script src="{{ asset('/assets/app/js/take.js') }}"></script>
+    <script src="{{ asset('assets/app/js/take.js') }}"></script>
 </body>
 
 </html>
